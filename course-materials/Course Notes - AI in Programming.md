@@ -23,7 +23,7 @@ Notes from course for JSystem — AI dla programistów: od pomysłu do MVP
 - **Async Codding Agents in Cloud & on Mobile**
 - CLI tools, Automation, YOLO in container/cloud
 - Huge jump in quality of **Opus 4.5+**, GPT 5.4 and Gemini 3
-- **Open Source LLMs** so close to top models (GLM-5 and Minimax M2.7)
+- **Open Source LLMs** so close to top models (GLM-5.2, Minimax M3, Kimi K2.6)
 - **AI disappointment**, broken promises, productivity drop, less fun and joy, frustration:
   - [AI Coding Sucks - YouTube](https://www.youtube.com/watch?v=0ZUkQF6boNg)
   - undeterministic nature of LLMs,
@@ -232,6 +232,7 @@ Notes from course for JSystem — AI dla programistów: od pomysłu do MVP
 - **IDE & plugins:**
   - Zed [Zed — Love your editor again](https://zed.dev/) (Open Source)
     - [Should You Use Zed In 2026? - YouTube](https://www.youtube.com/watch?v=lRrElGM23h4)
+    - Windows users: [Zed in WSL](https://zed.dev/docs/remote-development#wsl-support)
   - Cursor [Cursor](https://cursor.com/)
   - GitHub Copilot: [GitHub Copilot · Plans & pricing · GitHub](https://github.com/features/copilot/plans)
     - Not only GPT, Claude Opus in all plans: [Claude Opus 4.5 is now generally available in GitHub Copilot - GitHub Changelog](https://github.blog/changelog/2025-12-18-claude-opus-4-5-is-now-generally-available-in-github-copilot/)

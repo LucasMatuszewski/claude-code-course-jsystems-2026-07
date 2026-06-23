@@ -29,6 +29,8 @@ alias clauded="claude --dangerously-skip-permissions"
 #   /provider:add deepseek
 #   /provider:switch deepseek
 
+# Alternative to Ollama for private inference on premises (better concurrency for scaling):
+# https://docs.vllm.ai/en/latest/serving/integrations/claude_code/
 
 _claude_clear_backend_env() {
   unset ANTHROPIC_BASE_URL
