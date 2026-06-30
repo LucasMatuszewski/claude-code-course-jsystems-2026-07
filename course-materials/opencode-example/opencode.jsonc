@@ -77,6 +77,8 @@
   // Custom provider example: local Ollama (OpenAI-compatible endpoint).
   // Built-in providers (openrouter, anthropic, openai, ...) come from models.dev
   // and do NOT need a block here — you only declare custom/local ones.
+  // Example is for Ollama, but it could be e.g. an OpenAI-compatible vLLM endpoint.
+  // Docs: https://opencode.ai/docs/providers/#custom-provider
   // ---------------------------------------------------------------------------
   "provider": {
     "ollama": {
@@ -84,10 +86,21 @@
       "npm": "@ai-sdk/openai-compatible",
       "options": {
         "baseURL": "http://localhost:11434/v1"
+        // options.apiKey: Optionally set the API key, if not using auth.
+        // "apiKey": "{env:OLLAMA_API_KEY}"
+        // options.headers: Optionally set custom headers.
+        // "headers": { "Authorization": "Bearer custom_token" }
       },
       "models": {
         "glm-5.2:cloud": { "name": "GLM 5.2 Cloud" },
-        "gemma4:latest": { "name": "Gemma 4" },
+        "gemma4:latest": {
+          "name": "Gemma 4",
+          "limit": {
+            // Set same values as you have in Ollama settings for the model, e.g.:
+            "context": 64000,
+            "output": 32000
+          }
+        },
         "granite4.1:3b": { "name": "Granite 4.1 3B" }
       }
     }
