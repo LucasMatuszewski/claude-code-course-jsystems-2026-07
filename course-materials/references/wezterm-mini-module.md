@@ -1,7 +1,7 @@
 # WezTerm mini‑module (Day 1 + Day 3)
 
 ## Cel modułu
-Dać uczestnikom prosty, praktyczny argument **dlaczego i kiedy** WezTerm może być wygodniejszy od Windows Terminal w workflow z agentami (Codex/Claude/Gemini CLI), bez robienia z tego osobnej ścieżki narzędziowej.
+Dać uczestnikom prosty, praktyczny argument **dlaczego i kiedy** WezTerm może być wygodniejszy od Windows Terminal w workflow z agentami (Claude Code/Codex/Gemini CLI), bez robienia z tego osobnej ścieżki narzędziowej.
 
 ## Kiedy pokazać
 - **Day 1 (14:40–15:20)**: ergonomia terminala i codzienny rytm pracy.

@@ -1,7 +1,7 @@
 # Handy.computer mini‑module (opcjonalny)
 
 ## Cel modułu
-Pokazać uczestnikom **opcjonalny** workflow głosowy (STT + tłumaczenie) bez zmiany głównej ścieżki kursu (Codex-first, terminal-first). Moduł ma dodać ergonomię, nie zwiększyć chaos narzędzi.
+Pokazać uczestnikom **opcjonalny** workflow głosowy (STT + tłumaczenie) bez zmiany głównej ścieżki kursu (Claude Code-first, terminal-first). Moduł ma dodać ergonomię, nie zwiększyć chaos narzędzi.
 
 ## Kiedy pokazać
 - **Domyślnie: Day 3, blok porównań narzędzi (14:20–14:30), 3–5 min demo.**
@@ -33,7 +33,7 @@ Pokazać uczestnikom **opcjonalny** workflow głosowy (STT + tłumaczenie) bez z
   1. mikrofon uprawnienia,
   2. język wejścia/wyjścia,
   3. test 30 sekund audio,
-  4. eksport tekstu do promptu w Codex.
+  4. eksport tekstu do promptu w Claude Code.
 - Komunikat trenerski: „To dodatek ergonomiczny. Główny workflow kursu działa bez tego modułu.”
 
 ## Ryzyka i granice bezpieczeństwa
@@ -42,7 +42,7 @@ Pokazać uczestnikom **opcjonalny** workflow głosowy (STT + tłumaczenie) bez z
 - Voice input ma wspierać przygotowanie promptu/notatki, a nie zastępować review decyzji technicznych.
 
 ## Zoom/chat paste (krótkie)
-`Handy.computer to opcjonalny dodatek: szybciej zbiera notatki głosowe i tłumaczenia PL↔EN, ale core kursu zostaje Codex-first. Jeśli demo instalacji się przeciąga, pokazujemy gotowy przykład i wracamy do głównej ścieżki.`
+`Handy.computer to opcjonalny dodatek: szybciej zbiera notatki głosowe i tłumaczenia PL↔EN, ale core kursu zostaje Claude Code-first. Jeśli demo instalacji się przeciąga, pokazujemy gotowy przykład i wracamy do głównej ścieżki.`
 
 ## Mikro-checklista dla uczestnika
 - Czy tracę czas na ręczne pisanie długich notatek/promptów?

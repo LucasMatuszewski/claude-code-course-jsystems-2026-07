@@ -2,7 +2,7 @@
 
 Cel: gotowe scenariusze prowadzenia pokazów na żywo dla 3 profili uczestników + kontrolowane „porażki”, które uczą praktyki pracy z AI agentami.
 
-> Kontekst kursu: 5 dni „AI w programowaniu”, ścieżka Codex-first, z krótkimi porównaniami do Claude/IntelliJ, oraz z tłumaczeniem „cloud max” vs „on-prem/local”.
+> Kontekst kursu: 5 dni „AI w programowaniu”, ścieżka Claude Code-first, z krótką, 10-minutową notą pozycjonującą Codex/IntelliJ, oraz z tłumaczeniem „cloud max” vs „on-prem/local”.
 
 ---
 
@@ -170,14 +170,15 @@ Każdy z tych scenariuszy uruchamiaj celowo 1 raz, żeby grupa zobaczyła realny
 ## Powiązane pliki
 
 - Program i baseline:
-  - `materials/references/jsystems-program-ai-od-pomyslu-do-mvp.md`
-  - `materials/references/silky-source-map.md`
+  - `course-materials/course-agenda.md`
+  - `course-materials/day-scripts/README.md`
+  - TODO-VERIFY: old `materials/references/jsystems-program-ai-od-pomyslu-do-mvp.md` and `materials/references/silky-source-map.md` files are not present in this repo.
 - Skrypty dni:
-  - `materials/scripts/day-1-script.md`
-  - `materials/scripts/day-2-script.md`
-  - `materials/scripts/day-3-script.md`
-  - `materials/scripts/day-4-script.md`
-  - `materials/scripts/day-5-script.md`
+  - `course-materials/day-scripts/day-1.md`
+  - `course-materials/day-scripts/day-2.md`
+  - `course-materials/day-scripts/day-3.md`
+  - `course-materials/day-scripts/day-4.md`
+  - `course-materials/day-scripts/day-5.md`
 - Ćwiczenia i prompty:
   - `exercises/03-exercises.md`
   - `prompts/02-module-prompts.md`

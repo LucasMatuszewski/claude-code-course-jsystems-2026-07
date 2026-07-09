@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          # Model Configuration - Using newest Claude models (OPUS is very expensive)
+          # Model Configuration - TODO-VERIFY before delivery: use current Claude aliases/model IDs (OPUS is very expensive)
           config.model: "anthropic/claude-sonnet"
           config.fallback_models: '["anthropic/claude-haiku", "anthropic/claude-opus"]'
           ANTHROPIC.KEY: ${{ secrets.ANTHROPIC_API_KEY }}

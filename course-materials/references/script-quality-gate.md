@@ -24,15 +24,15 @@ Use this checklist before marking any day script task as DONE.
 - Czy teksty chat-paste są krótkie (zoom-friendly)?
 
 ## 5) Narzędzia i zgodność z założeniami
-- Czy zachowany jest Codex-first?
+- Czy zachowany jest Claude Code-first, z Codex tylko jako krótką notą pozycjonującą?
 - Czy porównania Claude/IntelliJ są krótkie i rzeczowe?
 - Czy uniknięto tool sprawl (OpenCode/Goose/Cursor/Zed jako core)?
-- WAŻNE: czy jest zgodne z programem szkolenia z pliku `/materials/references/jsystems-program-ai-od-pomyslu-do-mvp.md`? Musi być zgodne z tym szczegółowym programem szkolenia na każdy dzień!
+- WAŻNE: czy jest zgodne z programem szkolenia z plików `course-materials/course-agenda.md` i `course-materials/day-scripts/README.md`? TODO-VERIFY: stary plik `materials/references/jsystems-program-ai-od-pomyslu-do-mvp.md` nie jest obecny w repo.
 
 ## 6) Cloud vs on-prem realizm
 - Czy pokazano "max możliwości" (cloud) + "jak to adaptować on-prem"?
 - Czy przykłady CI/CD i integracji są oparte o research i źródła?
-- Czy pokazujemy jak używać modeli alternatywnych (np. Ollama, OpenRouter) w Codex (CLI i App), Claude Code (CLI i Desktop) i w IntelliJ AI Chat? (aby potrafili potem się przenieść na modele on-prem)
+- Czy pokazujemy jak używać modeli alternatywnych (np. Ollama, OpenRouter) głównie w Claude Code (CLI i Desktop), a Codex/IntelliJ tylko jako krótkie porównanie? (aby potrafili potem się przenieść na modele on-prem)
 
 ## 7) Styl i ton
 - Czy to co mówię i ćwiczenia są angażujące, ciekawe, zachęcające i motywujące? (to ma być przygoda, nie nudne suche szkolenie)

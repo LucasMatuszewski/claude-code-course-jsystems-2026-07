@@ -24,7 +24,7 @@
 ## 10:00–10:50 — Moduł 1.2: Modele, Prompty, Context Engineering
 
 **Key points:**
-- Compare models: GPT-5.4, Claude Opus 4.5+, Gemini 3, GLM-5, Minimax M2.7, Ollama OSS
+- Compare models: Claude aliases `fable` (Fable 5, most capable), `opus` (Opus 4.8), `sonnet` (Sonnet 5), `haiku` (Haiku 4.5), plus other vendors. TODO-VERIFY before delivery: current non-Claude model names and pricing.
 - Prompt engineering basics: tokens, context window, attention, zero/few-shot
 - Context engineering: context rot, managing agent context
 - Organize prompts, commit to git

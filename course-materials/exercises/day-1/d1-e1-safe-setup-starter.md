@@ -1,7 +1,7 @@
 # D1-E1 Starter — Safe setup + workflow start
 
 ## Cel
-Uruchomić bezpieczny workflow pracy z agentem (Codex-first) i dostarczyć pierwszy mały artefakt.
+Uruchomić bezpieczny workflow pracy z agentem (Claude Code-first) i dostarczyć pierwszy mały artefakt.
 
 ## Krok 1 — Repo i środowisko
 Uzupełnij:

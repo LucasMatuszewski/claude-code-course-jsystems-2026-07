@@ -29,11 +29,11 @@
 - When to use local models: privacy, IP protection, cost control, offline
 - Tools: Ollama, LM Studio, vLLM
 - Local vs cloud: tradeoffs (speed, quality, cost, VRAM requirements)
-- Brief model/provider landscape: GPT-5.4, Claude Opus 4.5+, Gemini 3, GLM-5, Minimax M2.7
+- Brief model/provider landscape: Claude aliases `fable` (Fable 5, most capable), `opus` (Opus 4.8), `sonnet` (Sonnet 5), `haiku` (Haiku 4.5), plus local/open models. TODO-VERIFY before delivery: current non-Claude model names and pricing.
 - Cost optimization: GLM Coding Plan ($3/m Lite), OpenRouter routing, model cascading
 - Context length and VRAM: Ollama context settings, `OLLAMA_CONTEXT_LENGTH`
 
-**Demo:** Show Ollama running locally, Codex with `--oss` flag, or GLM Coding Plan
+**Demo:** Show Ollama running locally, Claude Code-first local/open-model workflow, or GLM Coding Plan. TODO-VERIFY before delivery: current CLI flags and provider support.
 
 **Links:** Course Notes → *GLM Coding Plan*, pricing tables; `.codex/config.toml` for OSS profiles
 

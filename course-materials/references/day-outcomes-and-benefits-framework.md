@@ -4,7 +4,7 @@ Use this as a framing checklist when writing daily scripts.
 
 ## Day 1
 ### Czego się nauczymy
-- Jak uruchomić Codex workflow bez chaosu.
+- Jak uruchomić Claude Code-first workflow bez chaosu.
 - Jak ustawić bezpieczne granice (sandbox, approvals, repo hygiene).
 - Jak zacząć od małych artefaktów zamiast długiej teorii.
 

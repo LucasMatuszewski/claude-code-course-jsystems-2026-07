@@ -53,7 +53,7 @@ WSL to **środowisko uruchomieniowe** Linux na Windows, a nie pełna granica bez
 
 ### Wniosek trenerski
 - Nie ma „jedynej słusznej” powłoki.
-- Na kursie trzymamy jeden dominujący tor demonstracyjny (bash/Codex-first), ale jasno pokazujemy jak przenieść to na PowerShell bez kopiuj-wklej w ciemno.
+- Na kursie trzymamy jeden dominujący tor demonstracyjny (bash/Claude Code-first), ale jasno pokazujemy jak przenieść to na PowerShell bez kopiuj-wklej w ciemno.
 
 ---
 

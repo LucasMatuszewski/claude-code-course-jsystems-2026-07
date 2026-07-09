@@ -1,11 +1,11 @@
 # 03-exercises.md — Mapa ćwiczeń (zsynchronizowana ze skryptami Day 1–5)
 
 Ten plik jest mapą operacyjną. **Źródło prawdy dla prowadzenia zajęć to skrypty dzienne**:
-- `materials/scripts/day-1-script.md`
-- `materials/scripts/day-2-script.md`
-- `materials/scripts/day-3-script.md`
-- `materials/scripts/day-4-script.md`
-- `materials/scripts/day-5-script.md`
+- `course-materials/day-scripts/day-1.md`
+- `course-materials/day-scripts/day-2.md`
+- `course-materials/day-scripts/day-3.md`
+- `course-materials/day-scripts/day-4.md`
+- `course-materials/day-scripts/day-5.md`
 
 Case kursowy: **SOC Copilot Incident Triage**.
 

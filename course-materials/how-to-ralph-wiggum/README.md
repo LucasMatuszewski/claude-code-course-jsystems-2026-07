@@ -445,7 +445,7 @@ _Note:_ Current subagents names presume using Claude.
 99999999999. For any bugs you notice, resolve them or document them in @IMPLEMENTATION_PLAN.md using a subagent even if it is unrelated to the current piece of work.
 999999999999. Implement functionality completely. Placeholders and stubs waste efforts and time redoing the same work.
 9999999999999. When @IMPLEMENTATION_PLAN.md becomes large periodically clean out the items that are completed from the file using a subagent.
-99999999999999. If you find inconsistencies in the specs/* then use an Opus 4.5 subagent with 'ultrathink' requested to update the specs.
+99999999999999. If you find inconsistencies in the specs/* then use an `opus` subagent (Opus 4.8) with 'ultrathink' requested to update the specs.
 999999999999999. IMPORTANT: Keep @AGENTS.md operational only — status updates and progress notes belong in `IMPLEMENTATION_PLAN.md`. A bloated AGENTS.md pollutes every future loop's context.
 ```
 
@@ -718,7 +718,7 @@ _Intelligence levels_ (quality of judgment, not capability type):
 - `fast` (default): Quick, cost-effective models for straightforward evaluations
   - Example: Gemini 3.0 Flash (multimodal, fast, cheap)
 - `smart`: Higher-quality models for nuanced aesthetic/creative judgment
-  - Example: GPT 5.1 (multimodal, better judgment, higher cost)
+  - Example: TODO-VERIFY before delivery: current multimodal model with stronger judgment and higher cost
 
 The fixture implementation selects appropriate models. (Examples are current options, not requirements.)
 

@@ -132,10 +132,10 @@ Najlepszy do:
 - tygodniowego przeglądu konfiguracji agentów.
 
 Przykłady:
-- [github-actions/claude-pr-review.yml](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\github-actions\claude-pr-review.yml)
-- [github-actions/claude-weekly-config-curation.yml](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\github-actions\claude-weekly-config-curation.yml)
-- [scripts/claude_pr_review.sh](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\claude_pr_review.sh)
-- [scripts/weekly_claude_config_audit.sh](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\weekly_claude_config_audit.sh)
+- [github-actions/claude-pr-review.yml](course-materials/03-2026/cicd-headless/github-actions/claude-pr-review.yml)
+- [github-actions/claude-weekly-config-curation.yml](course-materials/03-2026/cicd-headless/github-actions/claude-weekly-config-curation.yml)
+- [scripts/claude_pr_review.sh](course-materials/03-2026/cicd-headless/scripts/claude_pr_review.sh)
+- [scripts/weekly_claude_config_audit.sh](course-materials/03-2026/cicd-headless/scripts/weekly_claude_config_audit.sh)
 
 ### Wariant B — CI/CD + Jira/Confluence przez REST API
 
@@ -146,9 +146,9 @@ Najlepszy do:
 - niezawodnej automatyzacji machine-to-machine.
 
 Przykłady:
-- [scripts/jira_comment_and_transition.py](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\jira_comment_and_transition.py)
-- [scripts/confluence_upsert_page.py](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\confluence_upsert_page.py)
-- [jenkins/Jenkinsfile.build-deploy-jira](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\jenkins\Jenkinsfile.build-deploy-jira)
+- [scripts/jira_comment_and_transition.py](course-materials/03-2026/cicd-headless/scripts/jira_comment_and_transition.py)
+- [scripts/confluence_upsert_page.py](course-materials/03-2026/cicd-headless/scripts/confluence_upsert_page.py)
+- [jenkins/Jenkinsfile.build-deploy-jira](course-materials/03-2026/cicd-headless/jenkins/Jenkinsfile.build-deploy-jira)
 
 ### Wariant C — Jira/Confluence przez Atlassian MCP
 
@@ -164,35 +164,35 @@ Dobre także do automatyzacji, ale tylko jeśli:
 - nie używasz `--bare`.
 
 Przykład:
-- [mcp/atlassian-rovo-mcp.json.example](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\mcp\atlassian-rovo-mcp.json.example)
+- [mcp/atlassian-rovo-mcp.json.example](course-materials/03-2026/cicd-headless/mcp/atlassian-rovo-mcp.json.example)
 
 ## Gotowe materiały
 
 ### GitHub Actions
 
-- [github-actions/claude-pr-review.yml](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\github-actions\claude-pr-review.yml)
-- [github-actions/claude-weekly-config-curation.yml](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\github-actions\claude-weekly-config-curation.yml)
+- [github-actions/claude-pr-review.yml](course-materials/03-2026/cicd-headless/github-actions/claude-pr-review.yml)
+- [github-actions/claude-weekly-config-curation.yml](course-materials/03-2026/cicd-headless/github-actions/claude-weekly-config-curation.yml)
 
 ### Jenkins
 
-- [jenkins/Jenkinsfile.claude-bitbucket-pr-review](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\jenkins\Jenkinsfile.claude-bitbucket-pr-review)
-- [jenkins/Jenkinsfile.build-deploy-jira](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\jenkins\Jenkinsfile.build-deploy-jira)
+- [jenkins/Jenkinsfile.claude-bitbucket-pr-review](course-materials/03-2026/cicd-headless/jenkins/Jenkinsfile.claude-bitbucket-pr-review)
+- [jenkins/Jenkinsfile.build-deploy-jira](course-materials/03-2026/cicd-headless/jenkins/Jenkinsfile.build-deploy-jira)
 
 ### Scripts
 
-- [scripts/claude_pr_review.sh](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\claude_pr_review.sh)
-- [scripts/weekly_claude_config_audit.sh](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\weekly_claude_config_audit.sh)
-- [scripts/bitbucket_post_pr_comment.py](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\bitbucket_post_pr_comment.py)
-- [scripts/jira_comment_and_transition.py](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\jira_comment_and_transition.py)
-- [scripts/confluence_upsert_page.py](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\scripts\confluence_upsert_page.py)
+- [scripts/claude_pr_review.sh](course-materials/03-2026/cicd-headless/scripts/claude_pr_review.sh)
+- [scripts/weekly_claude_config_audit.sh](course-materials/03-2026/cicd-headless/scripts/weekly_claude_config_audit.sh)
+- [scripts/bitbucket_post_pr_comment.py](course-materials/03-2026/cicd-headless/scripts/bitbucket_post_pr_comment.py)
+- [scripts/jira_comment_and_transition.py](course-materials/03-2026/cicd-headless/scripts/jira_comment_and_transition.py)
+- [scripts/confluence_upsert_page.py](course-materials/03-2026/cicd-headless/scripts/confluence_upsert_page.py)
 
 ### MCP
 
-- [mcp/atlassian-rovo-mcp.json.example](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\mcp\atlassian-rovo-mcp.json.example)
+- [mcp/atlassian-rovo-mcp.json.example](course-materials/03-2026/cicd-headless/mcp/atlassian-rovo-mcp.json.example)
 
 ### Cloud schedule prompt
 
-- [cloud-schedule/weekly-claude-config-curation-prompt.md](D:\DEV\COURSES\JSystems-SilkyCoders-1\course-materials\03-2026\cicd-headless\cloud-schedule\weekly-claude-config-curation-prompt.md)
+- [cloud-schedule/weekly-claude-config-curation-prompt.md](course-materials/03-2026/cicd-headless/cloud-schedule/weekly-claude-config-curation-prompt.md)
 
 ## Minimalne wymagania do przykładów
 
