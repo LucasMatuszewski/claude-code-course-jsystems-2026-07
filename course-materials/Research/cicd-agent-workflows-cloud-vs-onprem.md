@@ -1,4 +1,4 @@
-# CI/CD agent workflows: cloud vs on-prem (NBP)
+# CI/CD agent workflows: cloud vs on-prem
 
 Status: draft for trainer use (Phase G1)  
 Ostatnia aktualizacja: 2026-03-15

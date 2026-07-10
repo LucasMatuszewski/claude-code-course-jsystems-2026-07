@@ -1,4 +1,4 @@
-# Sandbox Safety Mini-Module (NBP)
+# Sandbox Safety Mini-Module
 
 ## Cel modułu (10-25 min)
 Dać uczestnikom prosty, praktyczny model bezpieczeństwa pracy z agentami:

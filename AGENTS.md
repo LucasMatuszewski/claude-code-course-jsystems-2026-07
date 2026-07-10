@@ -2,15 +2,24 @@
 
 ## Project
 
-This is a **course project** for the "AI dla programistów — od pomysłu do MVP" training by JSystems — a **dedicated (closed) course for NBP (Narodowy Bank Polski)**, 12 participants, starting **2026-06-22**. The app is a multimodal AI assistant built live during the course. The domain, tech stack, and architecture are decided by the group through a structured process: research → PRD → ADR → implementation with agents.
+This is a **course project** for the "Claude Code – od zera do zespołu agentów AI" training by JSystems — an **open course** (participants from multiple companies), 2026-07-13..15, 3 days, remote. The app is a multimodal AI assistant built live during the course. The domain, tech stack, and architecture are decided by the group through a structured process: research → PRD → ADR → implementation with agents.
 
 This is only the **base starting repository** for the course; concrete decisions are made live with the group.
 
 **Primary demo stack:** TypeScript/Node.js (Next.js, Vercel AI SDK).
-**Java may be used as the main backend language** for this NBP edition (Spring Boot, Spring AI — see `examples/agent-configs/`); the final choice is made with the group during the ADR phase.
+**Java is a first-class participant stack** (Spring Boot, Spring AI, LangChain4j or OpenAI Java SDK — see `examples/agent-configs/`); each participant picks their stack during the ADR phase.
 Participants may work in any language (Java, Python, C#, Go, Rust, etc.).
 
 All user-facing text in **Polish**.
+
+## Course Delivery Environment (Windows Server 2022 VMs)
+
+Participants work on prepared VMs with preinstalled tools:
+- **Agents:** Claude Desktop + Claude Code CLI, Codex (desktop + CLI), OpenCode (desktop + CLI), Antigravity
+- **Editors:** `micro` (default `$EDITOR` in git bash, PowerShell and git), Fresh (terminal), Lite XL (default GUI editor for code files). IntelliJ is installed (Java file association) but **slow on VMs — avoid for live work**
+- **Runtimes:** Node.js, Bun, Python, .NET runtime (no SDK — not used in this course)
+- **LLM access for built apps:** `OPENROUTER_API_KEY` preset in Windows env vars (multimodal models available via OpenRouter)
+- Participants clone this repository at course start; the app is built on a **separate branch** per participant/group — `main` stays course-materials-only.
 
 **Key docs** (created during the course — load only when in doubt):
 - `docs/PRD-Product-Requirements-Document.md` — product requirements and acceptance criteria

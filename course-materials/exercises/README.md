@@ -1,4 +1,4 @@
-# NBP Exercises — Quick Map (Trainer)
+# Exercises — Quick Map (Trainer)
 
 Ten plik to szybka nawigacja: **które ćwiczenia uruchomić w którym dniu**.
 Główna treść ćwiczeń (core + stretch + expected outputs) jest w:

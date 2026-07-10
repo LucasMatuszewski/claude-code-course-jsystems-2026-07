@@ -1,13 +1,13 @@
-# AI w Programowaniu: Od Pomysłu do MVP
-### Szkolenie JSystems — kurs dedykowany dla NBP (Narodowy Bank Polski), 22.06.2026
+# Claude Code – od zera do zespołu agentów AI
+### Szkolenie otwarte JSystems, 13–15.07.2026 (3 dni, zdalnie)
 
 ---
 
 **Prowadzący:** [Łukasz Matuszewski](https://devpowers.com/) | [JSystems](https://jsystems.pl)
 
-**Opis szkolenia:** [AI dla Programistów — Od Pomysłu do MVP](https://jsystems.pl/szkolenia-ai;ai_dla_programistow_od_pomyslu_do_mvp.szczegoly)
+**Opis szkolenia:** [Claude Code – od zera do zespołu agentów AI](https://jsystems.pl/szkolenia-ai;claude_code.szczegoly)
 
-> **Kurs dedykowany:** to zamknięte szkolenie przygotowane dla zespołu **NBP (Narodowy Bank Polski)** — 12 uczestników, start **22.06.2026**.
+> **Kurs otwarty:** uczestnicy z różnych firm, praca na przygotowanych maszynach wirtualnych (Windows Server 2022) z preinstalowanymi narzędziami. Sklonuj to repozytorium na początku kursu.
 >
 > To jest jedynie **bazowe repozytorium startowe** kursu. Domena, tech stack i architektura zostaną ustalone live z grupą.
 
@@ -15,7 +15,7 @@
 
 ## O repozytorium
 
-To repozytorium zawiera materiały do 5-dniowego kursu **AI w Programowaniu** prowadzonego przez JSystems, w wersji dedykowanej dla **NBP**. Kurs skupia się na workflow pracy z agentami AI (Claude Code, OpenAI Codex CLI), a nie na jednym konkretnym narzędziu.
+To repozytorium zawiera materiały do 3-dniowego kursu **Claude Code** prowadzonego przez JSystems (szkolenie otwarte). Kurs skupia się na workflow pracy z agentami AI (Claude Code, OpenAI Codex CLI), a nie na jednym konkretnym narzędziu.
 
 Uczestnicy pracują w swoim preferowanym języku programowania (Java, Python, C#, Go, Rust i inne). Prowadzący demonstruje rozwiązania w **TypeScript/Node.js** (np. z **Vercel AI SDK**), natomiast **głównym językiem backendu może być Java** — ostateczny wybór zostanie podjęty wspólnie z grupą podczas etapu ADR.
 
@@ -30,7 +30,7 @@ Multimodalna aplikacja AI — na przykład agent weryfikujący usterki, zwroty i
 Główne notatki i zasoby znajdziesz w folderze `/course-materials`:
 
 - 📓 [**Course Notes — AI in Programming**](course-materials/Course%20Notes%20-%20AI%20in%20Programming.md) — główne notatki: trendy, narzędzia, benchmarki, metodologie agentic coding, best practices.
-- 📅 [**Agenda kursu**](course-materials/course-agenda.md) — program 5-dniowego szkolenia.
+- 📅 [**Agenda kursu**](course-materials/course-agenda.md) — program 3-dniowego szkolenia.
 - 📜 Skrypty z poszczególnych dni (`course-materials/03-2026/day-*-full-script.md`)
 - 🔬 Materiały badawcze (`course-materials/Research/`)
 - 💡 Przykłady promptów (`course-materials/Prompt examples/`)
@@ -54,7 +54,7 @@ examples/            Przykładowe konfiguracje agentów (Java/Spring Boot)
 
 Kurs jest stack-agnostic. Technologie zostaną wybrane live z grupą podczas ADR. Możliwe opcje:
 
-- **Java** (możliwy główny backend dla NBP): Spring Boot, Spring AI (zobacz `examples/agent-configs/`)
+- **Java**: Spring Boot, Spring AI lub LangChain4j / OpenAI Java SDK (zobacz `examples/agent-configs/`)
 - **TypeScript/Node.js** (demo prowadzącego): Next.js, Vercel AI SDK, Mastra
 - Inne stacki wg preferencji uczestników
 

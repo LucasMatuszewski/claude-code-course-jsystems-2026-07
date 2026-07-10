@@ -1,4 +1,4 @@
-# 04 — Scenariusze demo (NBP)
+# 04 — Scenariusze demo
 
 Cel: gotowe scenariusze prowadzenia pokazów na żywo dla 3 profili uczestników + kontrolowane „porażki”, które uczą praktyki pracy z AI agentami.
 
