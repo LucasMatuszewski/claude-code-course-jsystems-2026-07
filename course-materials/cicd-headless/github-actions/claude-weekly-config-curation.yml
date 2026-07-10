@@ -32,8 +32,8 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          chmod +x ./course-materials/03-2026/cicd-headless/scripts/weekly_claude_config_audit.sh
-          ./course-materials/03-2026/cicd-headless/scripts/weekly_claude_config_audit.sh
+          chmod +x ./course-materials/cicd-headless/scripts/weekly_claude_config_audit.sh
+          ./course-materials/cicd-headless/scripts/weekly_claude_config_audit.sh
 
       - name: Create pull request with curated config
         uses: peter-evans/create-pull-request@v6

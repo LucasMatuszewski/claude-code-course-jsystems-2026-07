@@ -1,4 +1,7 @@
-/create-adr create ADR documents based on @docs/PRD-Product-Requirements-Document.md
+> UWAGA: opcjonalny wariant DLA GRUPY, KTORA JUZ WYBRALA stack Java + Angular
+> w ADR. Nie traktowac jako domyslnego wyboru stacku.
+
+/create-adr create ADR documents based on @docs/PRD.md
 
 Make research how to implement functionalities from PRD using the below libraries:
 https://github.com/openai/openai-java

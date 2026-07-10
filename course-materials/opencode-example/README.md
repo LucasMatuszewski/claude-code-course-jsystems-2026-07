@@ -1,6 +1,6 @@
 # OpenCode config example
 
-Reference `opencode.json` for the course, mirroring the `.claude-example/` and
+Reference `opencode.jsonc` for the course, mirroring the `.claude-example/` and
 `agent-configs/` examples. It shows how to set a **default model**, configure
 **MCP servers** (with one disabled-by-default for on-demand use), and fixes the
 **ACP/IntelliJ "wrong model"** problem.
@@ -9,8 +9,8 @@ Reference `opencode.json` for the course, mirroring the `.claude-example/` and
 
 | Scope | Path | Notes |
 |---|---|---|
-| Global | `~/.config/opencode/opencode.json` | Applies to all projects |
-| Project | `./opencode.json` (repo root) | Overrides global for this repo |
+| Global | `~/.config/opencode/opencode.jsonc` | Applies to all projects |
+| Project | `./opencode.jsonc` (repo root) | Overrides global for this repo |
 
 Load order (later wins): remote → global → `$OPENCODE_CONFIG` → project.
 
@@ -50,7 +50,7 @@ or Desktop app, and there's no GUI in IntelliJ to change it.
 3. **With no `model` set, OpenCode falls back to its built-in "opencode zen"
    gateway default** — that's the "Zen" model you saw.
 
-**Fix:** set `"model"` in `opencode.json` (global, or project for per-repo
+**Fix:** set `"model"` in `opencode.jsonc` (global, or project for per-repo
 control). Restart the IDE / reopen the ACP chat. ACP will now use that model.
 For a single agent only, use the per-agent `agent.<name>.model` override (see the
 commented block at the bottom of the example).
@@ -61,7 +61,7 @@ commented block at the bottom of the example).
 
 ### Minimal JetBrains ACP registration (`acp.json`)
 
-This is separate from `opencode.json` — it just tells IntelliJ how to launch the
+This is separate from `opencode.jsonc` — it just tells IntelliJ how to launch the
 agent. Point `command` at your `opencode` binary:
 
 ```jsonc
@@ -81,7 +81,7 @@ After editing `acp.json`, restart the IDE if the agent doesn't appear.
 
 OpenCode's MCP schema differs from Claude Code's `.mcp.json`:
 
-| | Claude `.mcp.json` | OpenCode `opencode.json` |
+| | Claude `.mcp.json` | OpenCode `opencode.jsonc` |
 |---|---|---|
 | stdio server | `"type": "stdio"`, `command` (string) + `args` | `"type": "local"`, `command` (**array**) |
 | stdio env | `"env"` | `"environment"` |

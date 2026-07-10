@@ -31,7 +31,7 @@ Główne notatki i zasoby znajdziesz w folderze `/course-materials`:
 
 - 📓 [**Course Notes — AI in Programming**](course-materials/Course%20Notes%20-%20AI%20in%20Programming.md) — główne notatki: trendy, narzędzia, benchmarki, metodologie agentic coding, best practices.
 - 📅 [**Agenda kursu**](course-materials/course-agenda.md) — program 3-dniowego szkolenia.
-- 📜 Skrypty z poszczególnych dni (`course-materials/03-2026/day-*-full-script.md`)
+- 📜 Skrypty z poszczególnych dni (`course-materials/day-scripts/`)
 - 🔬 Materiały badawcze (`course-materials/Research/`)
 - 💡 Przykłady promptów (`course-materials/Prompt examples/`)
 - 🎓 Technika Ralph Wiggum Bash Loop (`course-materials/how-to-ralph-wiggum/`)
@@ -45,7 +45,7 @@ app/                 Aplikacja budowana podczas kursu (start: pusty scaffold)
 assets/              Design tokens, logo, favicon (dodawane w trakcie kursu)
 docs/                PRD, ADR, design system (tworzone podczas kursu)
 course-materials/    Notatki, skrypty, przykłady, badania
-examples/            Przykładowe konfiguracje agentów (Java/Spring Boot)
+
 ```
 
 ---
@@ -54,7 +54,7 @@ examples/            Przykładowe konfiguracje agentów (Java/Spring Boot)
 
 Kurs jest stack-agnostic. Technologie zostaną wybrane live z grupą podczas ADR. Możliwe opcje:
 
-- **Java**: Spring Boot, Spring AI lub LangChain4j / OpenAI Java SDK (zobacz `examples/agent-configs/`)
+- **Java**: Spring Boot, Spring AI lub LangChain4j / OpenAI Java SDK (zobacz `course-materials/agent-configs/`)
 - **TypeScript/Node.js** (demo prowadzącego): Next.js, Vercel AI SDK, Mastra
 - Inne stacki wg preferencji uczestników
 

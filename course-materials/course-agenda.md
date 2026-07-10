@@ -6,7 +6,7 @@
 >
 > **Prowadzący demonstruje:** TypeScript + Vercel AI SDK. **Uczestnicy mogą pracować we własnym stacku** (Java, Python, C#, Go, Rust itp.).
 >
-> **Projekt kursowy:** multimodalna aplikacja AI Chat (obsługa zwrotów i reklamacji) zbudowana z agentami Claude Code.
+> **Projekt kursowy:** multimodalna aplikacja AI Chat budowana z agentami Claude Code. Pomysł i wymagania ustalamy wspólnie na kursie; aplikacja zwrotów/reklamacji to przykład prowadzącego (fallback).
 
 ---
 

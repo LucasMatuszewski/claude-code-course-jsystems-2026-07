@@ -127,7 +127,7 @@ Kluczowe: analiza śladów na zdjęciu.
 ## 4. Wymagania niefunkcjonalne
 
 - **NF-1:** Czas odpowiedzi całego przepływu (krok 3+4) ≤ 30 s w 90. percentylu.
-- **NF-2:** Aplikacja działa w trybie demo — brak autentyczności danych, ale realne wywołania LLM (nic nie jest mockowane).
+- **NF-2:** Aplikacja działa w trybie demo — brak autentycznych danych, ale realne wywołania LLM (testy E2E i manualne bez mocków; unit/integration wg tabeli w AGENTS.md).
 - **NF-3:** Zdjęcia przesyłane do modelu są usuwane z pamięci po analizie (brak trwałego przechowywania w demo).
 - **NF-4:** Cały interfejs po polsku.
 - **NF-5:** Działa w najnowszym Chrome i Firefox (Edge oparty o Chromium = OK).
@@ -164,7 +164,7 @@ ADR wytworzonych na kursie.
 - **UI:** Shadcn/ui + `useChat` z AI SDK; komponent karty decyzji własny.
 - **Dokumenty:** wczytywane z systemu plików po stronie serwera (Route Handler).
 - **Provider:** OpenRouter (jeden klucz, wiele modeli w tym multimodalne).
-- **Kontekst w repo:** skille `ai-sdk`, `assistant-ui`, `java-junit` (testy).
+- **Kontekst w repo:** skille `ai-sdk`, `assistant-ui`.
 
 ### 6.2 Wariant B — Java / Spring Boot (dla zaawansowanych)
 - **Stack BE:** Spring Boot 3.x + LangChain4j (multimodalność przez `VisionModel`).
@@ -234,9 +234,9 @@ Dokumenty są celowo krótkie (30–50 linii każdy), realistyczne i w języku p
 |---|---|---|
 | Ideacja + specyfikacja | Dzień 1 rano | Ten plik + dyskusja grupowa |
 | Wireframes (opcjonalnie) | Dzień 1 | Image-gen (narzędzie uczestnika) |
-| Design Guidelines | Dzień 1 popołudnie | `docs/design-guidelines.md` |
-| ADR (wybór stacku) | Dzień 2 rano | `docs/ADR/` (wariant A/B/C/D) |
-| Plan + macierz agentów | Dzień 2 | `examples/agent-configs/` |
+| Design Guidelines | Dzień 2, moduł 2.1 | `docs/design-guidelines.md` |
+| ADR (wybór stacku) | Dzień 1, moduł 1.4 (+ praca domowa) | `docs/ADR/` (wariant A/B/C/D) |
+| Plan + macierz agentów | Dzień 2 | `course-materials/agent-configs/` |
 | Implementacja TDD | Dzień 2–3 | `app/` na branchu uczestnika |
 | Testy manualne (Playwright) | Dzień 3 | Brak mocków — LLM na żywo |
 | Debugging | Dzień 3 | Live |

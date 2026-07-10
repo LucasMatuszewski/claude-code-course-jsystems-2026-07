@@ -74,7 +74,7 @@
 
 **Demo:** Show a working GitHub Actions workflow with Claude code review
 
-**Links:** `../03-2026/cicd-headless/` — full CI/CD examples (GitHub Actions, Jenkins, scripts); `../Research/cicd-agent-workflows-cloud-vs-onprem.md`
+**Links:** `../cicd-headless/` — full CI/CD examples (GitHub Actions, Jenkins, scripts); `../Research/cicd-agent-workflows-cloud-vs-onprem.md`
 
 **Outcome:** Working CI/CD workflow for the project.
 

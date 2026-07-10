@@ -7,7 +7,7 @@ This is a **course project** for the "Claude Code – od zera do zespołu agent�
 This is only the **base starting repository** for the course; concrete decisions are made live with the group.
 
 **Primary demo stack:** TypeScript/Node.js (Next.js, Vercel AI SDK).
-**Java is a first-class participant stack** (Spring Boot, Spring AI, LangChain4j or OpenAI Java SDK — see `examples/agent-configs/`); each participant picks their stack during the ADR phase.
+**Java is a first-class participant stack** (Spring Boot, Spring AI, LangChain4j or OpenAI Java SDK — see `course-materials/agent-configs/`); each participant picks their stack during the ADR phase.
 Participants may work in any language (Java, Python, C#, Go, Rust, etc.).
 
 All user-facing text in **Polish**.
@@ -22,7 +22,7 @@ Participants work on prepared VMs with preinstalled tools:
 - Participants clone this repository at course start; the app is built on a **separate branch** per participant/group — `main` stays course-materials-only.
 
 **Key docs** (created during the course — load only when in doubt):
-- `docs/PRD-Product-Requirements-Document.md` — product requirements and acceptance criteria
+- `docs/PRD.md` — product requirements and acceptance criteria
 - `docs/ADR/` — Architecture Decision Records
 - `docs/design-guidelines.md` — design system and tokens
 

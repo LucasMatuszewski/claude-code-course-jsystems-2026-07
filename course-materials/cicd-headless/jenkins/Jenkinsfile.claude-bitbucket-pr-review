@@ -51,13 +51,13 @@ pipeline {
 
           sh '''
             set -euo pipefail
-            chmod +x ./course-materials/03-2026/cicd-headless/scripts/claude_pr_review.sh
-            ./course-materials/03-2026/cicd-headless/scripts/claude_pr_review.sh "$ACTUAL_TARGET_BRANCH" "$REVIEW_DIR"
+            chmod +x ./course-materials/cicd-headless/scripts/claude_pr_review.sh
+            ./course-materials/cicd-headless/scripts/claude_pr_review.sh "$ACTUAL_TARGET_BRANCH" "$REVIEW_DIR"
           '''
 
           sh '''
             set -euo pipefail
-            python3 ./course-materials/03-2026/cicd-headless/scripts/bitbucket_post_pr_comment.py \
+            python3 ./course-materials/cicd-headless/scripts/bitbucket_post_pr_comment.py \
               --workspace "$BITBUCKET_WORKSPACE" \
               --repo-slug "$BITBUCKET_REPO_SLUG" \
               --pull-request-id "$ACTUAL_PR_ID" \

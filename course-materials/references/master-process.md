@@ -10,7 +10,7 @@
   uczestnicy podążają **we własnym stacku** (Java/Spring, Python, C#, Go…).
 - Repo: `main` = TYLKO materiały kursu. Aplikacja powstaje na **osobnym
   branchu** per uczestnik/grupa.
-- **NIC nie mockujemy** — część LLM testowana jest na żywo przez OpenRouter
+- **E2E i testy manualne agenta: NIC nie mockujemy** — część LLM testowana na żywo przez OpenRouter (unit/integration mockują wg tabeli w AGENTS.md)
   (`OPENROUTER_API_KEY` na VM). E2E i testy manualne idą po prawdziwym stacku.
 - Commity **granularne** po każdej zielonej fazie TDD.
 

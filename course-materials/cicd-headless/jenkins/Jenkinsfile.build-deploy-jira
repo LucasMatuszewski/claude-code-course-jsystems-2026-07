@@ -78,7 +78,7 @@ pipeline {
 """
             sh '''
               set -euo pipefail
-              python3 ./course-materials/03-2026/cicd-headless/scripts/jira_comment_and_transition.py \
+              python3 ./course-materials/cicd-headless/scripts/jira_comment_and_transition.py \
                 --base-url "https://${JIRA_SITE}" \
                 --email "$JIRA_EMAIL" \
                 --api-token "$JIRA_API_TOKEN" \
@@ -95,7 +95,7 @@ pipeline {
           ]) {
             sh '''
               set -euo pipefail
-              python3 ./course-materials/03-2026/cicd-headless/scripts/confluence_upsert_page.py \
+              python3 ./course-materials/cicd-headless/scripts/confluence_upsert_page.py \
                 --base-url "$CONFLUENCE_BASE_URL" \
                 --email "$CONFLUENCE_EMAIL" \
                 --api-token "$CONFLUENCE_API_TOKEN" \
