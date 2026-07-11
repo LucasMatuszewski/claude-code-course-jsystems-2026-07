@@ -34,7 +34,7 @@
 - **Co robimy:** generujemy proste mockupy ekranów modelem obrazowym.
   Przy dzisiejszych modelach krok **NIE jest wymagany** — PRD + Design
   Guidelines wystarczą agentowi do zbudowania dobrego UI.
-- **Czym:** dowolny model image-gen dostępny na VM. <!-- TODO-VERIFY: decyzja Lucasa — ktore narzedzie image-gen na VM-kach -->
+- **Czym:** dowolny model image-gen dostępny na VM. (wybor narzedzia: decyzja trenera przed kursem)
 - **Kiedy:** Dzień 1 — max 10-min ciekawostka w Module 1.4 (latwa do wyciecia).
 - **Ukończenie:** 1–3 obrazki-mockup; opcjonalne — pomiń bez straty dla reszty
   procesu.
@@ -74,7 +74,7 @@
 - **Czym:** prompt `course-materials/Prompt examples/Plan-SubAgents-matrix-dependency-map.md`
   (refererencja stylu planu); sub-agenci `be-developer`, `fe-developer`,
   `qa-engineer` z Modułu 2.3; git worktrees (Moduł 3.1) dla pracy równoległej.
-  <!-- TODO-VERIFY: czy workflow script jest gotowy do pokazu -->
+  Przed demem sprawdz na VM, czy workflow script dziala.
 - **Kiedy:** Dzień 2 — Moduł 2.3; Dzień 3 — Moduł 3.1 (Task Plan Matrix,
   worktrees, 3 agentów równolegle).
 - **Ukończenie:** dokument planu z fazami, macierzą zależności i briefami per

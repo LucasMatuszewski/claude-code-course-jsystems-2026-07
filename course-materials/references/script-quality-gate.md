@@ -27,7 +27,7 @@ Use this checklist before marking any day script task as DONE.
 - Czy zachowany jest Claude Code-first, z Codex tylko jako krótką notą pozycjonującą?
 - Czy porównania Claude/IntelliJ są krótkie i rzeczowe?
 - Czy uniknięto tool sprawl (OpenCode/Goose/Cursor/Zed jako core)?
-- WAŻNE: czy jest zgodne z programem szkolenia z plików `course-materials/course-agenda.md` i `course-materials/day-scripts/README.md`? TODO-VERIFY: stary plik `materials/references/jsystems-program-ai-od-pomyslu-do-mvp.md` nie jest obecny w repo.
+- WAŻNE: czy jest zgodne z programem szkolenia z plików `course-materials/course-agenda.md` i `course-materials/day-scripts/README.md`?
 
 ## 6) Cloud vs on-prem realizm
 - Czy pokazano "max możliwości" (cloud) + "jak to adaptować on-prem"?

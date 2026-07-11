@@ -54,7 +54,7 @@ Powiązane skrypty dnia:
 ## Jak używać podczas szkolenia (30-sekundowy flow)
 1. Otwórz skrypt dnia (`course-materials/day-scripts/day-X.md`).
 2. Wejdź do odpowiedniej sekcji w `exercises/03-exercises.md`.
-3. Wklej gotowy snippet na czat i ustaw timebox.
+3. Wklej gotowy snippet na czat i pracujcie razem - uczestnicy robia to samo co Ty, we wlasnym tempie.
 4. Zbierz szybki feedback (co działa / co blokuje / co poprawić).
 
 Wskazówka: jeżeli grupa ma duży rozstrzał poziomów, zawsze zaczynaj od tracku **core**, a **stretch** dawaj tylko osobom, które skończyły wcześniej.

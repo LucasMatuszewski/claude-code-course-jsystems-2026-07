@@ -172,7 +172,6 @@ Każdy z tych scenariuszy uruchamiaj celowo 1 raz, żeby grupa zobaczyła realny
 - Program i baseline:
   - `course-materials/course-agenda.md`
   - `course-materials/day-scripts/README.md`
-  - TODO-VERIFY: old `materials/references/jsystems-program-ai-od-pomyslu-do-mvp.md` and `materials/references/silky-source-map.md` files are not present in this repo.
 - Skrypty dni:
   - `course-materials/day-scripts/day-1.md`
   - `course-materials/day-scripts/day-2.md`
