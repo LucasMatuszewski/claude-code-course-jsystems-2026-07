@@ -6,20 +6,36 @@
 <title>Claude Code - Dzień 3 | JSystems</title>
 <style>
 :root{
+  /* Slajdy tytulowe (granat/biel/zloto) - identyczne w obu motywach */
   --dark-bg:#0f172a;--dark-bg2:#1e293b;--dark-text:#f1f5f9;
-  --light-bg:#ffffff;--light-bg2:#f1f5f9;--light-text:#1e293b;
-  --accent:#f59e0b;--accent2:#3b82f6;--accent3:#10b981;
-  --muted:#64748b;--danger:#ef4444;--code-bg:#1e293b;
-  --trener-bg:#1a1408;--trener-bd:#f59e0b;
+  /* Motyw domyslny: dark (Tokyo Night) */
+  --bg:#1a1b26;--bg2:#24283b;--bg3:#2f3549;
+  --text:#c0caf5;--heading:#e6ecff;
+  --accent:#e0af68;--accent2:#7aa2f7;--accent3:#9ece6a;
+  --muted:#7d84a8;--danger:#f7768e;
+  --code-bg:#16161e;--code-text:#a9b1d6;
+  --note-bg:rgba(224,175,104,.09);--note-bd:rgba(224,175,104,.35);--note-text:#e6c187;
+  --trener-bg:#1a1408;--trener-bd:#e0af68;
+}
+body.light{
+  --bg:#ffffff;--bg2:#f1f5f9;--bg3:#e2e8f0;
+  --text:#1e293b;--heading:#0f172a;
+  --accent:#d97706;--accent2:#2563eb;--accent3:#059669;
+  --muted:#64748b;--danger:#dc2626;
+  --code-bg:#1e293b;--code-text:#e2e8f0;
+  --note-bg:#fef9c3;--note-bd:#facc15;--note-text:#92400e;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{font-size:clamp(14px,1.6vw,22px)}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#000;overflow:hidden}
 #deck{position:relative;width:100vw;height:100vh}
-.slide{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--light-bg);color:var(--light-text);opacity:0;pointer-events:none;transition:opacity .3s ease;overflow-y:auto;overflow-x:hidden}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--bg);color:var(--text);opacity:0;pointer-events:none;transition:opacity .3s ease;overflow-y:auto;overflow-x:hidden}
 .slide.on{opacity:1;pointer-events:auto}
 .slide.dark{background:var(--dark-bg);color:var(--dark-text)}
+.slide a{color:var(--accent2);text-decoration:underline;text-underline-offset:3px}
 .slide.dark a{color:var(--accent)}
+.slide h1,.slide h2,.slide h3{color:var(--heading)}
+.slide.dark h1,.slide.dark h2,.slide.dark h3{color:var(--dark-text)}
 .slide-body{max-width:1200px;margin:0 auto;padding:clamp(2rem,4vw,4rem) clamp(2rem,4vw,4rem) 5rem;min-height:100%;display:flex;flex-direction:column;justify-content:center}
 .title-body{align-items:center;text-align:center}
 .kicker{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);margin-bottom:.5rem}
@@ -39,8 +55,13 @@ p{font-size:clamp(.95rem,1.6vw,1.15rem);line-height:1.6;margin-bottom:.6rem}
 .break-badge .bb-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.5rem}
 .break-badge .bb-items{display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;font-size:.9rem}
 .break-badge .bb-items span::before{content:"\25CF";color:var(--accent);margin-right:.4rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin-top:.5rem}
-.card{background:var(--light-bg2);border-radius:10px;padding:1.2rem 1.4rem;border-left:4px solid var(--accent2)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;margin-top:.5rem}
+/* Symetryczne siatki: 4 kafle = 2x2, 5-6 kafli = 3 kolumny (zamiast 3+1 / 4+1) */
+.cards:has(> :nth-child(4):last-child){grid-template-columns:repeat(2,1fr)}
+.cards:has(> :nth-child(5):last-child),.cards:has(> :nth-child(6):last-child){grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.cards:has(> :nth-child(5):last-child),.cards:has(> :nth-child(6):last-child){grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.cards{grid-template-columns:1fr !important}}
+.card{background:var(--bg2);border-radius:10px;padding:1.2rem 1.4rem;border-left:4px solid var(--accent2)}
 .card.warn{border-left-color:var(--danger)}
 .card.ok{border-left-color:var(--accent3)}
 .card.amber{border-left-color:var(--accent)}
@@ -54,21 +75,23 @@ p{font-size:clamp(.95rem,1.6vw,1.15rem);line-height:1.6;margin-bottom:.6rem}
 .feature-list.cross li::before{content:"\2717";color:var(--danger)}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:.5rem}
 @media(max-width:768px){.two-col{grid-template-columns:1fr}}
-.code-block{background:var(--code-bg);color:#e2e8f0;padding:.8rem 1.2rem;border-radius:8px;font-family:Consolas,Monaco,"Courier New",monospace;font-size:.85rem;overflow-x:auto;line-height:1.5;margin:.5rem 0}
-.code-inline{background:var(--light-bg2);padding:.1rem .4rem;border-radius:4px;font-family:Consolas,Monaco,monospace;font-size:.9em;color:var(--accent2)}
+.code-block{background:var(--code-bg);color:var(--code-text);padding:.8rem 1.2rem;border-radius:8px;font-family:Consolas,Monaco,"Courier New",monospace;font-size:.85rem;overflow-x:auto;line-height:1.5;margin:.5rem 0;position:relative;border:1px solid rgba(125,132,168,.25)}
+.copy-btn{position:absolute;top:.4rem;right:.4rem;background:var(--bg3);color:var(--text);border:1px solid var(--muted);border-radius:6px;font-size:.65rem;padding:.2rem .55rem;cursor:pointer;opacity:.65;transition:opacity .15s;font-family:inherit}
+.copy-btn:hover{opacity:1}
+.copy-btn.ok{background:var(--accent3);color:#0f172a;border-color:var(--accent3);opacity:1}
+.code-inline{background:var(--bg2);padding:.1rem .4rem;border-radius:4px;font-family:Consolas,Monaco,monospace;font-size:.9em;color:var(--accent2)}
 .slide.dark .code-inline{background:rgba(255,255,255,.1)}
 .badge{display:inline-block;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;font-weight:700;background:var(--accent);color:#fff}
 .badge.blue{background:var(--accent2)}
 .badge.green{background:var(--accent3)}
 .badge.red{background:var(--danger)}
 .badge.lab{background:var(--accent);font-size:.85rem;padding:.3rem 1rem}
-.note-box{background:#fef9c3;border:1px solid #facc15;border-radius:8px;padding:.8rem 1.2rem;margin:.5rem 0;font-size:.9rem}
-.slide.dark .note-box{background:rgba(250,204,21,.1);border-color:rgba(250,204,21,.3);color:#fef9c3}
-.todo-marker{display:inline;background:#fde68a;color:#92400e;padding:.1rem .3rem;border-radius:3px;font-size:.85em;font-weight:600}
+.note-box{background:var(--note-bg);border:1px solid var(--note-bd);border-radius:8px;padding:.8rem 1.2rem;margin:.5rem 0;font-size:.9rem;color:var(--note-text)}
+.slide.dark .note-box{background:rgba(250,204,21,.1);border-color:rgba(250,204,21,.3);color:#fef3c7}
 .proc-map{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:1rem}
-.proc-step{background:var(--light-bg2);border-radius:10px;padding:1rem;position:relative;text-align:center;border:2px solid transparent}
+.proc-step{background:var(--bg2);border-radius:10px;padding:1rem;position:relative;text-align:center;border:2px solid transparent}
 .proc-step .ps-num{width:32px;height:32px;border-radius:50%;background:var(--accent2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto .5rem;font-size:.9rem}
-.proc-step.active{border-color:var(--accent);background:rgba(245,158,11,.08)}
+.proc-step.active{border-color:var(--accent);background:rgba(224,175,104,.1)}
 .proc-step.active .ps-num{background:var(--accent)}
 .proc-step.optional{opacity:.6}
 .proc-step.optional .ps-num{background:var(--muted)}
@@ -82,8 +105,9 @@ p{font-size:clamp(.95rem,1.6vw,1.15rem);line-height:1.6;margin-bottom:.6rem}
 #hud{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(0,0,0,.1);z-index:200}
 #bar{height:100%;width:1%;background:var(--accent);transition:width .3s ease;border-radius:0 3px 3px 0}
 #num{position:fixed;top:.5rem;left:1rem;font-size:.7rem;color:var(--muted);z-index:200;font-variant-numeric:tabular-nums}
-.slide.dark ~ #num,.slide.on.dark ~ #num{color:rgba(255,255,255,.4)}
-#clock{position:fixed;top:.5rem;right:1rem;font-size:.7rem;color:var(--muted);z-index:200;font-variant-numeric:tabular-nums}
+#clock{position:fixed;top:.5rem;right:3.4rem;font-size:.7rem;color:var(--muted);z-index:200;font-variant-numeric:tabular-nums}
+#theme-btn{position:fixed;top:.3rem;right:1rem;width:26px;height:26px;z-index:210;background:transparent;border:1px solid var(--muted);border-radius:50%;color:var(--muted);cursor:pointer;font-size:.8rem;line-height:1;display:flex;align-items:center;justify-content:center;opacity:.7}
+#theme-btn:hover{opacity:1;color:var(--accent)}
 .nav-arrow{position:fixed;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.25);color:#fff;border:none;width:44px;height:44px;border-radius:50%;font-size:1.3rem;cursor:pointer;z-index:200;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .nav-arrow:hover{background:rgba(0,0,0,.5);transform:translateY(-50%) scale(1.1)}
 .nav-left{left:12px}
@@ -104,12 +128,9 @@ body.trener-on .slide.on .trener-notes::before{content:"TRENER";position:absolut
 .tn-section li{padding:.15rem 0 .15rem 1rem;position:relative}
 .tn-section li::before{content:"-";position:absolute;left:0;color:var(--accent)}
 body.trener-on .slide.on .slide-body{padding-bottom:42vh}
-.click-zone{position:fixed;top:0;width:50%;height:100%;z-index:1;cursor:pointer}
-.click-zone.left{left:0}
-.click-zone.right{right:0}
 .big-num{font-size:3rem;font-weight:800;color:var(--accent);line-height:1}
 .timeline{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem}
-.timeline-item{display:flex;gap:1rem;align-items:flex-start;padding:.6rem 1rem;background:var(--light-bg2);border-radius:8px;border-left:4px solid var(--accent2)}
+.timeline-item{display:flex;gap:1rem;align-items:flex-start;padding:.6rem 1rem;background:var(--bg2);border-radius:8px;border-left:4px solid var(--accent2)}
 .timeline-item.break{border-left-color:var(--accent)}
 .timeline-time{font-weight:700;color:var(--accent);min-width:80px;font-size:.9rem}
 .slide.dark .timeline-item{background:var(--dark-bg2)}
@@ -125,11 +146,10 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
 <body>
 <div id="hud"><div id="bar"></div></div>
 <div id="num">1/44</div>
-<div id="clock">clock --:--</div>
+<div id="clock">--:--</div>
+<button id="theme-btn" title="Motyw jasny/ciemny (D)">&#9681;</button>
 <button id="prev" class="nav-arrow nav-left">&lsaquo;</button>
 <button id="next" class="nav-arrow nav-right">&rsaquo;</button>
-<div class="click-zone left"></div>
-<div class="click-zone right"></div>
 <div id="breakbar">
   <div class="bb-icon">&#9201;</div>
   <div id="bb-t" class="bb-title"></div>
@@ -147,16 +167,13 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     <div class="subtitle">Dzień 3 z 3: Zespoły agentów, jakość i produkcja</div>
     <div class="title-meta">
       <div>15 lipca 2026</div>
-      <div>Trener: Lucas</div>
+      <div>Trener: &#321;ukasz Matuszewski</div>
       <div>Tryb: zdalny</div>
     </div>
     <div class="break-badge">
-      <div class="bb-label">Harmonogram dnia (09:00 - 16:00)</div>
-      <div class="bb-items">
-        <span>10:30 Przerwa 15 min</span>
-        <span>12:30 Obiad 30 min</span>
-        <span>14:45 Przerwa 10 min</span>
-        <span>16:00 Koniec</span>
+      <div class="bb-label" data-schedule-label>Harmonogram dnia (godziny orientacyjne)</div>
+      <div class="bb-items" data-schedule-items>
+        <span>wypelniane z konfiguracji SCHEDULE</span>
       </div>
     </div>
   </div>
@@ -169,15 +186,15 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     <div class="kicker">Dzień 3</div>
     <h2>Agenda dnia</h2>
     <div class="timeline">
-      <div class="timeline-item"><div class="timeline-time">09:00</div><div><strong>Moduł 3.1: Agent Teams - praca równoległa</strong><br>Od sub-agentów do zespołów, git worktrees, Task Plan Matrix, 3 agentów naraz, merge i konflikty</div></div>
-      <div class="timeline-item break"><div class="timeline-time">10:30</div><div>Przerwa 15 minut (wracamy o 10:45)</div></div>
-      <div class="timeline-item"><div class="timeline-time">10:45</div><div><strong>Moduł 3.1 (ciąg dalszy): Workflows</strong><br>Nowoczesna orkiestracja - LIVE DEMO: Misja 72h</div></div>
-      <div class="timeline-item break"><div class="timeline-time">12:30</div><div>Obiad 30 minut (wracamy o 13:00)</div></div>
-      <div class="timeline-item"><div class="timeline-time">13:00</div><div><strong>Moduł 3.2: Testowanie i jakość</strong><br>Self-assessment, TDD, qa-engineer, Playwright MCP, code review</div></div>
+      <div class="timeline-item"><div class="timeline-time" data-mod-time="0">09:00</div><div><strong>Moduł 3.1: Agent Teams - praca równoległa</strong><br>Od sub-agentów do zespołów, git worktrees, Task Plan Matrix, 3 agentów naraz, merge i konflikty</div></div>
+      <div class="timeline-item break"><div class="timeline-time" data-break-time="0">10:30</div><div data-break-label="0">Przerwa 15 minut</div></div>
+      <div class="timeline-item"><div class="timeline-time" data-mod-time="1">10:45</div><div><strong>Moduł 3.1 (ciąg dalszy): Workflows</strong><br>Nowoczesna orkiestracja - LIVE DEMO: Misja 72h</div></div>
+      <div class="timeline-item break"><div class="timeline-time" data-break-time="1">13:00</div><div data-break-label="1">Obiad 30 minut</div></div>
+      <div class="timeline-item"><div class="timeline-time" data-mod-time="2">13:30</div><div><strong>Moduł 3.2: Testowanie i jakość</strong><br>Self-assessment, TDD, qa-engineer, Playwright MCP, code review</div></div>
       <div class="timeline-item"><div class="timeline-time">14:00</div><div><strong>Moduł 3.3: Claude w chmurze i CI/CD</strong><br>Remote environments, headless -p, GitHub Actions, Jenkins, koszty</div></div>
-      <div class="timeline-item break"><div class="timeline-time">14:45</div><div>Przerwa 10 minut (wracamy o 14:55)</div></div>
-      <div class="timeline-item"><div class="timeline-time">14:55</div><div><strong>Moduł 3.4: Podsumowanie</strong><br>Demo projektów, retrospektywa, best practices, tematy zaawansowane</div></div>
-      <div class="timeline-item"><div class="timeline-time">16:00</div><div>Koniec kursu</div></div>
+      <div class="timeline-item break"><div class="timeline-time" data-break-time="2">14:45</div><div data-break-label="2">Przerwa 10 minut (opcjonalna - jeśli grupa potrzebuje)</div></div>
+      <div class="timeline-item"><div class="timeline-time" data-mod-time="3">~14:55</div><div><strong>Moduł 3.4: Podsumowanie</strong><br>Demo projektów, retrospektywa, best practices, tematy zaawansowane</div></div>
+      <div class="timeline-item"><div class="timeline-time" data-end-time>16:00</div><div>Koniec kursu</div></div>
     </div>
   </div>
   <div class="trener-notes">
@@ -574,7 +591,7 @@ claude
     <div class="subtitle">Naturalna ewolucja Agent Teams: zamiast ręcznie odpalać agentów, piszesz skrypt który orkiestruje ich pracę</div>
   </div>
   <div class="trener-notes">
-    <div class="tn-section"><h4>Co mówić</h4><ul><li>To dodatek zatwierdzony przez prowadzącego (Lucas)</li><li>Ewolucja: ręczne 3 agenty w worktree - skrypt który to robi automatycznie</li><li>Komenda/tryb "goal": agent dostaje cel wysokiego poziomu i sam planuje/deleguje</li><li>To LIVE DEMO - wszystko prawdziwe, z repo tego kursu</li></ul></div>
+    <div class="tn-section"><h4>Co mówić</h4><ul><li>To dodatek zatwierdzony przez prowadzącego (&#321;ukasz)</li><li>Ewolucja: ręczne 3 agenty w worktree - skrypt który to robi automatycznie</li><li>Komenda/tryb "goal": agent dostaje cel wysokiego poziomu i sam planuje/deleguje</li><li>To LIVE DEMO - wszystko prawdziwe, z repo tego kursu</li></ul></div>
     <div class="tn-section"><h4>Co robić</h4><ul><li>Pokaż repo kursu - to jest dowód że agenci zbudowali ten kurs w 72h</li><li>Każdy slajd to akt scenariusza demo</li></ul></div>
     <div class="tn-section"><h4>Co sprawdzić</h4><ul><li>Czy uczestnicy rozumieją przejście od ręcznego do programowego orkiestrowania</li></ul></div>
   </div>
@@ -652,7 +669,7 @@ claude
     <h2>Konstytucja orkiestratora</h2>
     <div class="demo-flow">
       <div class="df-step"><div class="df-num">1</div><div class="df-text"><strong>Plik globalnych instrukcji orkiestratora</strong> - tabela modeli: koszt, inteligencja, taste, rola. Orkiestrator NIE robi pracy masowej - deleguje i weryfikuje.</div></div>
-      <div class="df-step"><div class="df-num">2</div><div class="df-text"><strong>Plik STATE.md misji</strong> - wzorzec "single source of truth". Każda nowa sesja (inne konto, inny dzień) czyta ten plik i kontynuuje bez pytania od zera. <span class="todo-marker">[Fable uzupelni]</span></div></div>
+      <div class="df-step"><div class="df-num">2</div><div class="df-text"><strong>Plik STATE.md misji</strong> - wzorzec "single source of truth". Każda nowa sesja (inne konto, inny dzień) czyta ten plik i kontynuuje bez pytania od zera.</div></div>
       <div class="df-step"><div class="df-num">3</div><div class="df-text"><strong>Sekcja SUCCESSOR QUICKSTART</strong> i Progress log w STATE.md - następcy wiedzą co już zrobiono i co dalej.</div></div>
       <div class="df-step"><div class="df-num">4</div><div class="df-text"><strong>Zasada kluczowa:</strong> markdown (instrukcje) to prośba, permissions (uprawnienia systemowe) to prawo. Nawiązanie do modułu o hookach z dnia 2.</div></div>
     </div>
@@ -676,7 +693,7 @@ claude
     <div class="demo-flow">
       <div class="df-step"><div class="df-num">1</div><div class="df-text"><strong>Wzorzec "wrappera":</strong> tani model uruchamia CLI innego, tańszego modelu i wraca z krótkim raportem zamiast surowych plików. Dlaczego wrapper? Kontekst orkiestratora jest drogi - raport, nie surowe pliki.</div></div>
       <div class="df-step"><div class="df-num">2</div><div class="df-text"><strong>Odpal coś małego (2-3 min):</strong> np. drugi model czytający README i wypisujący 3 ryzyka. W trakcie oczekiwania omów dlaczego wrapper, a nie bezpośrednio.</div></div>
-      <div class="df-step"><div class="df-num">3</div><div class="df-text"><strong>Pokaż raporty z nocnej pracy agentów</strong> (katalog <span class="code-inline">reports/</span>) - w tym raport z budowy tej właśnie talii slajdów, na której uczestnicy patrzą w tej chwili. <span class="todo-marker">[Fable uzupelni]</span></div></div>
+      <div class="df-step"><div class="df-num">3</div><div class="df-text"><strong>Pokaż raporty z nocnej pracy agentów</strong> (katalog <span class="code-inline">reports/</span>) - w tym raport z budowy tej właśnie talii slajdów, na której uczestnicy patrzą w tej chwili.</div></div>
       <div class="df-step"><div class="df-num">4</div><div class="df-text"><strong>Pokaż historię commitów</strong> (<span class="code-inline">git log --oneline</span>) - misja ma pełny audit trail. Każdy agent commitował na własnych branchach, nigdy bezpośrednio na main.</div></div>
     </div>
   </div>
@@ -750,9 +767,9 @@ claude
       <div>
         <h3>Szczere liczby</h3>
         <ul class="feature-list">
-          <li>Tokeny modelu-orkiestratora zużyte w misji: <span class="todo-marker">[Fable uzupelni]</span></li>
+          <li>Tokeny modelu-orkiestratora to główny koszt misji - na żywo pokażę realne rachunki billingowe</li>
           <li>Koszt pracy modeli-wykonawców: praktycznie zero krańcowo (plany flat-rate)</li>
-          <li>Czas człowieka: <span class="todo-marker">[Fable uzupelni]</span> wieczorami vs typowe przygotowanie kursu</li>
+          <li>Czas człowieka: godziny wieczorami vs typowe przygotowanie kursu - porównanie na żywo</li>
         </ul>
       </div>
       <div>
@@ -769,8 +786,8 @@ claude
     <p class="subtitle">Q&amp;A - pomost do finalnego labu: "teraz wy - użyjcie dowolnej poznanej techniki".</p>
   </div>
   <div class="trener-notes">
-    <div class="tn-section"><h4>Co mówić</h4><ul><li>Liczby zostaną uzupełnione z realnych danych billingowych przed kursem</li><li>Podkreśl: koszt wykonawców praktycznie zero na planach flat-rate</li><li>Wzorce to kluczowy takeaway dla uczestników</li></ul></div>
-    <div class="tn-section"><h4>Co robić</h4><ul><li>Pokaż rachunki billingowe jeśli dostępne</li><li>Otwórz Q&amp;A - przejście do labu końcowego</li></ul></div>
+    <div class="tn-section"><h4>Co mówić</h4><ul><li>Pokaż realne liczby z billingów na żywo - nie wymyślaj ich</li><li>Podkreśl: koszt wykonawców praktycznie zero na planach flat-rate</li><li>Wzorce to kluczowy takeaway dla uczestników</li></ul></div>
+    <div class="tn-section"><h4>Co robić</h4><ul><li>Pokaż rachunki billingowe jeśli dostępne</li><li>Otwórz Q&amp;A - przejście do ostatniego zadania</li></ul></div>
     <div class="tn-section"><h4>Co sprawdzić</h4><ul><li>Czy uczestnicy mają pytania o koszty we własnych projektach</li></ul></div>
   </div>
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
@@ -1259,7 +1276,6 @@ pipeline {
     agent any
     environment {
         CLAUDE_API_KEY = credentials('claude-api-key')
-        // <span class="todo-marker">[TODO-VERIFY: dokładna składnia withCredentials vs environment credentials w Jenkins Pipeline]</span>
     }
     stages {
         stage('AI Review') {
@@ -1267,7 +1283,6 @@ pipeline {
                 sh '''claude -p "Przejrzyj zmiany w \
                 tym pull request i wskaż ryzyka" \
                 --output-format json > review.json'''
-                // <span class="todo-marker">[TODO-VERIFY: czy wymagany dodatkowy plugin do uruchamiania CLI w kontenerze Jenkins agenta]</span>
             }
         }
     }
@@ -1293,7 +1308,7 @@ pipeline {
     </div>
   </div>
   <div class="trener-notes">
-    <div class="tn-section"><h4>Co mówić</h4><ul><li>Podkreśl fakt z ankiety: 3/4 uczestników używa Jenkinsa</li><li>To nie jest "Jenkins vs GitHub Actions" - to pokazanie że Claude działa w obu</li><li>Sekrety przez Jenkins Credentials, nie hardcoded</li><li>TODO-VERIFY oznacza fragmenty gdzie dokładna składnia Jenkins wymaga weryfikacji - bądź uczciwy</li></ul></div>
+    <div class="tn-section"><h4>Co mówić</h4><ul><li>Podkreśl fakt z ankiety: 3/4 uczestników używa Jenkinsa</li><li>To nie jest "Jenkins vs GitHub Actions" - to pokazanie że Claude działa w obu</li><li>Sekrety przez Jenkins Credentials, nie hardcoded</li><li>Składnia Jenkins Pipeline może się różnić między wersjami - sprawdzaj na żywo przed pokazaniem</li></ul></div>
     <div class="tn-section"><h4>Co robić</h4><ul><li>Pokaż Jenkinsfile obok pliku workflow YAML z GHA - porównanie</li><li>Zaznacz że sama komenda claude -p jest taka sama</li></ul></div>
     <div class="tn-section"><h4>Co sprawdzić</h4><ul><li>Czy uczestnicy rozumieją mapowanie: GHA secrets = Jenkins credentials</li><li>Czy ktoś używa innego CI/CD (GitLab CI, CircleCI)</li></ul></div>
   </div>
@@ -1379,7 +1394,7 @@ pipeline {
     <div class="subtitle">Demo projektów, retrospektywa, best practices, tematy zaawansowane, zasoby końcowe</div>
   </div>
   <div class="trener-notes">
-    <div class="tn-section"><h4>Co mówić</h4><ul><li>Ostatni moduł - podsumowanie całego kursu (3 dni)</li><li>Demo projektów uczestników - daj im przestrzeń na pokazanie co zbudowali</li><li>Retrospektywa - co działało, co nie</li><li>Tematy zaawansowane: n8n, modele lokalne - oznacz TODO-VERIFY przy claimach</li></ul></div>
+    <div class="tn-section"><h4>Co mówić</h4><ul><li>Ostatni moduł - podsumowanie całego kursu (3 dni)</li><li>Demo projektów uczestników - daj im przestrzeń na pokazanie co zbudowali</li><li>Retrospektywa - co działało, co nie</li><li>Tematy zaawansowane: n8n, modele lokalne - weryfikuj aktualność narzędzi przed każdym terminem kursu</li></ul></div>
     <div class="tn-section"><h4>Co robić</h4><ul><li>Przygotuj checklistę samooceny dla uczestników</li><li>Miej gotowe zasoby końcowe (linki, dokumentacja)</li></ul></div>
     <div class="tn-section"><h4>Co sprawdzić</h4><ul><li>Czy uczestnicy czują się gotowi do samodzielnej pracy</li><li>Czy mają zapisane wszystkie materiały</li></ul></div>
   </div>
@@ -1584,7 +1599,7 @@ pipeline {
       </div>
     </div>
     <div class="note-box">
-      <strong>Linki</strong> do wszystkich zasobów zostaną udostępnione w kanale kursu po zakończeniu szkolenia. <span class="todo-marker">[Fable uzupelni]</span>
+      <strong>Linki</strong> do wszystkich zasobów są w repo kursowym: <a href="https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07">github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07</a>. Po kursie wracaj do niego bez limitu czasu.
     </div>
   </div>
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
@@ -1593,14 +1608,15 @@ pipeline {
 <!-- ===== SLAJD 44: ZAKOŃCZENIE (DARK) ===== -->
 <section class="slide dark">
   <div class="slide-body title-body">
-    <div class="kicker">Dziękujemy</div>
-    <h1>Koniec kursu<br><span class="accent">Claude Code - od zera do zespołu agentów AI</span></h1>
+    <div class="kicker">Dziękuję</div>
+    <h1>Dziękuję!<br><span class="accent">Claude Code - od zera do zespołu agentów AI</span></h1>
     <div class="subtitle">3 dni, 12 modułów, 1 projekt kursowy - teraz czas na Twoje projekty</div>
     <div class="title-meta">
       <div>13-15 lipca 2026</div>
-      <div>Trener: Lucas</div>
+      <div>Trener: &#321;ukasz Matuszewski</div>
       <div>JSystems</div>
     </div>
+    <p style="margin-top:.4rem;font-size:1.15rem">&#321;ukasz Matuszewski &nbsp;|&nbsp; <a href="https://devpowers.com">devpowers.com</a> &nbsp;|&nbsp; <a href="https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07">repo kursowe</a></p>
     <hr class="sep" style="width:60%;">
     <div class="cards" style="max-width:800px;">
       <div class="card ok">
@@ -1634,12 +1650,45 @@ pipeline {
 </div>
 
 <script>
-// KONFIGURACJA PRZERW - edytuj godziny tutaj
-const BREAKS=[
- ["10:30","Przerwa 15 minut","Wracamy o 10:45"],
- ["12:30","Obiad 30 minut","Wracamy o 13:00"],
- ["14:45","Przerwa 10 minut","Wracamy o 14:55"]
-];
+// ============================================================
+// KONFIGURACJA HARMONOGRAMU - JEDYNE zrodlo prawdy dla godzin.
+// Zmien godziny TUTAJ - slajd tytulowy, agenda, podtytuly modulow
+// i alarmy przerw zaktualizuja sie same.
+// ============================================================
+const SCHEDULE={
+ start:"09:00",
+ end:"16:00",
+ breaks:[
+  {time:"10:30",dur:15,label:"Przerwa"},
+  {time:"13:00",dur:30,label:"Obiad"},
+  {time:"14:45",dur:10,label:"Przerwa",optional:true}
+ ]
+};
+
+function addMin(hm,m){const[h,mi]=hm.split(':').map(Number);const t=h*60+mi+m;return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');}
+function modStart(k){return k===0?SCHEDULE.start:addMin(SCHEDULE.breaks[k-1].time,SCHEDULE.breaks[k-1].dur);}
+function modEnd(k){return k<SCHEDULE.breaks.length?SCHEDULE.breaks[k].time:SCHEDULE.end;}
+
+// Alarmy przerw (banner + dzwiek) - wyliczane z SCHEDULE
+const BREAKS=SCHEDULE.breaks.map(b=>[
+ b.time,
+ b.label+" "+b.dur+" minut"+(b.optional?" (opcjonalna)":""),
+ b.optional?"Tylko jesli grupa potrzebuje":"Wracamy o "+addMin(b.time,b.dur)
+]);
+
+// Wypelnia godziny na slajdach z SCHEDULE (elementy z atrybutami data-*)
+function fillSchedule(){
+ const lbl=document.querySelector('[data-schedule-label]');
+ if(lbl)lbl.textContent='Harmonogram dnia '+SCHEDULE.start+' - '+SCHEDULE.end+' (godziny orientacyjne)';
+ const items=document.querySelector('[data-schedule-items]');
+ if(items)items.innerHTML=SCHEDULE.breaks.map(b=>'<span>'+b.time+' '+b.label+' '+b.dur+' min'+(b.optional?' (opcjonalna)':'')+'</span>').join('')+'<span>'+SCHEDULE.end+' Koniec</span>';
+ document.querySelectorAll('[data-break-time]').forEach(el=>{el.textContent=SCHEDULE.breaks[+el.dataset.breakTime].time;});
+ document.querySelectorAll('[data-break-label]').forEach(el=>{const b=SCHEDULE.breaks[+el.dataset.breakLabel];el.innerHTML='<strong>'+b.label+'</strong> '+b.dur+' minut'+(b.optional?' (opcjonalna - jeśli grupa potrzebuje)':'');});
+ document.querySelectorAll('[data-mod-time]').forEach(el=>{const k=+el.dataset.modTime;el.textContent=(k>0&&SCHEDULE.breaks[k-1].optional?'~':'')+modStart(k);});
+ document.querySelectorAll('[data-mod-range]').forEach(el=>{const k=+el.dataset.modRange;el.textContent=(k>0&&SCHEDULE.breaks[k-1].optional?'~':'')+modStart(k)+' - '+modEnd(k);});
+ document.querySelectorAll('[data-end-time]').forEach(el=>{el.textContent=SCHEDULE.end;});
+}
+
 
 const S=document.querySelectorAll('.slide');
 let i=0;
@@ -1662,14 +1711,46 @@ document.addEventListener('keydown',e=>{
  else if(e.key==='Home'){show(0);}
  else if(e.key==='End'){show(S.length-1);}
  else if(e.key.toLowerCase()==='f'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
- else if(e.key.toLowerCase()==='t'){document.body.classList.toggle('trener-on');}
+  else if(e.key.toLowerCase()==='t'){document.body.classList.toggle('trener-on');}
+  else if(e.key.toLowerCase()==='d'){toggleTheme();}
 });
 
 document.getElementById('prev').onclick=()=>show(i-1);
 document.getElementById('next').onclick=()=>show(i+1);
 
-document.querySelector('.click-zone.left').onclick=()=>show(i-1);
-document.querySelector('.click-zone.right').onclick=()=>show(i+1);
+// Klik w slajd nawiguje, ALE linki, przyciski i bloki kodu dzialaja normalnie
+document.getElementById('deck').addEventListener('click',e=>{
+ if(e.target.closest('a,button,.code-block,input,textarea,select,.trener-notes'))return;
+ if(window.getSelection&&String(window.getSelection()))return;
+ if(e.clientX<window.innerWidth/2)show(i-1);else show(i+1);
+});
+// Linki zewnetrzne otwieraja sie w nowej karcie
+document.querySelectorAll('#deck a[href^="http"]').forEach(a=>{
+ a.target='_blank';a.rel='noopener';
+});
+
+// Motyw jasny/ciemny (przycisk lub klawisz D), zapamietany w localStorage
+function toggleTheme(){
+ document.body.classList.toggle('light');
+ try{localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');}catch(_){}
+}
+document.getElementById('theme-btn').onclick=toggleTheme;
+try{if(localStorage.getItem('theme')==='light')document.body.classList.add('light');}catch(_){}
+
+// Przycisk kopiowania na kazdym bloku kodu
+document.querySelectorAll('.code-block').forEach(b=>{
+ const code=b.innerText;
+ const btn=document.createElement('button');
+ btn.className='copy-btn';btn.textContent='Kopiuj';
+ btn.onclick=ev=>{
+  ev.stopPropagation();
+  navigator.clipboard.writeText(code).then(()=>{
+   btn.textContent='Skopiowano!';btn.classList.add('ok');
+   setTimeout(()=>{btn.textContent='Kopiuj';btn.classList.remove('ok');},1600);
+  });
+ };
+ b.appendChild(btn);
+});
 
 const fired=new Set(JSON.parse(sessionStorage.getItem('fired')||'[]'));
 function beep(){
@@ -1697,7 +1778,7 @@ document.getElementById('bb-x').onclick=()=>document.getElementById('breakbar').
 function tick(){
  const now=new Date();
  const hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
- document.getElementById('clock').textContent='clock '+hm;
+  document.getElementById('clock').textContent=hm;
  const mins=now.getHours()*60+now.getMinutes();
  BREAKS.forEach(b=>{
   if(hm>=b[0]&&!fired.has(b[0])){
@@ -1709,6 +1790,7 @@ function tick(){
  });
 }
 
+fillSchedule();
 tick();
 setInterval(tick,15000);
 show(0);
