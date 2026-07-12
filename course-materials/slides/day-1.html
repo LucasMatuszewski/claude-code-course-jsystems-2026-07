@@ -499,20 +499,14 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     <div class="kicker">Moduł 1.1</div>
     <h2>Trendy i case studies</h2>
     <div class="cards">
-      <div class="card"><div class="card-title">Od 1 do wielu</div>
-        <p>Pojedynczy agent dobrze wykonuje jedno zadanie. <strong>Zespół agentów</strong> rozdziela role: orchestrator planuje, specjaliści wykonują, krytyk weryfikuje.</p>
-      </div>
       <div class="card amber"><div class="card-title">Rola człowieka się zmienia</div>
-        <p>Mniej kodu, więcej <strong>architektury i weryfikacji</strong>. Trzy nowe role:</p>
+        <p>Mniej kodowania, więcej <strong>architektury i weryfikacji</strong>. Trzy nowe role:</p>
         <ul class="feature-list">
           <li><strong>Orkiestrator</strong> - dzieli i opisuje zadania, steruje flotą agentów (nowy tech lead)</li>
-          <li><strong>Budowniczy infrastruktury</strong> - CI/CD, MCP, sandboxy, kontrola kosztów</li>
-          <li><strong>Ekspert dziedzinowy</strong> - opisuje po ludzku, dostaje działający software</li>
+          <li><strong>Budowniczy infrastruktury</strong> - CI/CD, MCP, VM, sandboxy, kontrola kosztów</li>
+          <li><strong>Ekspert dziedzinowy</strong> - opisuje funkcjonalność, dostaje działający software</li>
         </ul>
-        <p style="margin-top:.4rem"><strong>Twój atut:</strong> doświadczenie menedżerskie (delegowanie, dzielenie zadań, feedback) = gotowe kompetencje do orkiestracji.</p>
-      </div>
-      <div class="card ok"><div class="card-title">TDD z agentem</div>
-        <p>Agent pisze testy PRZED implementacją. Unit testy mockują zależności, integracyjne tylko zewnętrzny LLM, a E2E i testy manualne sprawdzają realny stos.</p>
+        <p style="margin-top:.4rem"><strong>Atut managerów:</strong> delegowanie, dzielenie zadań, feedback to teraz cenne umiejętności!</p>
       </div>
       <div class="card"><div class="card-title">Modele lokalne i open-weight</div>
         <ul class="feature-list">
@@ -525,11 +519,17 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
         <ul class="feature-list">
           <li><strong>OpenAI</strong> - GPT-5.6 Sol/Terra/Luna, ChatGPT Work, Codex</li>
           <li><strong>Anthropic</strong> - Claude Fable 5 (redeploy 01.07)</li>
-          <li><strong>xAI</strong> - Grok 4.5, premiera 08.07; początkowo bez dostępu w aplikacjach/API xAI w UE, ale dostępny przez Cursor i OpenRouter; pełny rollout UE oczekiwany w połowie lipca</li>
+          <li><strong>xAI</strong> - Grok 4.5 (premiera 08.07); w UE początkowo tylko przez Cursor i OpenRouter, pełny rollout w połowie lipca</li>
           <li><strong>Z.ai</strong> - GLM-5.2 + ZCode (1M kontekst, MIT)</li>
           <li><strong>Google</strong> - Antigravity 2.0: desktop app + CLI (zastąpiło Gemini CLI)</li>
-          <li><strong>LMArena</strong> - ranking modeli wg głosów ludzi: <a href="https://arena.ai/leaderboard/code/webdev">arena.ai/leaderboard/code/webdev</a></li>
+          <li><a href="https://arena.ai/leaderboard/code/webdev">LMArena</a> - ranking modeli wg głosów ludzi (nie benchmarków)</li>
         </ul>
+      </div>
+      <div class="card"><div class="card-title">Od 1 do wielu</div>
+        <p>Pojedynczy agent dobrze wykonuje jedno zadanie. <strong>Zespół agentów</strong> rozdziela role: orchestrator planuje, specjaliści wykonują, krytyk weryfikuje.</p>
+      </div>
+      <div class="card ok"><div class="card-title">TDD z agentem</div>
+        <p>Agent pisze testy PRZED implementacją. Unit testy mockują zależności, integracyjne tylko zewnętrzny LLM, a E2E i testy manualne sprawdzają realny stos.</p>
       </div>
     </div>
   </div>
@@ -601,10 +601,11 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <div class="card ok"><div class="card-title">Solo-dev: OpenClaw / Peter Steinberger</div>
         <ul class="feature-list">
           <li>OpenClaw - najszybciej rosnący projekt w historii GitHuba (start koniec XI 2025): 220k+ gwiazdek, 790 kontrybutorów.</li>
-          <li><strong>50 równoległych agentów Codex</strong> do triażu PR: każdy zwraca raport JSON, wszystkie 50 analizowanych w jednej sesji (dedup, auto-merge, auto-close) - bez wektorowej bazy.</li>
+          <li><strong>50 równoległych agentów Codex</strong> do triażu PR: każdy zwraca raport JSON, wszystkie 50 analizowanych w jednej sesji (dedup, auto-merge, auto-close) - bez wektorowej bazy, przez <a href="https://developers.openai.com/codex/subagents#process-csv-batches-with-subagents-experimental">Codex CSV loop</a>.</li>
           <li><strong>Tysiące commitów dziennie</strong> - w topowych dniach <strong>2,6-2,9 tys.</strong> z wielu agentów równolegle na 2 komputerach.</li>
-          <li>Twórca (<a href="https://github.com/steipete">@steipete</a>) dołączył do OpenAI (II 2026).</li>
-          <li>Link: <a href="https://github.com/steipete">github.com/steipete</a> - i relacja Lucasa: <a href="https://edukey.ai/pl/blog/10-dni-z-openclaw-i-claude-opus-46-ai-rozwija-sie-szybciej-niz-twoj-zespol">10 dni z OpenClaw (edukey.ai)</a></li>
+          <li>Twórca (<a href="https://x.com/steipete">@steipete</a>) dołączył do OpenAI (II 2026).</li>
+          <li>Jego workflow: <a href="https://steipete.me/posts/2025/optimal-ai-development-workflow">Optimal AI Dev Workflow</a> &middot; <a href="https://steipete.me/posts/2025/shipping-at-inference-speed">Shipping at Inference Speed</a></li>
+          <li>Link: <a href="https://github.com/steipete">github.com/steipete</a> - i relacja Łukasza: <a href="https://edukey.ai/pl/blog/10-dni-z-openclaw-i-claude-opus-46-ai-rozwija-sie-szybciej-niz-twoj-zespol">10 dni z OpenClaw (edukey.ai)</a></li>
         </ul>
       </div>
       <div class="card amber"><div class="card-title">Enterprise: Microsoft przepisuje C/C++ na Rust</div>
@@ -634,17 +635,20 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
           <li><strong>Nauka nowych wzorców</strong> - agent pokazuje rozwiązania, które sam byś przegapił</li>
           <li><strong>Eksploracja</strong> - szybkie prototypowanie pomysłów</li>
           <li><strong>Dokumentacja na bieżąco</strong> - CLAUDE.md, ADR, komentarze generowane w locie</li>
+          <li><strong>Projekty, na które nie było czasu</strong> - dziś realne do zrobienia</li>
+          <li><strong>Startupy, MVP i PoC</strong> - nigdy nie było prościej ich zbudować</li>
+          <li><strong>Kompensacja kompetencji</strong> - BE/SQL dev generuje ładny UI, FE dev tworzy sobie backend</li>
         </ul>
       </div>
       <div>
         <h3 class="danger">Ryzyka</h3>
         <ul class="feature-list cross">
-          <li><strong>Więcej bugów i rework</strong> - kod powstaje szybciej, ale badania notują więcej defektów i poprawek na produkcji, co zjada zyski z prędkości</li>
-          <li><strong>Więcej kodu &ne; więcej wartości</strong> - generujemy więcej, rośnie dług techniczny, legacy i koszt utrzymania</li>
+          <li><strong>Więcej bugów i rework</strong> - kod powstaje szybciej, ale badania notują więcej defektów i poprawek na produkcji (dane z 2025; dziś modele są lepsze)</li>
+          <li><strong>Więcej kodu &ne; więcej wartości</strong> - rośnie dług techniczny, legacy i koszt utrzymania</li>
           <li><strong>Halucynacje</strong> - agent zmyśla API, funkcje, biblioteki, które nie istnieją</li>
           <li><strong>Context rot</strong> - w długich sesjach agent traci kontekst, gubi wymagania</li>
           <li><strong>Koszty</strong> - tokeny, wywołania API, mogą rosnąć niekontrolowanie</li>
-          <li><strong>Fałszywe poczucie bezpieczeństwa</strong> - kod wygląda dobrze, ale może mieć subtelne błędy</li>
+          <li><strong>Fałszywe poczucie bezpieczeństwa</strong> - Agent: „testy ok" -&gt; błędy na prod</li>
           <li><strong>Zależność</strong> - bez agenta trudniej pracować (atrofia umiejętności)</li>
         </ul>
       </div>
@@ -652,9 +656,9 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
     <div class="note-box"><strong>Mitygacja:</strong> weryfikacja, testy, code review, świadome zarządzanie kontekstem. O tym cały kurs.</div>
     <div class="note-box" style="margin-top:.5rem"><strong>Co mówią badania:</strong>
       <ul class="feature-list" style="margin-top:.3rem;font-size:.85rem">
-        <li><strong>Krzywa J</strong> - produktywność spada na 1-2 miesiące przy nauce nowego workflow (dane głównie z 2025; dziś modele dużo lepsze)</li>
-        <li><strong>Zanik pamięci mięśniowej</strong> do ręcznego kodu jest realny - ale czy przy generowaniu musimy jeszcze pisać wszystko ręcznie?</li>
-        <li><strong>Mierz własne ROI:</strong> velocity, liczba bugów, poprawki i komentarze w code review</li>
+        <li><strong>Krzywa J</strong> - produktywność spada na 1-2 miesiące przy nauce nowego workflow</li>
+        <li><strong>Zanik pamięci mięśniowej</strong> do ręcznego kodu jest realny - ale czy kiedyś będziemy znów pisać kod ręcznie?</li>
+        <li><strong>Mierz własne ROI:</strong> velocity, issues/tickety, liczba bugów, poprawki i uwagi na code review</li>
         <li><strong>Źródła:</strong> <a href="https://www.youtube.com/watch?v=JvosMkuNxF8">Stanford (100k+ dev)</a> &middot; <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">METR 2025</a> &middot; <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5842302">SSRN: ukryte koszty GenAI</a> &middot; <a href="https://arxiv.org/abs/2509.19708">arXiv 2025 (Indie)</a></li>
       </ul>
     </div>
@@ -780,13 +784,13 @@ git checkout -b moja-praca</div>
       </div>
       <div>
         <h3 class="accent">Pierwsza interakcja</h3>
-        <div class="code-block">&gt; ile wolnego miejsca zostało na dysku C:? Jaki mamy procesor i ile wolnego RAM?</div>
-        <div class="code-block" style="margin-top:.4rem">&gt; policz tokeny pliku README.md wg różnych
-  tokenizerów. Wyjaśnij czym jest token
-  i tokenizer oraz dlaczego polski tekst
-  zajmuje więcej kontekstu niż angielski</div>
-        <div class="code-block" style="margin-top:.4rem">&gt; /model</div>
-        <div class="code-block" style="margin-top:.4rem">&gt; /context</div>
+        <div class="code-block">ile wolnego miejsca zostało na dysku C:? Jaki mamy procesor i ile wolnego RAM?</div>
+        <div class="code-block" style="margin-top:.4rem">policz tokeny pliku README.md wg różnych
+tokenizerów. Wyjaśnij czym jest token
+i tokenizer oraz dlaczego polski tekst
+zajmuje więcej kontekstu niż angielski</div>
+        <div class="code-block" style="margin-top:.4rem">/model</div>
+        <div class="code-block" style="margin-top:.4rem">/context</div>
         <p style="margin-top:.8rem">Agent sam uruchamia komendy systemowe i czyta pliki projektu - to różni go od zwykłego chatu. Więcej komend <span class="code-inline">/</span> poznamy w module 1.2.</p>
       </div>
     </div>
@@ -922,9 +926,8 @@ git checkout -b moja-praca</div>
           <li>Można pipe'ować (wejście/wyjście)</li>
           <li>Idealny do skryptów, CI/CD, automatyzacji</li>
         </ul></div>
-        <div class="code-block" style="margin-top:.8rem">claude -p "przetłumacz ten plik"
-
-cat error.log | claude -p "wyjaśnij błąd"</div>
+        <div class="code-block" style="margin-top:.8rem">claude -p "przetłumacz README.md na angielski"</div>
+        <div class="code-block" style="margin-top:.4rem">cat error.log | claude -p "wyjaśnij błąd"</div>
       </div>
     </div>
   </div>
@@ -1086,6 +1089,7 @@ cat error.log | claude -p "wyjaśnij błąd"</div>
           <li><span class="code-inline">/mcp</span> - zarządzanie serwerami MCP (dzień 2)</li>
           <li><span class="code-inline">/hooks</span> - podgląd hooków, czyli akcji na zdarzenia agenta</li>
           <li><span class="code-inline">/plan</span> - tryb planowania: agent bada i proponuje, zanim cokolwiek zmieni</li>
+          <li><span class="code-inline">/btw</span> - szybkie pytanie na boku, bez zaśmiecania historii sesji</li>
         </ul>
       </div>
       <div>
@@ -1094,11 +1098,13 @@ cat error.log | claude -p "wyjaśnij błąd"</div>
           <li><span class="code-inline">/run</span> - uruchamia aplikację i sprawdza, czy zmiana faktycznie działa</li>
           <li><span class="code-inline">/doctor</span> - diagnostyka instalacji i konfiguracji</li>
           <li><span class="code-inline">/loop</span> - zadanie powtarzane cyklicznie (automatyzacja, dzień 3)</li>
+          <li><span class="code-inline">/schedule</span> - zaplanowane zadania (routines) w chmurze (<a href="https://code.claude.com/docs/en/scheduled-tasks">docs</a>)</li>
           <li><span class="code-inline">/help</span> - pełna lista komend</li>
         </ul>
       </div>
     </div>
-    <div class="note-box" style="margin-top:1rem">Własne komendy tworzy się dziś jako <strong>skills</strong> - dawne custom slash commands zostały scalone ze skills. Szczegóły w dniu 2.</div>
+    <div class="note-box" style="margin-top:.8rem"><strong>Prefiks <span class="code-inline">!</span></strong> (to nie komenda <span class="code-inline">/</span>): <span class="code-inline">!ls -a</span> lub <span class="code-inline">!npm run lint</span> uruchamia polecenie shell, a jego wynik trafia do kontekstu agenta.</div>
+    <div class="note-box" style="margin-top:.5rem">Proste, powtarzalne prompty zapiszesz jako <strong>własne komendy</strong> (<span class="code-inline">.claude/commands/</span>, nazwa folderu = grupa, np. <a href="https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/tree/main/.claude/commands/git">/git:commit</a>); do złożonych workflow lepsze są <strong>skills</strong> (dzień 2). <a href="https://code.claude.com/docs/en/slash-commands">docs: slash commands</a></div>
   </div>
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
 </section>
@@ -1177,20 +1183,21 @@ cat error.log | claude -p "wyjaśnij błąd"</div>
     <div class="cards">
       <div class="card"><div class="card-title">Okno kontekstu</div>
         <p>Ile agent może pamiętać na raz w jednej sesji. Im większe okno, tym więcej plików i historii się mieści.</p>
-        <p style="margin-top:.3rem;font-size:.85rem">Claude Fable / Opus / Sonnet: <strong>1M tokenów</strong>; Haiku: 200K; GLM-5.2: 1M. Uwaga: polski tekst zużywa więcej tokenów niż angielski.</p>
+        <p style="margin-top:.3rem;font-size:.85rem">Claude Fable / Opus / Sonnet: <strong>1M tokenów</strong>; Haiku: 200K; GLM-5.2: 1M. Pełny 1M w cenie standardowej (bez dopłat za długi kontekst), ale duży kontekst szybciej zjada limity i sprzyja context rot - nie zapychaj go bez potrzeby. Uwaga: polski tekst zużywa więcej tokenów niż angielski.</p>
       </div>
       <div class="card amber"><div class="card-title">Kompresja (<span class="code-inline">/compact</span>)</div>
         <p>Streszcza historię sesji. Zachowuje kluczowe decyzje i pliki, odrzuca detale rozmowy. Przedłuża żywotność sesji.</p>
       </div>
       <div class="card warn"><div class="card-title">Context rot</div>
-        <p>Zjawisko degradacji jakości w długich sesjach. Agent zaczyna gubić wątki, zapomina wcześniejsze decyzje, odpowiada coraz ogólnikowo.</p>
+        <p>Zjawisko degradacji jakości w długich sesjach. Agent zaczyna gubić wątki, zapomina wcześniejsze decyzje, odpowiada coraz bardziej ogólnikowo, powtarza to samo.</p>
       </div>
       <div class="card ok"><div class="card-title">Strategie</div>
         <ul class="feature-list" style="margin-top:.3rem">
           <li>Dziel duże zadania na krótsze sesje</li>
-          <li>Używaj CLAUDE.md jako trwałej pamięci</li>
+          <li>Dziel CLAUDE.md / AGENTS.md na małe fragmenty (&lt;200 linii)</li>
           <li>Stosuj <span class="code-inline">/compact</span> regularnie</li>
           <li>Zaczynaj nową sesję dla nowego zadania</li>
+          <li>Deleguj z dużego modelu (Fable / Opus) do mniejszych modeli i osobnych agentów CLI (Codex, OpenCode, Grok, Agy)</li>
         </ul>
       </div>
     </div>
