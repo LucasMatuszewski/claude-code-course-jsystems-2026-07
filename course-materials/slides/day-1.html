@@ -503,7 +503,13 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
         <p>Pojedynczy agent dobrze wykonuje jedno zadanie. <strong>Zespół agentów</strong> rozdziela role: orchestrator planuje, specjaliści wykonują, krytyk weryfikuje.</p>
       </div>
       <div class="card amber"><div class="card-title">Rola człowieka się zmienia</div>
-        <p>Programista coraz częściej pełni rolę <strong>architekta i recenzenta</strong>, a nie tylko piszącego kod. Kod generuje agent, człowiek weryfikuje i kieruje.</p>
+        <p>Mniej kodu, więcej <strong>architektury i weryfikacji</strong>. Trzy nowe role:</p>
+        <ul class="feature-list">
+          <li><strong>Orkiestrator</strong> - dzieli i opisuje zadania, steruje flotą agentów (nowy tech lead)</li>
+          <li><strong>Budowniczy infrastruktury</strong> - CI/CD, MCP, sandboxy, kontrola kosztów</li>
+          <li><strong>Ekspert dziedzinowy</strong> - opisuje po ludzku, dostaje działający software</li>
+        </ul>
+        <p style="margin-top:.4rem"><strong>Twój atut:</strong> doświadczenie menedżerskie (delegowanie, dzielenie zadań, feedback) = gotowe kompetencje do orkiestracji.</p>
       </div>
       <div class="card ok"><div class="card-title">TDD z agentem</div>
         <p>Agent pisze testy PRZED implementacją. Unit testy mockują zależności, integracyjne tylko zewnętrzny LLM, a E2E i testy manualne sprawdzają realny stos.</p>
@@ -642,6 +648,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
     <div class="note-box"><strong>Mitygacja:</strong> weryfikacja, testy, code review, świadome zarządzanie kontekstem. O tym cały kurs.</div>
+    <div class="note-box" style="margin-top:.5rem"><strong>Co mówią badania:</strong> krzywa J - produktywność potrafi spaść na 1-2 miesiące, gdy uczysz się nowego workflow (dane głównie z 2025; dziś modele są dużo lepsze). Zanik „pamięci mięśniowej" do ręcznego kodu jest realny - ale czy przy generowaniu kodu musimy jeszcze pisać wszystko ręcznie? Warto mierzyć własne ROI. Źródła: <a href="https://www.youtube.com/watch?v=JvosMkuNxF8">Stanford (100k+ programistów)</a>, <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">METR 2025</a>.</div>
   </div>
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
 </section>
