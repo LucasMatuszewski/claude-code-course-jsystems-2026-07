@@ -105,7 +105,7 @@
 
 ### Moduł 2.3: Sub-agenci
 
-- Architektura sub-agentów (Task tool, typy agentów)
+- Architektura sub-agentów (Agent tool, dawniej Task; typy agentów)
 - Orkiestracja: główny agent kontroluje specjalistów
 - Typy: Explore, Plan, custom (be-dev, fe-dev, qa)
 - Konfiguracja, pamięć, zasady zespołowe

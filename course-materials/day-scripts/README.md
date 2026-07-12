@@ -1,6 +1,8 @@
-# Day Scripts — Concise Reference
+# Day Scripts — Concise Reference (archiwum wersji 5-dniowej)
 
-These are lightweight reference cards for each day of the 5-day course. They are NOT full scripts to read verbatim — they are timing guides with key points, links to detailed notes, and break reminders.
+> **Uwaga:** te karty pochodzą z 5-dniowej wersji tego kursu i służą jako dodatkowy materiał referencyjny. Obowiązująca agenda 3-dniowej edycji JSystems (13–15.07.2026) to [`../course-agenda.md`](../course-agenda.md) — tam znajdziesz aktualne czasy i zakres modułów.
+
+These are lightweight reference cards for each day of the original 5-day course. They are NOT full scripts to read verbatim — they are timing guides with key points, links to detailed notes, and break reminders.
 
 ## Schedule pattern (every day)
 

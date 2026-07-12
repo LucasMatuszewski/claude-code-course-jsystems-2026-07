@@ -24,7 +24,7 @@
 ## 10:00–10:50 — Moduł 1.2: Modele, Prompty, Context Engineering
 
 **Key points:**
-- Compare models: Claude aliases `fable` (Fable 5, most capable), `opus` (Opus 4.8), `sonnet` (Sonnet 5), `haiku` (Haiku 4.5), plus other vendors. TODO-VERIFY before delivery: current non-Claude model names and pricing.
+- Compare models: Claude aliases `fable` (Fable 5, most capable), `opus` (Opus 4.8), `sonnet` (Sonnet 5), `haiku` (Haiku 4.5); other vendors: GPT-5.6 / GPT-5.5 (Codex), Gemini 3 (Antigravity), GLM-5.2, Grok 4.5 (details and pricing: slides day-1)
 - Prompt engineering basics: tokens, context window, attention, zero/few-shot
 - Context engineering: context rot, managing agent context
 - Organize prompts, commit to git

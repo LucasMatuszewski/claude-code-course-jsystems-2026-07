@@ -718,7 +718,7 @@ _Intelligence levels_ (quality of judgment, not capability type):
 - `fast` (default): Quick, cost-effective models for straightforward evaluations
   - Example: Gemini 3.0 Flash (multimodal, fast, cheap)
 - `smart`: Higher-quality models for nuanced aesthetic/creative judgment
-  - Example: TODO-VERIFY before delivery: current multimodal model with stronger judgment and higher cost
+  - Example: Claude Opus 4.8 or Gemini 3.1 Pro (multimodal, stronger judgment, higher cost)
 
 The fixture implementation selects appropriate models. (Examples are current options, not requirements.)
 

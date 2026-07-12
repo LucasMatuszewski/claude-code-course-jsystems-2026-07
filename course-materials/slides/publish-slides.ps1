@@ -1,12 +1,17 @@
 # Publish course slide decks to the DevPowers site repo.
 # Junctions/symlinks do not work across two git repos (git tracks the link,
 # not content) - this explicit copy is the sync mechanism. Run after any
-# deck change, then review + commit in the DevPowers repo.
-# Usage: pwsh course-materials/slides/publish-slides.ps1
+# deck change.
+#
+# Usage:
+#   pwsh course-materials/slides/publish-slides.ps1          # copy only
+#   pwsh course-materials/slides/publish-slides.ps1 -Push    # copy + commit + push DevPowers (deploys to production)
+param([switch]$Push)
 
 $slidesDir = $PSScriptRoot
 $repoRoot  = Split-Path (Split-Path $slidesDir -Parent) -Parent
-$dst = "C:\Users\BiuroEdukey\DEV\Projects\DevPowers\szkolenia\claude-code-jsystems"
+$devRepo   = "C:\Users\BiuroEdukey\DEV\Projects\DevPowers"
+$dst = Join-Path $devRepo "szkolenia\claude-code-jsystems"
 
 New-Item -ItemType Directory -Force -Path $dst | Out-Null
 $copied = @()
@@ -28,4 +33,20 @@ if (Test-Path $dash) {
     $copied += "ankieta.html"
 }
 Write-Host "Copied to ${dst}: $($copied -join ', ')"
-Write-Host "NEXT: cd to the DevPowers repo, review the diff, commit. Ask Lucas before pushing (production site)."
+
+if ($Push) {
+    Push-Location $devRepo
+    try {
+        git add "szkolenia/claude-code-jsystems"
+        $staged = git diff --cached --name-only
+        if ($staged) {
+            git commit -m "Szkolenia: Claude Code JSystems - sync slajdow z repo kursu"
+            git push
+            Write-Host "DevPowers committed and pushed (production deploy)."
+        } else {
+            Write-Host "No changes to publish - DevPowers already up to date."
+        }
+    } finally { Pop-Location }
+} else {
+    Write-Host "NEXT: review the diff in the DevPowers repo and commit, or rerun with -Push to auto commit+push."
+}

@@ -6,7 +6,7 @@
 
 OpenAI's primary mechanism for confidence scoring is **logprobs** (log probabilities), available in the Chat Completions API via the `logprobs` and `top_logprobs` parameters. When enabled, the API returns the log probability of each output token, where a value of `0.0` represents 100% probability and any negative number represents lower confidence. Developers can aggregate these per-token values (using mean, sum, or weighted distribution) to produce a sentence- or response-level confidence score.[^1_1][^1_2][^1_3]
 
-**Important caveat for current OpenAI models:** TODO-VERIFY before delivery: confirm current logprobs support for the OpenAI model used in class. As of late 2025, reports indicated logprobs were unavailable for then-current top OpenAI models, leaving a gap for confidence scoring on the latest OpenAI models.[^1_4]
+**Important caveat for current OpenAI models:** Unverified - confirm current logprobs support for the OpenAI model used in class. As of late 2025, reports indicated logprobs were unavailable for then-current top OpenAI models, leaving a gap for confidence scoring on the latest OpenAI models.[^1_4]
 
 The official **openai-java** SDK (currently v4.6.1) exposes the full OpenAI REST API, including `ChatCompletionCreateParams`. However, there is no dedicated convenience method wrapping logprob-based confidence scoring — developers must manually add `.logprobs(true)` and `.topLogprobs(N)` to their request params and extract the `logprobs` field from each `Choice` in the response. There is no built-in hallucination detection in the SDK.[^1_5]
 
@@ -68,7 +68,7 @@ Here is a breakdown of what each major provider offers natively:
 
 | Provider | Logprobs Support | Notes |
 | :-- | :-- | :-- |
-| **OpenAI** | ✅ Yes (`logprobs`, `top_logprobs`) | TODO-VERIFY before delivery: current model support; deprecated for then-current top OpenAI models as of late 2025 [^1_4] |
+| **OpenAI** | ✅ Yes (`logprobs`, `top_logprobs`) | Unverified - deprecated for then-current top OpenAI models as of late 2025 [^1_4] |
 | **Google (Gemini / Vertex AI)** | ✅ Yes (`response_logprobs`, `logprobs`) | Returns `avgLogprobs` by default; `logprobsCandidates` for alternates [^1_11][^1_12] |
 | **Anthropic (Claude)** | ❌ No | No logprobs endpoint; no native confidence scoring API [^1_13] |
 | **Cohere** | ⚠️ Partial | Log-likelihood for some generation endpoints, not uniformly exposed |

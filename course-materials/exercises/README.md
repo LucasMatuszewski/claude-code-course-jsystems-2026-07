@@ -1,5 +1,7 @@
 # Exercises — Quick Map (Trainer)
 
+> **Uwaga:** mapa poniżej pochodzi z 5-dniowej wersji kursu i służy jako bank ćwiczeń do wyboru. Obowiązująca agenda 3-dniowej edycji JSystems: [`../course-agenda.md`](../course-agenda.md) — w formule follow-along ("RAZEM") ćwiczenia wplatane są w moduły, nie prowadzone jako osobne bloki.
+
 Ten plik to szybka nawigacja: **które ćwiczenia uruchomić w którym dniu**.
 Główna treść ćwiczeń (core + stretch + expected outputs) jest w:
 - `./03-exercises.md`

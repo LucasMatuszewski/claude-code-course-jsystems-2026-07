@@ -23,9 +23,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          # Model Configuration - TODO-VERIFY before delivery: use current Claude aliases/model IDs (OPUS is very expensive)
-          config.model: "anthropic/claude-sonnet"
-          config.fallback_models: '["anthropic/claude-haiku", "anthropic/claude-opus"]'
+          # Model configuration (Opus is expensive - keep it as the last fallback;
+          # current model IDs: https://docs.claude.com/en/docs/about-claude/models)
+          config.model: "anthropic/claude-sonnet-5"
+          config.fallback_models: '["anthropic/claude-haiku-4-5", "anthropic/claude-opus-4-8"]'
           ANTHROPIC.KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
           # GitHub Action Configuration

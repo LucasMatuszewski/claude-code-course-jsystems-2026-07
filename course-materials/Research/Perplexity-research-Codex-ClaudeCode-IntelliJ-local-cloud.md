@@ -43,7 +43,7 @@ Codex CLI's multi-agent system is notably more **structured and production-grade
 
 ## Long-Running Tasks
 
-Codex CLI is explicitly designed for **long-horizon tasks** — OpenAI published a case study of a Codex-tuned model running uninterrupted for ~25 hours on a complex spec, with autonomous milestone verification and lint/test repair loops [^1_13]. TODO-VERIFY before delivery: current Codex model name. The `wait` tool's long-polling (up to 1 hour per call) enables this natively [^1_9]. SQLite-backed agent job state means crashes don't lose progress [^1_9].
+Codex CLI is explicitly designed for **long-horizon tasks** — OpenAI published a case study of a Codex-tuned model running uninterrupted for ~25 hours on a complex spec, with autonomous milestone verification and lint/test repair loops [^1_13]. (Check current Codex docs for the exact model name.) The `wait` tool's long-polling (up to 1 hour per call) enables this natively [^1_9]. SQLite-backed agent job state means crashes don't lose progress [^1_9].
 
 OpenCode has **SQLite-based session persistence** [^1_7] so conversation history survives restarts, but it doesn't have a native "run for 25 hours autonomously" construct. Long tasks work but require more manual orchestration.
 
@@ -75,7 +75,7 @@ This is a **major differentiator**:
 
 You get **75+ providers** including Ollama, AWS Bedrock, Google, and any OpenAI-compatible self-hosted endpoint [^1_7][^1_18]. Note: Anthropic blocked direct OAuth for OpenCode in January 2026, forcing Claude users through OpenRouter or other proxies [^1_3].
 
-**Codex CLI** is architected as an **OpenAI-first product**. While it authenticates via OpenAI account and the system prompts + tool schemas are tuned specifically for the current Codex model behavior, OpenRouter works — but you sacrifice the model-specific optimization that makes Codex performant [^1_3]. TODO-VERIFY before delivery: current Codex model name and OpenRouter support. There's no first-class `@ai-sdk/openai-compatible`-style adapter. If you want full model freedom, OpenCode is the better choice.
+**Codex CLI** is architected as an **OpenAI-first product**. While it authenticates via OpenAI account and the system prompts + tool schemas are tuned specifically for the current Codex model behavior, OpenRouter works — but you sacrifice the model-specific optimization that makes Codex performant [^1_3]. (Model lineup and OpenRouter support change often - check current Codex docs.) There's no first-class `@ai-sdk/openai-compatible`-style adapter. If you want full model freedom, OpenCode is the better choice.
 
 ## Sandboxing
 
@@ -105,7 +105,7 @@ OpenCode also had a notable **unauthenticated RCE vulnerability** discovered in 
 | :-- | :-- | :-- |
 | Language | Rust core + npm shell | TypeScript/Node.js |
 | Stars (2026) | 62K | 112K |
-| Default model | TODO-VERIFY before delivery: current Codex default | Any (75+ providers) |
+| Default model | GPT-5.x Codex family (check current default) | Any (75+ providers) |
 | OpenRouter/custom endpoint | Possible, non-native | ✅ First-class support |
 | Multi-agents | ✅ Native, structured | ✅ Parallel sessions |
 | Long-running tasks | ✅ Native (25h+ tested) | Possible, less structured |
@@ -234,7 +234,7 @@ The configuration in `~/.codex/config.toml` is straightforward [^2_2]:
 
 ```toml
 model_provider = "openrouter"
-model = "TODO-VERIFY-current-openrouter-model-id"  # or any model on OpenRouter
+model = "z-ai/glm-5.2"  # or any model on OpenRouter
 
 [model_providers.openrouter]
 name = "openrouter"
@@ -259,7 +259,7 @@ api_key = "internal-key"
 
 Real user data from the community as of late 2025/early 2026 [^2_6]:
 
-- **GLM 4.7 / GLM 4.7:thinking**: Works reliably in agentic loops (95%+ of the time) after setting the router transformer to `openrouter` mode, which normalizes output formatting [^2_6]. TODO-VERIFY before delivery: current GLM benchmark comparison and model naming.
+- **GLM 4.7 / GLM 4.7:thinking**: Works reliably in agentic loops (95%+ of the time) after setting the router transformer to `openrouter` mode, which normalizes output formatting [^2_6]. (GLM-5.2 is the current generation - older 4.x benchmarks below may be outdated.)
 - **Kimi K2**: Problematic. It frequently stops after 2–3 agentic steps, partly because angle brackets in code are misinterpreted as termination tokens, and partly because it adds conversational filler that breaks agent loops [^2_6]. Kimi K2 Thinking is even worse for autonomous use. This is a **real limitation for a course scenario** — students would be fighting the model, not learning the tool.
 - **Minimax M2.1/M2.5**: Works cleanly without configuration changes [^2_6].
 - **DeepSeek Coder / DeepSeek V3**: Widely reported to work well on Codex CLI with Ollama [^2_8].
@@ -763,7 +763,7 @@ This is worth a dedicated slide in your course — many banks already have Azure
 
 | Scenario | Tool Config | Best Model Option |
 | :-- | :-- | :-- |
-| During course (ChatGPT Plus) | `ANTHROPIC_BASE_URL` = Anthropic default | TODO-VERIFY before delivery: current subscription model alias |
+| During course (ChatGPT Plus) | `ANTHROPIC_BASE_URL` = Anthropic default | subscription default model |
 | At work, Azure available | `CLAUDE_CODE_USE_FOUNDRY=1` | Claude via Azure Foundry (bank's contract) |
 | At work, fully air-gapped | Ollama + Anthropic-compatible API | GLM 5 or Qwen3-Coder self-hosted |
 | Learning/testing budget | OpenRouter CCR proxy | Qwen3-Coder:free or GPT-OSS-20b:free |
@@ -1019,10 +1019,10 @@ Cloud tasks run on OpenAI's managed environment [^7_3]. This has a critical impl
 The other important piece: Codex itself can be **exposed as an MCP server** that an Agents SDK orchestrator calls [^7_4]. The pattern looks like this:
 
 ```python
-# Designer agent (TODO-VERIFY current model) → spawns → Developer agent (Codex as MCP)
+# Designer agent (e.g. GPT-5.5) → spawns → Developer agent (Codex as MCP)
 async with MCPServerStdio("codex", {"command": "npx", "args": ["-y", "codex", "mcp-server"]}) as codex_mcp:
     developer = Agent("Developer", mcp_servers=[codex_mcp], ...)
-    designer = Agent("Designer", model="TODO-VERIFY-current-model", handoffs=[developer])
+    designer = Agent("Designer", model="gpt-5.5", handoffs=[developer])
     await Runner.run(designer, "Build the Spring API for user management")
 ```
 
@@ -1098,7 +1098,7 @@ This mirrors real professional use — the skill being taught is **not watching 
 **Module 9: Self-hosted model path (1h)**
 
 - Configure Codex CLI profile pointing at Ollama (or OpenRouter GLM 5)
-- Run the Module 2 exercise again with GLM 5 — let them feel the quality gap vs the current Codex/Claude Code baseline. TODO-VERIFY before delivery: current comparison model.
+- Run the Module 2 exercise again with GLM 5 — let them feel the quality gap vs the current Codex/Claude Code baseline.
 - Frame it as: "this is what your actual work setup will look like, and this is the quality you're working with — here's how to compensate with better AGENTS.md"
 
 **Module 10: Validation, Testing, Anti-patterns (1.5h)**
