@@ -508,6 +508,13 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       <div class="card ok"><div class="card-title">TDD z agentem</div>
         <p>Agent pisze testy PRZED implementacją. Unit testy mockują zależności, integracyjne tylko zewnętrzny LLM, a E2E i testy manualne sprawdzają realny stos.</p>
       </div>
+      <div class="card"><div class="card-title">Modele lokalne i open-weight</div>
+        <ul class="feature-list">
+          <li>Najlepsze modele open-weight 2026 (GLM-5.2, Kimi K2.6, DeepSeek V4, Minimax M3) są już blisko czołówki - część niemal jak Opus.</li>
+          <li>ALE <strong>open != local</strong>: najlepsze open-weight są ogromne (setki miliardów parametrów, wymagają serwerowych GPU), nie odpalisz ich na laptopie.</li>
+          <li>Realnie lokalnie (Ollama, vLLM, LM Studio): mniejsze modele jak Gemma 4, Qwen 3.6 - dobre do prywatności / pracy offline (air-gapped), słabsze od modeli chmurowych.</li>
+        </ul>
+      </div>
       <div class="card warn"><div class="card-title">Krajobraz 2026</div>
         <ul class="feature-list">
           <li><strong>OpenAI</strong> - GPT-5.6 Sol/Terra/Luna, ChatGPT Work, Codex</li>
@@ -515,6 +522,7 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
           <li><strong>xAI</strong> - Grok 4.5, premiera 08.07; początkowo bez dostępu w aplikacjach/API xAI w UE, ale dostępny przez Cursor i OpenRouter; pełny rollout UE oczekiwany w połowie lipca</li>
           <li><strong>Z.ai</strong> - GLM-5.2 + ZCode (1M kontekst, MIT)</li>
           <li><strong>Google</strong> - Antigravity 2.0: desktop app + CLI (zastąpiło Gemini CLI)</li>
+          <li><strong>LMArena</strong> - ranking modeli wg głosów ludzi: <a href="https://arena.ai/leaderboard/code/webdev">arena.ai/leaderboard/code/webdev</a></li>
         </ul>
       </div>
     </div>
@@ -577,6 +585,35 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
+<!-- ============ SLIDE 8c: CASE STUDIES ============ -->
+<section class="slide">
+  <div class="slide-body">
+    <div class="kicker">Moduł 1.1</div>
+    <h2>Case studies: solo-dev i wielki enterprise</h2>
+    <p class="subtitle">Dwie skrajności, ten sam kierunek - obie w pełni stawiają na agentów.</p>
+    <div class="cards">
+      <div class="card ok"><div class="card-title">Solo-dev: OpenClaw / Peter Steinberger</div>
+        <ul class="feature-list">
+          <li>OpenClaw - najszybciej rosnący projekt w historii GitHuba (start koniec XI 2025): 220k+ gwiazdek, 790 kontrybutorów.</li>
+          <li><strong>50 równoległych agentów Codex</strong> do triażu PR: każdy zwraca raport JSON, wszystkie 50 analizowanych w jednej sesji (dedup, auto-merge, auto-close) - bez wektorowej bazy.</li>
+          <li><strong>Tysiące commitów dziennie</strong> - w topowych dniach <strong>2,6-2,9 tys.</strong> z wielu agentów równolegle na 2 komputerach.</li>
+          <li>Twórca (<a href="https://github.com/steipete">@steipete</a>) dołączył do OpenAI (II 2026).</li>
+          <li>Link: <a href="https://github.com/steipete">github.com/steipete</a> - i relacja Lucasa: <a href="https://edukey.ai/pl/blog/10-dni-z-openclaw-i-claude-opus-46-ai-rozwija-sie-szybciej-niz-twoj-zespol">10 dni z OpenClaw (edukey.ai)</a></li>
+        </ul>
+      </div>
+      <div class="card amber"><div class="card-title">Enterprise: Microsoft przepisuje C/C++ na Rust</div>
+        <ul class="feature-list">
+          <li>Cel (Galen Hunt, Principal SW Engineer, CoreAI): <strong>wyeliminować cały kod C i C++ z Microsoftu do 2030 r.</strong>, przepisując go na Rust.</li>
+          <li>Strategia: <strong>AI + algorytmy</strong> - graf nad kodem źródłowym w wielkiej skali + agenci AI robiący modyfikacje kodu masowo.</li>
+          <li>North Star: <strong>"1 inżynier, 1 miesiąc, 1 milion linii kodu"</strong>.</li>
+          <li>Link: <a href="https://www.linkedin.com/posts/galenh_principal-software-engineer-coreai-microsoft-activity-7407863239289729024-WTzf">post Galena Hunta na LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
+</section>
+
 <!-- ============ SLIDE 9: KORZYŚCI VS RYZYKA ============ -->
 <section class="slide">
   <div class="slide-body">
@@ -609,7 +646,34 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
-<!-- ============ SLIDE 10: ŚRODOWISKO - NARZĘDZIA ============ -->
+<!-- ============ SLIDE 10: ŚRODOWISKO - DOSTĘP DO VM ============ -->
+<section class="slide">
+  <div class="slide-body">
+    <div class="kicker">Moduł 1.1 | Weryfikacja środowiska</div>
+    <h2>Twoja VM - dostęp i zasady pracy</h2>
+    <div class="two-col">
+      <div>
+        <h3 class="accent2">Logowanie (dane od trenera)</h3>
+        <ul class="feature-list">
+          <li>Każdy dostaje: <strong>adres IP + login + hasło</strong> (na czacie Zoom)</li>
+          <li>Połączenie: <strong>Remote Desktop</strong> (Win: <span class="code-inline">mstsc</span>, mac: aplikacja Windows App)</li>
+          <li>Windows Server 2022, wszystkie narzędzia preinstalowane</li>
+          <li>Na VM wszystko działa <strong>dokładnie tak, jak na pokazach trenera</strong></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="accent">VM czy własny komputer?</h3>
+        <div class="card ok"><ul class="feature-list">
+          <li><strong>Zalecane: VM</strong> - identyczne środowisko, zero niespodzianek, trener pomoże od ręki</li>
+        </ul></div>
+        <div class="note-box" style="margin-top:.6rem"><strong>Praca lokalna = na własne ryzyko.</strong> Możesz sklonować repo także u siebie, ale lokalne środowisko może się różnić - debugowanie różnic tylko, jeśli starczy czasu (najlepiej po kursie). Dobry układ: na kursie VM, po kursie powtórka lokalnie.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
+</section>
+
+<!-- ============ SLIDE 11: ŚRODOWISKO - NARZĘDZIA ============ -->
 <section class="slide">
   <div class="slide-body">
     <div class="kicker">Moduł 1.1 | Weryfikacja środowiska</div>
@@ -646,33 +710,6 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
       </div>
     </div>
     <div class="note-box" style="margin-top:.8rem"><strong>Harness</strong> (uprząż) = pętla agenta + narzędzia + zarządzanie kontekstem wokół modelu. Claude Code, Codex, OpenCode i Antigravity to harnessy - model jest tylko silnikiem i w różnych harnessach działa różnie.</div>
-  </div>
-  <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
-</section>
-
-<!-- ============ SLIDE 11: ŚRODOWISKO - DOSTĘP DO VM ============ -->
-<section class="slide">
-  <div class="slide-body">
-    <div class="kicker">Moduł 1.1 | Weryfikacja środowiska</div>
-    <h2>Twoja VM - dostęp i zasady pracy</h2>
-    <div class="two-col">
-      <div>
-        <h3 class="accent2">Logowanie (dane od trenera)</h3>
-        <ul class="feature-list">
-          <li>Każdy dostaje: <strong>adres IP + login + hasło</strong> (na czacie Zoom)</li>
-          <li>Połączenie: <strong>Remote Desktop</strong> (Win: <span class="code-inline">mstsc</span>, mac: aplikacja Windows App)</li>
-          <li>Windows Server 2022, wszystkie narzędzia preinstalowane</li>
-          <li>Na VM wszystko działa <strong>dokładnie tak, jak na pokazach trenera</strong></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="accent">VM czy własny komputer?</h3>
-        <div class="card ok"><ul class="feature-list">
-          <li><strong>Zalecane: VM</strong> - identyczne środowisko, zero niespodzianek, trener pomoże od ręki</li>
-        </ul></div>
-        <div class="note-box" style="margin-top:.6rem"><strong>Praca lokalna = na własne ryzyko.</strong> Możesz sklonować repo także u siebie, ale lokalne środowisko może się różnić - debugowanie różnic tylko, jeśli starczy czasu (najlepiej po kursie). Dobry układ: na kursie VM, po kursie powtórka lokalnie.</div>
-      </div>
-    </div>
   </div>
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
 </section>
@@ -745,7 +782,7 @@ git checkout -b moja-praca</div>
 <section class="slide">
   <div class="slide-body">
     <div class="kicker">Moduł 1.1</div>
-    <h2>Wyniki ankiety przedstartowej</h2>
+    <h2>Wyniki ankiety przed szkoleniem</h2>
     <p class="subtitle">Kim jesteśmy jako grupa - <a href="../survey/dashboard/index.html">dashboard ankiety</a></p>
     <div class="cards">
       <div class="card amber"><div class="card-title">Poziom doświadczenia</div><p>Rozkład doświadczenia w grupie: kto pracował z AI w programowaniu, kto zaczyna od zera.</p></div>
@@ -979,19 +1016,20 @@ cat error.log | claude -p "wyjaśnij błąd"</div>
   <div class="slide-body">
     <div class="kicker">Moduł 1.2 | Kluczowe komendy (1/2)</div>
     <h2>Zarządzanie sesją i kontekstem</h2>
-    <div class="two-col">
-      <div>
-        <h3 class="accent2"><span class="code-inline">/resume</span></h3>
-        <div class="card"><p>Wznawia poprzednią sesję. Agent odtwarza kontekst, historię rozmowy i stan projektu.</p>
-        <p style="margin-top:.5rem">Przydatne, gdy przerwałeś pracę i chcesz wrócić lub gdy przypadkowo zamknąłeś CLI.</p></div>
+    <div class="cards">
+      <div class="card"><div class="card-title"><span class="code-inline">/resume</span></div>
+        <p>Wznawia poprzednią sesję. Agent odtwarza kontekst, historię rozmowy i stan projektu.</p>
+        <p style="margin-top:.5rem">Przydatne, gdy przerwałeś pracę i chcesz wrócić lub gdy przypadkowo zamknąłeś CLI.</p>
       </div>
-      <div>
-        <h3 class="accent"><span class="code-inline">/compact</span></h3>
-        <div class="card"><p>Kompresuje kontekst sesji. Agent streszcza dotychczasową rozmowę, zachowując kluczowe informacje, a pomijając detale.</p>
-        <p style="margin-top:.5rem">Stosuj, gdy sesja robi się długa i agent zaczyna gubić wątki (context rot).</p></div>
+      <div class="card amber"><div class="card-title"><span class="code-inline">/compact</span></div>
+        <p>Kompresuje kontekst sesji. Agent streszcza dotychczasową rozmowę, zachowując kluczowe informacje, a pomijając detale.</p>
+        <p style="margin-top:.5rem">Stosuj, gdy sesja robi się długa i agent zaczyna gubić wątki (context rot).</p>
+      </div>
+      <div class="card ok"><div class="card-title"><span class="code-inline">/rewind</span></div>
+        <p>Cofa rozmowę (i opcjonalnie stan) do wybranego wcześniejszego punktu - użyj go, gdy Ty albo agent popełnił błąd i chcesz wrócić do momentu sprzed niego.</p>
       </div>
     </div>
-    <div class="note-box" style="margin-top:1rem"><strong>Wskazówka:</strong> <span class="code-inline">/compact</span> i <span class="code-inline">/rewind</span> działają tylko na historię rozmowy w kontekście agenta - nie ruszają plików ani zmian w kodzie.<br><span class="code-inline">/rewind</span> cofa rozmowę (i opcjonalnie stan) do wybranego wcześniejszego punktu - użyj go, gdy Ty albo agent popełnił błąd i chcesz wrócić do momentu sprzed niego. Do cofania zmian w kodzie służy git, nie te komendy.</div>
+    <div class="note-box" style="margin-top:1rem"><strong>Wskazówka:</strong> <span class="code-inline">/compact</span> i <span class="code-inline">/rewind</span> zmieniają tylko historię sesji w kontekście agenta - nie ruszają plików ani kodu. Do wersjonowania i cofania zmian w KODZIE służy git, nie te komendy.</div>
   </div>
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
 </section>

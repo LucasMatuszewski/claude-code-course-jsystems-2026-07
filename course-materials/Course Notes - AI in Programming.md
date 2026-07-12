@@ -93,7 +93,7 @@ Notes from course for JSystem — AI dla programistów: od pomysłu do MVP
   - **220k+ Stars, 790 contributors, 4,300+ open PRs** — [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw)
   - Created by **Peter Steinberger** ([@steipete](https://github.com/steipete)), who joined **OpenAI in Feb 2026** to help build autonomous agents at scale. OpenClaw transitions to an OpenAI-backed open-source foundation.
   - **50 parallel Codex agents for PR triage:** Peter spins up 50 Codex instances simultaneously, each outputs a JSON report (vision match, intent, risk signals). All 50 reports ingested in one session to query/deduplicate/auto-close/merge — no vector DB needed: [X post](https://x.com/steipete/status/2025591780595429385)
-  - **1,000–1,500 commits/day:** since switching to Codex (Oct 2025), regularly hits this range across 2 computers with multiple parallel agents. Oct 26, 2025: 1,374 commits in one day (for the first time >1000). [X post](https://x.com/steipete/status/2024524946114814414) | [GitHub profile](https://github.com/steipete)
+  - **Thousands of commits/day:** since switching to Codex (Oct 2025), regularly runs many parallel agents across 2 computers; top days now hit **~2,600–2,900 commits/day** (up from the first >1,000 day, 1,374 on Oct 26, 2025 - the pace keeps climbing). [X post](https://x.com/steipete/status/2024524946114814414) | [GitHub profile](https://github.com/steipete)
   - Peter's articles on his workflow:
     - My [NotebookLM knowledge base](https://notebooklm.google.com/notebook/3e4c8c3c-d617-4060-998c-c684d124d762) with his articles and videos about how he works
     - [Essential Reading Aug 2025](https://steipete.me/posts/2025/essential-reading-august-2025)
