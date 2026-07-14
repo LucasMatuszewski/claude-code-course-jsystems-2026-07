@@ -30,15 +30,7 @@ Participants work on prepared VMs with preinstalled tools:
 
 ## Repository Layout
 
-```
-app/                 Application built during the course (start: empty scaffold)
-assets/              Design tokens, logo, favicon
-docs/                PRD, ADR, design system
-course-materials/    Notes, scripts, examples, research
-course-materials/slides/   Slide decks day-1.html..day-3.html (single-file HTML)
-                           + publish-slides.ps1 (sync to the DevPowers site repo;
-                           run after EVERY deck change, `-Push` = deploy to production)
-```
+`course-materials/slides/publish-slides.ps1` syncs the slide decks to the DevPowers site repo — run it after EVERY deck change; `-Push` deploys to production.
 
 ---
 
