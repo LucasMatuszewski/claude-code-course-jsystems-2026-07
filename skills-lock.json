@@ -1,11 +1,4 @@
 {
   "version": 1,
-  "skills": {
-    "java-docs": {
-      "source": "github/awesome-copilot",
-      "sourceType": "github",
-      "skillPath": "skills/java-docs/SKILL.md",
-      "computedHash": "76cf49efcd6e99d95031c78e56615dbaf641a756e852acf7e87f9197dfab43e0"
-    }
-  }
+  "skills": {}
 }
