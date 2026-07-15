@@ -1,0 +1,9 @@
+- [DEV directory casing breaks Next.js build](project_dev_dir_casing.md) — always build/run npm from canonical `...\DEV\...` (uppercase) path, not lowercase `dev`.
+- [Playwright doesn't detect stale broken dev server](project_playwright_stale_dev_server.md) — kill stray node.exe on port 3000 before `playwright test` if webServer boot fails.
+- [HSC persistence layer conventions](project_hsc_persistence_layer.md) — lib/db/** DI pattern, getDb()/createDb(), import.meta.url for schema.sql, JSON columns stay `unknown`.
+- [HSC policies loader conventions](project_hsc_policies_loader.md) — loadPolicy(type, policiesDir?), no cache, default dir is `../docs/policies` relative to app root.
+- [Zod v4 error API differs from training data](project_zod_v4_error_api.md) — use `{ error: () => msg }` not `{ message: msg }`; z.iso.date() for dates.
+- [HSC image compression + storage design](project_hsc_image_storage.md) — compress.ts/storage.ts API, uploads/ relative-path quirk, path-traversal guard details.
+- [HSC AI layer (P1.5) + AI SDK v7 drift](project_hsc_ai_layer.md) — lib/ai/** signatures, MockLanguageModelV4 (not V2) shape, generateText output is not a Promise.
+- [HSC API route conventions (P2.1/P2.2/P2.4)](project_hsc_api_routes.md) — createXHandler(deps) DI seam; Next 16 `params` is a Promise; POST/GET /api/cases, GET /api/cases/[caseId], GET /api/images/[...path] shapes; Buffer→Uint8Array Response build gotcha.
+- [HSC streaming chat route (P2.3) + AI SDK v7 streaming API](project_hsc_chat_route.md) — `tool-submitDecision` part name; render from `.output`; data-URL re-upload; toUIMessageStream/isStepCount/toolChoice drift; mock doStream shape.

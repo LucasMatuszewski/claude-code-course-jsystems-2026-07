@@ -30,15 +30,7 @@ Participants work on prepared VMs with preinstalled tools:
 
 ## Repository Layout
 
-```
-app/                 Application built during the course (start: empty scaffold)
-assets/              Design tokens, logo, favicon
-docs/                PRD, ADR, design system
-course-materials/    Notes, scripts, examples, research
-course-materials/slides/   Slide decks day-1.html..day-3.html (single-file HTML)
-                           + publish-slides.ps1 (sync to the DevPowers site repo;
-                           run after EVERY deck change, `-Push` = deploy to production)
-```
+`course-materials/slides/publish-slides.ps1` syncs the slide decks to the DevPowers site repo — run it after EVERY deck change; `-Push` deploys to production.
 
 ---
 
@@ -56,8 +48,20 @@ For every feature and bug fix:
 4. Implement the minimum code needed to make them pass.
 5. Run the full verification suite for the changed scope.
 6. Refactor only while tests stay green.
+7. **Manually validate the running application** (see Manual QA below). Automated tests — especially E2E — can produce false passes; a task is not done until the real app has been exercised by hand.
 
 If the area has no suitable test infrastructure yet, add it as part of the task — do not silently skip tests.
+
+### Manual QA (required after every task that affects the running app)
+
+Use **Playwright MCP or the Playwright CLI** to drive the real running app like a human tester:
+
+1. Start the app (`npm run dev`) and open it in the browser.
+2. Exercise the flow affected by your change end to end — e.g. fill the form with real values, upload a real image, submit, wait for the actual AI response, continue in the chat. Do not stop at "the page rendered".
+3. Take a **screenshot at every screen/state** of the exercised flow and inspect it: correct layout, Polish texts, loading/error states, no broken elements.
+4. Check the browser console for errors — zero errors expected.
+5. **Compare the screenshots against the Play brand reference** (`assets/homepage.png` + `docs/design-guidelines.md`): colors (purple `#6C43BF`, magenta `#E6144B`), Manrope typography, 7px-scale radii/spacing. Flag any visual drift.
+6. Report what was manually verified (flows, screenshots taken, findings) as part of task completion. If manual QA fails, the task is NOT done — fix before committing.
 
 ### Verification (required before every commit)
 
