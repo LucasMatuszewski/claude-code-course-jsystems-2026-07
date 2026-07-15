@@ -332,7 +332,7 @@ Each card lists the **context packet** — the only project information given to
 
 ## 7. Progress Checklist
 
-- [x] T0.1 scaffold · - [ ] T1.1 validation · - [ ] T1.2 policies · - [ ] T1.3 db · - [ ] T1.4 images · - [ ] T1.5 design · - [ ] T1.6 i18n · - [ ] T1.7 e2e-infra
+- [x] T0.1 scaffold · - [x] T1.1 validation · - [x] T1.2 policies · - [x] T1.3 db · - [x] T1.4 images · - [x] T1.5 design · - [x] T1.6 i18n · - [x] T1.7 e2e-infra
 - [ ] T2.1 prompts+guard · - [ ] T2.2 vision+decision · - [ ] T2.3 chat-stream
 - [ ] T3.1 sessions-api · - [ ] T3.2 analyze-api · - [ ] T3.3 chat-api
 - [ ] T4.1 form-fields · - [ ] T4.2 image-upload · - [ ] T4.3 submit-flow · - [ ] T4.4 chat-shell · - [ ] T4.5 decision-restore
