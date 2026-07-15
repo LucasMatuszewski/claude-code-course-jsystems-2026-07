@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/canonical-cwd.mjs dev",
-    "build": "node scripts/canonical-cwd.mjs build",
-    "start": "node scripts/canonical-cwd.mjs start",
+    "dev": "node scripts/canonical-cwd.mjs next dev",
+    "build": "node scripts/canonical-cwd.mjs next build",
+    "start": "node scripts/canonical-cwd.mjs next start",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "node scripts/canonical-cwd.mjs playwright test"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.30",
