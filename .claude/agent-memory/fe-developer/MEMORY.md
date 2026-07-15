@@ -1,0 +1,5 @@
+- [next/font/google + Vitest](next_font_google_vitest.md) — can't import/render layout.tsx with next/font in tests; use string-level source reads
+- [ai-elements lint/type fixes](ai_elements_lint_type_fixes.md) — known minimal fixes needed after `npx ai-elements@latest` against Next 16 + ai@7
+- [VM memory constraints](vm_memory_constraints.md) — this shared VM is often near-OOM; `next dev` can crash for reasons unrelated to app code
+- [Bash `rm` denied](bash_rm_denied.md) — use `git clean -f <path>` instead of `rm` to delete untracked files
+- [Vitest+RTL no auto-cleanup](vitest_rtl_no_auto_cleanup.md) — app/vitest lacks globals:true; add `afterEach(cleanup)` yourself per test file
