@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope, Geist_Mono } from "next/font/google";
+import { AppHeader } from "@/components/layout/app-header";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Play brand typeface (docs/design-guidelines.md §3), loaded from Google
+// Fonts rather than hotlinking Play's CDN, in the three weights it uses.
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -13,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Asystent decyzji serwisowych",
+  title: "Zwroty i reklamacje — wstępna decyzja online",
   description: "Multimodalny asystent AI do obsługi zgłoszeń serwisowych",
 };
 
@@ -25,9 +30,12 @@ export default function RootLayout({
   return (
     <html
       lang="pl"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AppHeader />
+        <main className="flex flex-1 flex-col">{children}</main>
+      </body>
     </html>
   );
 }
