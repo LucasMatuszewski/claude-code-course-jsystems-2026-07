@@ -31,6 +31,16 @@ npm run build     # succeeds (for tasks touching app code)
 ```
 Commit format: `Area: short summary` (`Backend:`, `Frontend:`, `Tests:`, `Chore:`, `Docs:`). Small, focused commits — one logical change each.
 
+### Manual QA validation (mandatory final step — per AGENTS.md "Manual QA")
+Automated tests (especially E2E) can produce false passes. After the automated suite is green and **before committing/merging**, every task that affects the running app must be validated by hand using **Playwright MCP or the Playwright CLI**:
+1. Start the app (`npm run dev`), open it in a real browser session.
+2. Screenshot every screen the task touched.
+3. Drive the real flow manually for the changed scope: fill the form, upload a fixture image, submit, follow navigation to the chat, send a message, reload for restore — whatever the task changed.
+4. Check behavior (navigation, data, no console errors, Polish text) **and** visual conformance: compare screenshots against `assets/homepage.png` and `docs/design-guidelines.md` tokens (colors, Manrope typography, spacing, button styles, logo).
+5. Include the validated steps + screenshots in the task completion report. Anything wrong → fix before commit.
+
+Tasks with no runnable UI surface yet (pure lib code before any page exists) instead confirm `npm run dev` still starts cleanly and note that manual QA was not applicable.
+
 ### Context7 (mandatory for library APIs)
 Do NOT rely on training data for AI SDK, AI Elements, Drizzle, Next.js, shadcn APIs — they changed across majors. Fetch current docs first using the handles given in the task packet (ADR-000 §2 table).
 
@@ -304,6 +314,7 @@ Each card lists the **context packet** — the only project information given to
 1. **One wave at a time.** Launch all tasks of a wave as parallel subagents (worktree isolation). A wave's tasks never share files (matrix §4).
 2. **Merge serialization.** Agents merge themselves, but only when the orchestrator grants the merge slot (initial prompt for solo tasks; SendMessage for parallel waves, in dependency-safe order). After each merge the next agent merges the updated base into its branch and re-verifies before merging.
 3. **E2E cadence.** After T5.1 exists: following every merge, orchestrator triggers qa-engineer to run the full E2E suite; a red suite blocks the next wave until fixed via micro-task.
+3a. **Manual QA gate after every major step.** In addition to each agent's own in-task manual QA (§1), the orchestrator triggers a manual Playwright-driven validation pass **after every merged wave** (from the first wave with a runnable UI onward): open the app, screenshot each screen, execute the full user flow by hand (form → upload → submit → chat → reload/restore), and compare the screenshots against `assets/homepage.png` + design-guidelines tokens for Play-brand conformance. Findings become micro-tasks before the next wave starts. Automated E2E passing does NOT waive this gate.
 4. **Context discipline.** Each agent receives ONLY: Ground Rules (§1), its task card, the referenced spec excerpts, and the signatures of already-merged interfaces it consumes. Never the whole PRD/ADR set.
 5. **Blocked agent rule.** Any agent needing an out-of-scope change (dependency, shared config, contract change) stops and reports; the orchestrator schedules a solo micro-task.
 6. **Progress tracking.** Orchestrator ticks the checklist below and keeps this file updated (committed as `Docs:` changes).
