@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node scripts/canonical-cwd.mjs dev",
+    "build": "node scripts/canonical-cwd.mjs build",
+    "start": "node scripts/canonical-cwd.mjs start",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
