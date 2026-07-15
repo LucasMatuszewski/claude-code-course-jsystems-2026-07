@@ -6,3 +6,13 @@ You may provide your opinions on topics but always make it clear that this is yo
 If you work in a Git repo, keep changes small and reviewable. Summarize the changed files and verification results first; commit only after the user or reviewer confirms the scope is ready.
 
 Before committing and finishing the task you should always check if your changes lint (no errors) & work correctly (e.g. tests pass).
+
+
+## Course Delivery Environment (Windows Server 2022 VMs)
+
+Participants work on prepared VMs with preinstalled tools:
+- **Agents:** Claude Desktop + Claude Code CLI, Codex (desktop + CLI), OpenCode (desktop + CLI), Antigravity
+- **Editors:** `micro` (default `$EDITOR` in git bash, PowerShell and git), Fresh (terminal), Lite XL (default GUI editor for code files). IntelliJ is installed (Java file association) but **slow on VMs — avoid for live work**
+- **Runtimes:** Node.js, Bun, Python, .NET runtime (no SDK — not used in this course)
+- **LLM access for built apps:** `OPENROUTER_API_KEY` preset in Windows env vars (multimodal models available via OpenRouter)
+- Participants clone this repository at course start; the app is built on a **separate branch** per participant/group — `main` stays course-materials-only.
