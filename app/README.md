@@ -1,60 +1,52 @@
-# App
+# App — Hardware Service Decision Copilot
 
-This folder will contain the application built during the course.
+Next.js (App Router) application for the course project, scaffolded with `create-next-app`.
+See `../docs/PRD.md` and `../docs/ADR/` for product and architecture decisions.
 
-## How to start
+## Getting Started
 
-The app is scaffolded live during **Day 1–2** through a structured process:
+Copy the repo-root `.env.example` to a repo-root `.env` and set `OPENROUTER_API_KEY`, then:
 
-1. **Research** — use agents to research and validate the project idea
-2. **PRD** — generate a Product Requirements Document (`../docs/PRD-Product-Requirements-Document.md`)
-3. **ADR** — generate Architecture Decision Records (`../docs/ADR/`) to choose the tech stack
-4. **Scaffold** — use the chosen boilerplate (`create-next-app`, AI SDK starter, Mastra, etc.)
-5. **Implement** — build features with agents using TDD
+```bash
+npm run dev
+```
 
-## Checklist
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Use this checklist during scaffolding. Some items are provided by the boilerplate (e.g. `create-next-app` ships `tsconfig.json`, ESLint config). Others you add explicitly.
+## Scripts
 
-### Project setup
-- [ ] Choose framework (Next.js, Express+Vite, Mastra, other) — record in ADR
-- [ ] Initialize project (e.g. `npx create-next-app@latest` or equivalent)
-- [ ] TypeScript config (`tsconfig.json`)
-- [ ] Package manager chosen (npm / pnpm / bun)
+- `npm run dev` — start the dev server
+- `npm run build` — production build
+- `npm start` — start the production server
+- `npm run lint` — ESLint
+- `npm test` — Vitest unit/integration tests
+- `npm run test:e2e` — Playwright E2E tests
 
-### Code quality
-- [ ] ESLint config (`eslint.config.js`)
-- [ ] Prettier config (`.prettierrc`, `.prettierignore`)
-- [ ] `.editorconfig` (optional but recommended)
+## Stack decisions (see ADR-000 for details)
 
-### Testing
-- [ ] Unit/integration test runner (Vitest / Jest)
-- [ ] E2E test runner (Playwright)
-- [ ] Test setup file (e.g. `test-setup.ts` with Testing Library matchers)
+- Next.js App Router + TypeScript strict
+- Tailwind CSS + shadcn/ui + AI Elements for the chat UI
+- Vercel AI SDK + `@openrouter/ai-sdk-provider` for all LLM calls
+- Drizzle ORM + better-sqlite3 for persistence (`app/data/`, gitignored)
+- sharp for image compression
+- Vitest (unit/integration) + Playwright (E2E)
 
-### Environment
-- [ ] `.env.example` with required env vars (API keys, ports)
-- [ ] `.env` created locally (gitignored)
-- [ ] `.gitignore` (node_modules, .env, build output, etc.)
+## Project setup checklist (scaffolding history)
 
-### AI integration
-- [ ] Vercel AI SDK (`ai` package) or equivalent
-- [ ] API route / endpoint for chat
-- [ ] Model configuration (provider, model name, API key from env)
+- [x] Framework chosen: Next.js (App Router) — ADR-000 D1/D2
+- [x] Initialized via `create-next-app`
+- [x] TypeScript config (`tsconfig.json`, `strict: true`)
+- [x] Package manager: npm
+- [x] ESLint config (`eslint.config.mjs`)
+- [x] Vitest (unit/integration) + Playwright (E2E) configured
+- [x] `.env.example` at repo root; app loads repo-root `.env`
+- [x] `.gitignore` includes `app/data/`
+- [x] Vercel AI SDK + OpenRouter provider installed
+- [x] Design tokens / logo / favicon — see `../assets/`
+- [x] Design system doc — `../docs/design-guidelines.md`
+- [x] PRD / ADRs — `../docs/PRD.md`, `../docs/ADR/`
 
-### Design
-- [ ] Design tokens (`../assets/design-tokens.json`)
-- [ ] Tailwind CSS or equivalent
-- [ ] Logo and favicon (`../assets/`)
-- [ ] Design system doc (`../docs/design-guidelines.md`)
+## Learn More
 
-### Documentation
-- [ ] PRD (`../docs/PRD-Product-Requirements-Document.md`)
-- [ ] ADRs (`../docs/ADR/`)
-- [ ] AGENTS.md in `app/` with stack-specific rules
-
-## Notes
-
-- Don't create config files manually if the boilerplate provides them — it leads to conflicts.
-- Let the agent research and recommend the right boilerplate based on the ADR decisions.
-- Keep this folder organized: separate routes, components, domain logic, and tests.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Next.js GitHub repository](https://github.com/vercel/next.js)
