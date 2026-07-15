@@ -129,6 +129,17 @@ All paths relative to `app/` unless prefixed `docs/`. Disjointness within a wave
 
 Shared-file rule: `package.json`, lockfile, `next.config.*`, `tsconfig.json`, `vitest.config.*` are **frozen after T0.1**. Only an orchestrator-scheduled solo task may change them.
 
+### Model assignment (cost control)
+
+Subagents run on the smallest model adequate for the task. Default: **Sonnet**. **Opus** only for tasks combining volatile library APIs with subtle correctness requirements:
+
+| Model | Tasks | Rationale |
+|---|---|---|
+| Opus | T2.2, T2.3, T4.4, T5.3 | AI SDK structured output/mocks + guard integration (T2.2); streaming + tool-mediated revision, most intricate backend logic (T2.3); AI Elements + `useChat` transport, highest API-drift risk (T4.4); judgment-heavy final audit and fix triage (T5.3) |
+| Sonnet | all remaining tasks | Precisely specified scopes (schemas, repos, routes, components, E2E scenarios) with exact scenario lists — well within Sonnet's range |
+
+Wave 8 fix micro-tasks default to Sonnet; escalate to Opus when a defect is subtle or crosses AI-SDK internals.
+
 ---
 
 ## 5. Task Cards
