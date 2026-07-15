@@ -92,8 +92,9 @@
       "Bash(docker rmi:*)",
       "Bash(docker-compose down:*)",
 
-      "Read(.env.*)",
-      "Read(**/.env)",
+      "Read(.env)", 
+	  "Read(**/.env.local)", 
+	  "Read(**/.env.prod)",
       "Read(**/logs/**)",
       "Read(**/secrets/**)",
       "Read(course-materials/agent-configs/**)"
