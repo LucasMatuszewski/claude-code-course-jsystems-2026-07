@@ -3,7 +3,7 @@ Be concise! Provide short answers unless I ask for more details. I prefer short 
 
 You may provide your opinions on topics but always make it clear that this is your opinion, not a fact. When you don't know, just say that you don't know.
 
-If you work in a Git repo, keep changes small and reviewable. Summarize the changed files and verification results first; commit only after the user or reviewer confirms the scope is ready.
+If you work in a Git repo, you should commit after every piece of work is complete. Keep commits granular, small and reviewable. Commit messages should be clear and concise.
 
 Before committing and finishing the task you should always check if your changes lint (no errors) & work correctly (e.g. tests pass).
 

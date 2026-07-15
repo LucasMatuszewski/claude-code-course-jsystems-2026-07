@@ -67,11 +67,17 @@
       "Bash(docker images:*)",
 
       // ── System info (safe read-only)
+      // NOTE: `env` and `printenv` are intentionally NOT here — both dump ALL env
+      // vars (secrets included) when called with no args, bypassing the .env Read deny.
+      // They are listed in `deny` below.
       "Bash(which:*)",
-      "Bash(env:*)",
-      "Bash(printenv:*)",
       "Bash(date)",
       "Bash(whoami)",
+
+      // ── Set env vars for the current shell (export VAR=value).
+      // Read-access to env vars is denied above; this only permits SETTING.
+      // Caveat: `export -p` still dumps vars — see notes in deny block.
+      "Bash(export:*)",
 
       // Claude's tools:
       // ── File edit (approve all writes — remove if you want diff review per file)
@@ -102,9 +108,18 @@
       "Bash(docker rmi:*)",
       "Bash(docker-compose down:*)",
 
-      // ── Protect secrets
+      // ── Protect secrets — also block commands that dump env vars,
+      // otherwise the Read(.env) deny is trivially bypassed via `env` / `printenv`.
+      // For airtight protection, add a PreToolUse hook to also catch `export -p`,
+      // `set`, and `declare -p` (which Claude Code patterns cannot distinguish from
+      // safe forms like `export VAR=value`).
+      "Bash(env:*)",
+      "Bash(printenv:*)",
       "Read(.env)",
-      "Read(.env.*)",
+      "Read(.env.local)",
+      "Read(.env.dev)",
+      "Read(.env.prod)",
+      "Read(.env.test)",
       "Read(**/.env)",
       "Read(**/secrets/**)"
     ]

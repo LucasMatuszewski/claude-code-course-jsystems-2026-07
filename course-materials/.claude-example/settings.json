@@ -60,10 +60,9 @@
       "Bash(docker images:*)",
 
       "Bash(which:*)",
-      "Bash(env:*)",
-      "Bash(printenv:*)",
       "Bash(date)",
       "Bash(whoami)",
+      "Bash(export:*)",
 
       "Edit",
       "Write",
@@ -74,6 +73,8 @@
       "WebFetch(domain:www.jetbrains.com)"
     ],
     "deny": [
+      "Bash(env:*)",
+      "Bash(printenv:*)",
       "Bash(git push:*)",
       "Bash(git push --force:*)",
       "Bash(git reset --hard:*)",
@@ -90,7 +91,10 @@
       "Bash(docker-compose down:*)",
 
       "Read(.env)",
-      "Read(.env.*)",
+      "Read(.env.local)",
+      "Read(.env.dev)",
+      "Read(.env.prod)",
+      "Read(.env.test)",
       "Read(**/.env)",
       "Read(**/secrets/**)"
     ]

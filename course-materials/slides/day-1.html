@@ -756,11 +756,18 @@ hr.sep{border:none;border-top:1px solid var(--muted);opacity:.2;margin:1rem 0}
         <div class="code-block">cd C:\Users\Participant\DEV
 git clone https://github.com/TWOJ-LOGIN/claude-code-course-jsystems-2026-07.git
 cd claude-code-course-jsystems-2026-07</div>
+        <p style="margin-top:.6rem;font-size:.95rem"><strong class="accent">Tożsamość i autoryzacja GitHub</strong> <span style="font-size:.85rem;opacity:.7">— jednorazowo, na starcie</span></p>
+        <div class="code-block" style="margin-top:.2rem">git config --global user.name "Imię Nazwisko"
+git config --global user.email "twoj@email.com"
+git config --global init.defaultBranch main</div>
+        <div class="code-block" style="margin-top:.4rem">gh auth login
+# &gt; GitHub.com | HTTPS | Authenticate Git: Yes
+# &gt; Paste an authentication token -&gt; github.com/settings/tokens
+#   scopes: repo, read:org, workflow
+gh auth setup-git      # tylko jeśli wybrałeś "No" wyżej</div>
+        <div class="note-box" style="margin-top:.4rem">Alternatywa ręczna: klucz SSH (<span class="code-inline">ssh-keygen</span> + dodanie w GitHub Settings), wtedy remote jako <span class="code-inline">git@github.com:...</span></div>
         <div class="code-block" style="margin-top:.4rem">git remote add upstream https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07.git
 git checkout -b moja-praca</div>
-        <div class="code-block" style="margin-top:.4rem">claude</div>
-        <p style="margin-top:.6rem;font-size:.9rem">Repo trenera: <a href="https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07">github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07</a><br>Dostępne od początku i bez limitu czasu - wracaj do niego także po kursie. Pełna instrukcja: README.</p>
-        <div class="note-box" style="margin-top:.6rem"><strong>Claude Code:</strong> zaloguj się własnym kontem/subskrypcją Claude albo użyj <span class="code-inline">ANTHROPIC_API_KEY</span>. Preset <span class="code-inline">OPENROUTER_API_KEY</span> służy wyłącznie aplikacji, którą budujemy.</div>
       </div>
     </div>
   </div>

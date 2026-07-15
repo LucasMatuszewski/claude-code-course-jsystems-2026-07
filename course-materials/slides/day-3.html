@@ -567,6 +567,48 @@ claude</div>
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
 </section>
 
+<!-- ===== SLAJD 12a: WARIANT DANYCH - MODUŁ ANALITYCZNY SQL ===== -->
+<section class="slide">
+  <div class="slide-body">
+    <div class="kicker">3.1 - wariant dla pracujących z danymi</div>
+    <h2><span class="badge green">SQL</span> Te same 3 role, inna funkcja: moduł analityczny</h2>
+    <p>Pracujesz na co dzień z SQL, Pandas, Sparkiem? Zamiast autoryzacji zbuduj równolegle <strong>Returns Analytics</strong>: baza + text-to-SQL z guardrails + analityka w czacie. Kod TS pisze agent - Ty weryfikujesz schemat, SQL i wyniki.</p>
+    <div class="two-col">
+      <div>
+        <h3>Podział na worktrees</h3>
+        <ul class="feature-list">
+          <li><strong>BE:</strong> import gotowych danych (<span class="code-inline">exercise-data/</span>) + tool <span class="code-inline">query_database</span> - read-only, tylko SELECT, LIMIT, audit log</li>
+          <li><strong>FE:</strong> tabele wyników i podgląd SQL w czacie ("pokaż zapytanie")</li>
+          <li><strong>QA:</strong> E2E: pytanie analityczne po polsku + test, że <span class="code-inline">DROP TABLE</span> jest ODRZUCONE</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Start</h3>
+        <div class="code-block"># PRD + ADR prompty gotowe w:
+course-materials/Prompt examples/
+PRD-analytics-SQL-module-returns-app.md</div>
+        <div class="code-block"># Dane, loadery (SQLite/Node/H2)
+# i karty produktow do RAG:
+course-materials/exercise-data/</div>
+        <div class="code-block"># Pipeline:
+/write-a-prd -> docs/PRD-analytics.md
+/create-adr  -> docs/ADR/
+Task Plan Matrix -> 3 worktrees</div>
+        <div class="card ok">
+          <div class="card-title">Dlaczego to działa</div>
+          <p>Agent mostkuje lukę językową (TS), a Ty wnosisz ekspertyzę domenową (SQL, dane) do weryfikacji - ten sam podział zastosujesz w pracy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="trener-notes">
+      <div class="tn-section"><h4>Co mówić</h4><ul><li>Grupa to głównie SQL/dane (Postgres, Oracle, MSSQL, Pandas, Spark, ES) - to ćwiczenie jest dla nich, nie dla web-devów</li><li>Guardrails w KODZIE, nie w prompcie: read-only connection, walidacja SELECT, limit, timeout</li><li>Gotowy dataset (exercise-data/) ma 4 udokumentowane ukryte wzorce (hidden-patterns.md - SPOILER) - na końcu sprawdzamy, czy agent je znalazł</li></ul></div>
+      <div class="tn-section"><h4>Co robić</h4><ul><li>Pokaż plik promptu i uruchom /write-a-prd na żywo - pytania skillu omów z grupą</li><li>Zaproponuj wybór: wariant auth+chat albo analytics - albo różne osoby różne warianty</li></ul></div>
+      <div class="tn-section"><h4>Co sprawdzić</h4><ul><li>Czy uczestnicy rozumieją, że NIE muszą pisać TS - weryfikują SQL i dane</li><li>Czy nikt nie planuje podłączać agenta do prawdziwej bazy firmowej</li></ul></div>
+    </div>
+  </div>
+  <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
+</section>
+
 <!-- ===== SLAJD 13: MERGE I KONFLIKTY ===== -->
 <section class="slide">
   <div class="slide-body">
@@ -1567,6 +1609,29 @@ pipeline {
   <div class="trener-notes">
     <div class="tn-section"><h4>Co mówić</h4><ul><li>Modele lokalne = prywatność i brak kosztów krańcowych, ale hardware ma znaczenie</li><li>Ollama = start, vLLM = obciążenie/współbieżność, LocalAI = zgodność API z OpenAI</li><li>Air-gapped: modele, zależności i dokumentację dostarcz wcześniej - to nie zero-setup</li></ul></div>
     <div class="tn-section"><h4>Krajobraz zmienia się szybko</h4><ul><li>Weryfikuj dostępność narzędzi przed każdym terminem kursu - to nie są fakty do zapamiętania, tylko sygnał, że teren się zmienia</li><li>Google wycofał Gemini CLI dla Pro/Ultra/free na rzecz nowszego Antigravity CLI (oparte na Go, część platformy Antigravity)</li><li>GLM-5.2 (Zhipu/Z.ai): MIT, 1M kontekstu, tuning pod agentic coding; Z.ai wydał ZCode - darmowe desktopowe środowisko dla GLM-5.2 celujące w Cursor/Claude Code/Copilot</li><li>JetBrains AI Assistant: agent picker wtyczkowy (Copilot, Claude, Codex); „AI for Teams” łączy narzędzia przez MCP i agentów przez ACP</li></ul></div>
+  </div>
+  <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
+</section>
+
+<!-- ===== SLAJD 42a: ĆWICZENIE DOMOWE - AGENCI W PRACY Z DANYMI ===== -->
+<section class="slide">
+  <div class="slide-body">
+    <div class="kicker">3.4 - ćwiczenie do domu</div>
+    <h2>Agenci w Twoim stacku: SQL, Pandas, Spark, ES, legacy</h2>
+    <p>Gotowe ćwiczenie z promptami copy-paste - wybierz JEDEN wariant najbliższy Twojej codziennej pracy. Bez web-devu. Plik: <span class="code-inline">course-materials/Prompt examples/Data-work-agent-exercises-SQL-Pandas-Spark.md</span></p>
+    <div class="cards">
+      <div class="card"><div class="card-title">A - SQL (PG/Oracle/MSSQL)</div><p>Eksploracja schematu + ERD, analiza z weryfikacją drugim zapytaniem, EXPLAIN i indeksy, migracja dialektów (PL/SQL i T-SQL -> Postgres)</p></div>
+      <div class="card"><div class="card-title">B - Pandas / Python</div><p>Audyt jakości danych, TDD na funkcjach transformacji (pytest przed kodem), raport z wykrywaniem ukrytych wzorców</p></div>
+      <div class="card"><div class="card-title">C - Spark / Scala</div><p>Pandas -> PySpark z uzasadnieniem wyborów, dokumentacja i refactoring legacy joba Spark</p></div>
+      <div class="card"><div class="card-title">D - Elasticsearch</div><p>Mappings + Query DSL z języka naturalnego (agregacje), walidacja bez klastra lub bulk-load na testowym</p></div>
+      <div class="card"><div class="card-title">E - Legacy (Delphi/C#)</div><p>Dokumentacja + testy charakteryzacyjne (golden master) + plan migracji własnego modułu</p></div>
+    </div>
+    <div class="note-box"><strong>Zasada bezpieczeństwa:</strong> nigdy nie podłączaj agenta do produkcyjnej bazy - dane syntetyczne lub kopia, użytkownik read-only, reguły deny w /permissions.</div>
+    <div class="trener-notes">
+      <div class="tn-section"><h4>Co mówić</h4><ul><li>To odpowiedź na pytanie "a co to daje MNIE, skoro nie robię web-devu" - te same koncepcje na ich narzędziach</li><li>Każdy wariant mapuje się na moduły kursu: AGENTS.md = 1.3, weryfikacja/TDD = 2.4 i 3.2, headless raport w cronie = 3.3</li><li>Setup wspólny: gotowy dataset w course-materials/exercise-data/ (loadery: Python, node:sqlite, H2 dla Javy; karty produktów kb/ do RAG z sqlite-vec) - na końcu weryfikacja z hidden-patterns.md</li></ul></div>
+      <div class="tn-section"><h4>Co robić</h4><ul><li>Otwórz plik i pokaż strukturę: setup wspólny + warianty A-E</li><li>Jeśli został czas po demo - niech każdy uruchomi setup i pierwszy prompt swojego wariantu na sali</li></ul></div>
+      <div class="tn-section"><h4>Co sprawdzić</h4><ul><li>Czy każdy uczestnik wybrał wariant pasujący do jego pracy</li><li>Czy wybrzmiał zakaz pracy na produkcyjnych bazach</li></ul></div>
+    </div>
   </div>
   <div class="slide-footer">JSystems | Claude Code - od zera do zespołu agentów AI</div>
 </section>
