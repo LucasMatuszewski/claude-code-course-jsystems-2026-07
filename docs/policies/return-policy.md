@@ -1,3 +1,8 @@
+---
+window_days: 14
+window_rule_id: R-1
+---
+
 # Return Policy (Zwroty) — Example Company Document
 
 > Example policy authored for the Hardware Service Decision Copilot MVP.

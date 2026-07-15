@@ -1,3 +1,8 @@
+---
+window_days: 730
+window_rule_id: C-1
+---
+
 # Complaint Policy (Reklamacje) — Example Company Document
 
 > Example policy authored for the Hardware Service Decision Copilot MVP.
