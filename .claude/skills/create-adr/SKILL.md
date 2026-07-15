@@ -33,8 +33,8 @@ Walk through each decision branch. Resolve dependencies between decisions one by
 For every library, framework, or SDK that will be used:
 
 1. Ask the user if they have the Context7 handle (e.g., `/vercel/ai`, `/spring-projects/spring-boot`).
-2. If not provided, use `mcp__context7__resolve-library-id` to find the correct handle.
-3. Use `mcp__context7__query-docs` to fetch relevant documentation sections needed to make informed decisions.
+2. If not provided, use Contex7 CLI or `mcp__context7__resolve-library-id` to find the correct handle.
+3. Use Contex7 CLI or `mcp__context7__query-docs` to fetch relevant documentation sections needed to make informed decisions.
 4. Store all resolved handles in the ADR under the **Context7 References** section so future agents can fetch docs directly without searching again.
 
 Do not make technology decisions based on training knowledge alone — always verify with current docs via Context7 when available.
