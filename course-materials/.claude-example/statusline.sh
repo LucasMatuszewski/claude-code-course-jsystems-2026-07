@@ -10,18 +10,21 @@ input=$(cat)
 
 # ---------- Tokyo Night palette (truecolor) ----------
 # 24-bit hex so the status line matches a Tokyo Night terminal theme exactly.
-FG='\033[38;2;169;177;214m'      # #a9b1d6 foreground
-DIM='\033[38;2;120;124;153m'     # #787c99 comment/dim (separators, labels)
-ACCENT='\033[38;2;187;154;247m'  # #bb9af7 magenta (model name)
-BLUE='\033[38;2;122;162;247m'    # #7aa2f7 blue (path, context bar fill)
-CYAN='\033[38;2;68;157;171m'     # #449dab teal (git branch)
-GOLD='\033[38;2;224;175;104m'    # #e0af68 yellow (cost)
-GREEN='\033[38;2;158;206;106m'   # #9ece6a green   — usage OK (<50%)
-ORANGE='\033[38;2;255;158;100m'  # #ff9e64 orange  — usage warning (50-79%)
-RED='\033[38;2;247;118;142m'     # #f7768e red     — usage high (>=80%)
-BAR_FILLED='\033[38;2;122;162;247m' # #7aa2f7 blue  — filled context
-BAR_EMPTY='\033[38;2;50;52;74m'     # #32344a       — empty context
-RESET='\033[0m'
+# NOTE: real ESC bytes via $'...' (ANSI-C quoting), not literal '\033' text.
+# Windows cwd values contain backslashes (e.g. \c, \n) that `echo -e`/`printf %b`
+# would otherwise reinterpret as control escapes and truncate output at.
+FG=$'\033[38;2;169;177;214m'      # #a9b1d6 foreground
+DIM=$'\033[38;2;120;124;153m'     # #787c99 comment/dim (separators, labels)
+ACCENT=$'\033[38;2;187;154;247m'  # #bb9af7 magenta (model name)
+BLUE=$'\033[38;2;122;162;247m'    # #7aa2f7 blue (path, context bar fill)
+CYAN=$'\033[38;2;68;157;171m'     # #449dab teal (git branch)
+GOLD=$'\033[38;2;224;175;104m'    # #e0af68 yellow (cost)
+GREEN=$'\033[38;2;158;206;106m'   # #9ece6a green   — usage OK (<50%)
+ORANGE=$'\033[38;2;255;158;100m'  # #ff9e64 orange  — usage warning (50-79%)
+RED=$'\033[38;2;247;118;142m'     # #f7768e red     — usage high (>=80%)
+BAR_FILLED=$'\033[38;2;122;162;247m' # #7aa2f7 blue  — filled context
+BAR_EMPTY=$'\033[38;2;50;52;74m'     # #32344a       — empty context
+RESET=$'\033[0m'
 
 # Themed separator used between segments
 SEP="${DIM} | ${RESET}"
@@ -72,8 +75,12 @@ fi
 
 dir_display="N/A"
 if [ "$current_dir" != "N/A" ]; then
-    dir_short=$(echo "$current_dir" | sed 's|.*/||')
-    parent_dir=$(echo "$current_dir" | sed 's|.*/\([^/]*/[^/]*\)|\1|' | grep -o '[^/]*$' 2>/dev/null || true)
+    # Normalize Windows backslash separators to "/" so path splitting works
+    # regardless of whether Claude Code reports the cwd with \ or /.
+    norm_dir="${current_dir//\\//}"
+    dir_short="${norm_dir##*/}"
+    rest="${norm_dir%/*}"
+    parent_dir="${rest##*/}"
     if [ -n "$parent_dir" ] && [ "$parent_dir" != "$dir_short" ]; then
         dir_display="$parent_dir/$dir_short"
     else
@@ -179,9 +186,9 @@ fi
 # Color by severity, and append a short "resets in" countdown.
 usage_color() {
     # $1 = integer percent -> echoes the color escape
-    if [ "$1" -ge 80 ]; then printf '%b' "$RED"
-    elif [ "$1" -ge 50 ]; then printf '%b' "$ORANGE"
-    else printf '%b' "$GREEN"; fi
+    if [ "$1" -ge 80 ]; then printf '%s' "$RED"
+    elif [ "$1" -ge 50 ]; then printf '%s' "$ORANGE"
+    else printf '%s' "$GREEN"; fi
 }
 
 reset_in() {
@@ -220,5 +227,6 @@ if [ -n "$usage_part" ]; then
 fi
 
 # ---------- OUTPUT ----------
-printf -v output "%s\n%s" "$line1" "$line2"
-echo -e "$output"
+# Plain printf %s: colors are already real ESC bytes (see $'...' above), so no
+# further backslash-escape interpretation is needed or safe here.
+printf '%s\n%s\n' "$line1" "$line2"

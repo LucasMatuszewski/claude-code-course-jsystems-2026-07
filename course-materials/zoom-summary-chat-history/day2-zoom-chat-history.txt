@@ -1,0 +1,261 @@
+2026-07-14 09:03:28 From JSystems Szkolenia To Everyone:
+	https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/tree/main/course-materials/.claude-example
+	
+2026-07-14 09:08:13 From JSystems Szkolenia To Everyone:
+	gh auth login
+	
+2026-07-14 09:08:54 From JSystems Szkolenia To Everyone:
+	https://github.com/settings/tokens
+	
+2026-07-14 09:19:49 From JSystems Szkolenia To Everyone:
+	GH CLI token:
+	
+	Read and Write access to actions variables, codespaces secrets, commit statuses, discussions, pull requests, secrets, and workflows
+	
+2026-07-14 09:20:25 From Piotr Majewski To Everyone:
+	[Use arrows to move, type to filter]
+	
+2026-07-14 09:20:29 From JSystems Szkolenia To Everyone:
+	Powinno być poprawnie:
+	
+	PS C:\Users\labuser> gh auth login
+	? Where do you use GitHub? GitHub.com
+	? What is your preferred protocol for Git operations on this host? HTTPS
+	? Authenticate Git with your GitHub credentials? Yes
+	? How would you like to authenticate GitHub CLI? Paste an authentication token
+	Tip: you can generate a Personal Access Token here https://github.com/settings/tokens
+	The minimum required scopes are 'repo', 'read:org', 'workflow'.
+	? Paste your authentication token: - gh config set -h github.com git_protocol https*********************************************
+	✓ Configured git protocol
+	✓ Logged in as LucasMatuszewski
+	
+2026-07-14 09:21:55 From JSystems Szkolenia To Everyone:
+	gh org list
+	
+2026-07-14 09:29:18 From JSystems Szkolenia To Everyone:
+	Handy - Dyktowanie komend - open source
+	https://handy.computer/
+	Mikołaj:👍
+	
+2026-07-14 09:36:56 From JSystems Szkolenia To Everyone:
+	There have been changes in the Git repository's upstream/remote that need to be pulled. In course-materials, the Claude example (claude-example) changed — specifically the Claude configuration file — and the bash status line script was also updated. Please: 
+	▎ 1. Pull these changes from upstream/remote. 
+	▎ 2. Then update the status line in my user-level Claude configuration files (the Claude settings for this user), replacing it with the fixed status line script so I have the corrected version that includes the fixes.
+	
+2026-07-14 09:39:17 From JSystems Szkolenia To Everyone:
+	ctrl + w
+	kasowanie słów (word)
+	
+2026-07-14 09:41:15 From JSystems Szkolenia To Everyone:
+	shift + tab
+	zmiana trybu pracy / permission
+	
+2026-07-14 10:15:06 From JSystems Szkolenia To Everyone:
+	https://devpowers.com/szkolenia/claude-code-jsystems/Prezentacja_Dzien1.html#20
+	
+2026-07-14 10:46:12 From JSystems Szkolenia To Everyone:
+	https://claude.ai/settings/usage
+	
+2026-07-14 10:46:46 From JSystems Szkolenia To Everyone:
+	Claude Code Web
+	https://claude.ai/code
+	
+2026-07-14 10:48:06 From JSystems Szkolenia To Everyone:
+	Koniec przerwy 11:05
+	
+2026-07-14 11:14:27 From JSystems Szkolenia To Everyone:
+	https://www.hetzner.com/cloud
+	
+2026-07-14 11:15:11 From JSystems Szkolenia To Everyone:
+	https://www.microsoft.com/windows-365
+	
+2026-07-14 11:16:06 From JSystems Szkolenia To Everyone:
+	https://www.nomachine.com/
+	
+2026-07-14 11:17:37 From Mikołaj To Everyone:
+	jak odwrotny tunel ssh czy coś 🤔
+	
+2026-07-14 11:17:38 From JSystems Szkolenia To Everyone:
+	https://tailscale.com/ 
+	
+	VPN do bezpiecznego używania VPS albo laptopa w sieci
+	Mikołaj:👍
+	
+2026-07-14 11:19:53 From JSystems Szkolenia To Everyone:
+	Otwarcie agents / laptopa / VPS na świat w bezpieczny sposób:
+	
+	https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/ 
+	
+	https://www.cloudflare.com/sase/products/access/
+	
+2026-07-14 11:21:01 From JSystems Szkolenia To Everyone:
+	Agenci Autonomiczni:
+	
+	https://openclaw.ai/ 
+	
+	https://hermes-agent.nousresearch.com/
+	
+2026-07-14 11:25:54 From JSystems Szkolenia To Everyone:
+	claude --continue
+	
+2026-07-14 11:26:08 From JSystems Szkolenia To Everyone:
+	komenda do wznowienia sesji:
+	/resume
+	
+2026-07-14 11:26:18 From JSystems Szkolenia To Everyone:
+	/rewind
+	
+2026-07-14 11:28:49 From JSystems Szkolenia To Everyone:
+	Komendy:
+	https://devpowers.com/szkolenia/claude-code-jsystems/Prezentacja_Dzien1.html#26
+	
+2026-07-14 11:29:44 From JSystems Szkolenia To Everyone:
+	https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/tree/main/.claude/commands/git
+	
+2026-07-14 11:38:38 From JSystems Szkolenia To Everyone:
+	/doctor I don't my custom commands in this session, check why and try to repair it: @.claude/commands/git\
+	
+2026-07-14 11:52:33 From JSystems Szkolenia To Everyone:
+	shift + tab
+	zmiana trybu pracy i uprawnień
+	
+2026-07-14 11:58:22 From JSystems Szkolenia To Everyone:
+	Lokalne modele:
+	https://ollama.com/
+	
+2026-07-14 12:05:55 From JSystems Szkolenia To Everyone:
+	tryby pracy:
+	https://devpowers.com/szkolenia/claude-code-jsystems/Prezentacja_Dzien1.html#30
+	
+2026-07-14 12:15:17 From JSystems Szkolenia To Everyone:
+	https://www.promptcowboy.ai/ 
+	
+	Dopracowywanie Promptów
+	
+2026-07-14 12:21:27 From JSystems Szkolenia To Everyone:
+	https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/main/course-materials/.claude-example/CLAUDE.md
+	
+2026-07-14 12:21:55 From Piotr Majewski To Everyone:
+	czy to jest to samo co w desktop instrukcje dla Claude?
+	{9AACFAA8-365F-4E31-A8DD-46A8F0F0736D}.png
+	
+2026-07-14 12:43:46 From JSystems Szkolenia To Everyone:
+	
+	All user-facing text in **Polish** on chat. Repo docummentation always in English.
+	
+2026-07-14 12:53:52 From JSystems Szkolenia To Everyone:
+	Import AGENTS.md
+	https://code.claude.com/docs/en/memory#agents-md
+	
+2026-07-14 13:19:13 From JSystems Szkolenia To Everyone:
+	https://www.assistant-ui.com/ 
+	https://elements.ai-sdk.dev/ 
+	
+	https://ai-sdk.dev/
+	
+2026-07-14 13:22:37 From JSystems Szkolenia To Everyone:
+	PRD prompt przykładowy
+	
+	https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/main/course-materials/Prompt%20examples/PRD-electronics-returns-complains-app.md
+	
+2026-07-14 13:23:31 From JSystems Szkolenia To Everyone:
+	https://www.copilotkit.ai/
+	
+2026-07-14 13:29:17 From JSystems Szkolenia To Everyone:
+	/write-a-prd 
+	You are a product manager and system analyst. Your task is to prepare a comprehensive PRD (Product Requirements Document) for MVP of a product called **"Hardware Service Decision Copilot"** – a system that supports customer support and hardware service employees in making complain and return decisions.
+	
+2026-07-14 13:42:48 From JSystems Szkolenia To Everyone:
+	SQLite dla node.js
+	
+2026-07-14 13:46:12 From JSystems Szkolenia To Everyone:
+	Tauri i Rust
+	
+2026-07-14 13:55:52 From JSystems Szkolenia To Everyone:
+	14:25 koniec przerwy
+	
+2026-07-14 14:07:34 From JSystems Szkolenia To Everyone:
+	https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions 
+	
+	Był błąd w nazwie modelu haiku w custom command git
+	poprawne ID modeli mają numer modelu na końcu.
+	
+	Czyli zamiast:
+	model: claude-4-5-haiku
+	
+	Powinno być:
+	model: claude-haiku-4-5
+	
+2026-07-14 14:40:17 From JSystems Szkolenia To Everyone:
+	❯ I would like you to always make a commit after the changes you make. If it is a commit in the code, then of course you should go through the entire path of validating the correctness of this code, whereas 
+	in the case of such documentation changes you can make this commit directly. Check the instructions you have right now, and see why you didn't make this commit now, because you finished creating this PRD 
+	document and you didn't finish the work by creating a commit.
+	
+2026-07-14 14:40:27 From JSystems Szkolenia To Everyone:
+	Do you see the instruction in your file CLAUDE.md that you were given here at the beginning of the session, so that you add commits and the entire project description. Do not download new files, do not read any new files, only check what is in the session history, whether you have such an instruction loaded and provided here, regarding, precisely in the CLAUDE.md file, concerning the entire project and the workflow that you have to follow here. Among other things, this is driven development. Check whether such an instruction was already in the session history, do not read any new files.
+	
+2026-07-14 14:49:00 From JSystems Szkolenia To Everyone:
+	https://context7.com/
+	
+2026-07-14 14:59:57 From JSystems Szkolenia To Everyone:
+	https://modelcontextprotocol.io/docs/getting-started/intro 
+	
+	MCP - tworzenie narzędzi dla agentów, connectors
+	
+2026-07-14 15:01:20 From JSystems Szkolenia To Everyone:
+	https://posthog.com/
+	
+2026-07-14 15:10:27 From JSystems Szkolenia To Everyone:
+	npx ctx7 setup
+	
+2026-07-14 15:15:49 From JSystems Szkolenia To Everyone:
+	1. Ask the user if they have the Context7 handle (e.g., `/vercel/ai`, `/spring-projects/spring-boot`). 
+	2. If not provided, use Contex7 CLI or `mcp__context7__resolve-library-id` to find the correct handle. 
+	3. Use Contex7 CLI or `mcp__context7__query-docs` to fetch relevant documentation sections needed to make informed decisions. 
+	4. Store all resolved handles in the ADR under the **Context7 References** section so future agents can fetch docs directly without searching again.
+	
+2026-07-14 15:18:35 From JSystems Szkolenia To Everyone:
+	tutaj: C:\Users\labuser\DEV\claude-code-course-jsystems-2026-07\.claude\skills\create-adr
+	
+2026-07-14 15:30:24 From JSystems Szkolenia To Everyone:
+	w projekcie settings.json poprawka:
+	"Read(.env.*)", 
+	"Read(**/.env.local)", 
+	"Read(**/.env.prod)",
+	
+	zamiast **/.env.*
+	
+2026-07-14 15:32:05 From JSystems Szkolenia To Everyone:
+	https://openrouter.ai/
+	
+2026-07-14 15:33:57 From JSystems Szkolenia To Everyone:
+	https://openrouter.ai/rankings
+	
+2026-07-14 15:43:57 From JSystems Szkolenia To Everyone:
+	
+	"Read(.env)", 
+	"Read(**/.env.local)", 
+	"Read(**/.env.prod)",
+	
+2026-07-14 15:46:57 From JSystems Szkolenia To Everyone:
+	W settings.json w ramach obiektu permissions:
+	
+	"defaultMode": "auto"
+	
+2026-07-14 15:49:21 From JSystems Szkolenia To Everyone:
+	https://www.skills.sh/ 
+	
+	Skill search and installer
+	
+2026-07-14 15:50:45 From JSystems Szkolenia To Everyone:
+	https://github.com/mattpocock/skills
+	
+2026-07-14 15:58:12 From JSystems Szkolenia To Everyone:
+	npx skills add https://github.com/martinholovsky/claude-skills-generator --skill 'SQLite Database Expert'
+	
+2026-07-14 15:58:18 From JSystems Szkolenia To Everyone:
+	https://www.skills.sh/martinholovsky/claude-skills-generator/sqlite-database-expert
+	
+2026-07-14 16:09:44 From JSystems Szkolenia To Everyone:
+	https://www.skills.sh/obra/superpowers/systematic-debugging
+	
