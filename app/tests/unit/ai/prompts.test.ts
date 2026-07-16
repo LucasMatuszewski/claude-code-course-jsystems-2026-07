@@ -84,4 +84,13 @@ describe("decisionSystemPrompt", () => {
     expect(prompt).toContain(baseForm.productName);
     expect(prompt).toContain(sampleAnalysis.internalNotes);
   });
+
+  it("distinguishes genuinely unrelated topics from the customer's own case-status/process questions (defect fix)", () => {
+    const prompt = decisionSystemPrompt("reklamacja", baseForm, sampleAnalysis, policyMarkdown);
+    // The prompt must explicitly allow answering status/process questions about
+    // the customer's OWN case, even without an exact timeline.
+    expect(prompt).toMatch(/status.*zgłoszenia|przebieg.*weryfikacji/i);
+    // ...and explicitly say that such questions are NOT off-topic.
+    expect(prompt).toMatch(/nie.*(jest\s+)?off-?topic|to nie jest.*off-?topic/i);
+  });
 });
