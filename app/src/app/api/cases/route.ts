@@ -29,6 +29,7 @@
  */
 
 import type Database from "better-sqlite3";
+import { randomUUID } from "node:crypto";
 import { z } from "zod";
 
 import { pl } from "@/lib/copy/pl";
@@ -100,42 +101,42 @@ function buildFieldErrors(error: z.ZodError): Record<string, string> {
   return fieldErrors;
 }
 
-function decisionLabel(status: DecisionStatus): string {
-  switch (status) {
-    case "approved":
-      return pl.chat.decisionLabels.zaakceptowane;
-    case "rejected":
-      return pl.chat.decisionLabels.odrzucone;
-    case "needs_human_review":
-      return pl.chat.decisionLabels.doWeryfikacji;
-  }
-}
-
 /**
- * Assembles the first assistant chat message (AC-20): greeting, case number,
- * decision label, justification, numbered next steps, and the mandatory
- * disclaimer — all from `pl.ts`. For escalations, appends the escalation
- * notice (AC-40).
+ * Assembles the first assistant chat message's parts (AC-20): a `text` part
+ * with the greeting + case number, followed by a `tool-submitDecision`
+ * output part shaped exactly like the streaming chat route's real tool call.
+ * This lets `MessageParts.tsx` render the decision as the same
+ * visually-distinguished `DecisionBlock` card regardless of whether it
+ * arrived synchronously (this, the first message) or via a later streamed
+ * tool call — `DecisionBlock` already renders the justification, next
+ * steps, the escalation notice (AC-40, for `needs_human_review`), and the
+ * mandatory disclaimer itself, so none of those are duplicated here.
  */
-function assembleDecisionMessage(
+function assembleDecisionMessageParts(
   caseNumber: string,
   status: DecisionStatus,
   justification: string,
   nextSteps: string[],
-): string {
-  const steps = nextSteps.map((step, index) => `${index + 1}. ${step}`).join("\n");
-  const blocks = [
-    `${pl.chat.greeting.salutation} ${pl.chat.greeting.intro}`,
-    `${pl.chat.caseSummary.caseNumberLabel}: ${caseNumber}`,
-    `${pl.chat.greeting.decisionHeading}: ${decisionLabel(status)}`,
-    `${pl.chat.greeting.justificationHeading}: ${justification}`,
-    `${pl.chat.greeting.nextStepsHeading}:\n${steps}`,
+): unknown[] {
+  const greeting = `${pl.chat.greeting.salutation} ${pl.chat.greeting.intro}`;
+  return [
+    {
+      type: "text",
+      text: `${greeting}\n\n${pl.chat.caseSummary.caseNumberLabel}: ${caseNumber}`,
+    },
+    {
+      type: "tool-submitDecision",
+      toolCallId: randomUUID(),
+      state: "output-available",
+      input: {},
+      output: {
+        status,
+        justification,
+        nextSteps,
+        isRevision: false,
+      },
+    },
   ];
-  if (status === "needs_human_review") {
-    blocks.push(pl.chat.escalationNotice);
-  }
-  blocks.push(pl.chat.disclaimer);
-  return blocks.join("\n\n");
 }
 
 /** Assembles the "please upload a better photo" first message (AC-14). */
@@ -153,9 +154,9 @@ function assembleReuploadMessage(customerFacingIssue: string | null): string {
  * a failure here must not block the customer's decision, so it is caught and
  * logged rather than propagated.
  */
-function persistAssistantMessage(db: Database.Database, caseId: string, text: string): void {
+function persistAssistantMessage(db: Database.Database, caseId: string, parts: unknown[]): void {
   try {
-    appendChatMessage(db, caseId, "assistant", [{ type: "text", text }]);
+    appendChatMessage(db, caseId, "assistant", parts);
   } catch (error) {
     console.error(`Failed to persist first assistant message for case ${caseId}:`, error);
   }
@@ -189,11 +190,9 @@ async function runAiPipeline(deps: CasesPostDeps, ctx: PipelineContext): Promise
 
   // AC-14: inconclusive first analysis -> ask for a better photo, no decision.
   if (!analysis.conclusive) {
-    persistAssistantMessage(
-      deps.db,
-      ctx.caseId,
-      assembleReuploadMessage(analysis.customerFacingIssue),
-    );
+    persistAssistantMessage(deps.db, ctx.caseId, [
+      { type: "text", text: assembleReuploadMessage(analysis.customerFacingIssue) },
+    ]);
     return json(
       {
         caseId: ctx.caseId,
@@ -233,7 +232,12 @@ async function runAiPipeline(deps: CasesPostDeps, ctx: PipelineContext): Promise
   persistAssistantMessage(
     deps.db,
     ctx.caseId,
-    assembleDecisionMessage(ctx.caseNumber, decision.status, decision.justification, decision.nextSteps),
+    assembleDecisionMessageParts(
+      ctx.caseNumber,
+      decision.status,
+      decision.justification,
+      decision.nextSteps,
+    ),
   );
 
   return json(

@@ -211,13 +211,30 @@ describe("POST /api/cases", () => {
     expect(detail!.decisions).toHaveLength(1);
     expect(detail!.decisions[0].status).toBe("approved");
 
-    // AC-20: first assistant chat message persisted.
+    // AC-20: first assistant chat message persisted, with the decision as a
+    // tool-submitDecision output part so it renders as the same
+    // visually-distinguished DecisionBlock card the streaming route produces.
     expect(detail!.messages).toHaveLength(1);
     expect(detail!.messages[0].role).toBe("assistant");
-    const firstPart = detail!.messages[0].parts[0] as { type: string; text: string };
-    expect(firstPart.type).toBe("text");
-    expect(firstPart.text).toContain(pl.chat.disclaimer);
-    expect(firstPart.text).toContain(body.caseNumber);
+    const parts = detail!.messages[0].parts as Array<{
+      type: string;
+      text?: string;
+      state?: string;
+      output?: unknown;
+    }>;
+    expect(parts).toHaveLength(2);
+    expect(parts[0].type).toBe("text");
+    expect(parts[0].text).toContain(body.caseNumber);
+    expect(parts[1]).toMatchObject({
+      type: "tool-submitDecision",
+      state: "output-available",
+      output: {
+        status: "approved",
+        justification: approvedDecision.justification,
+        nextSteps: approvedDecision.nextSteps,
+        isRevision: false,
+      },
+    });
 
     // Image was actually written to disk under the injected uploads dir.
     const absImage = path.join(uploadsBaseDir, body.caseId, "1.jpg");
@@ -305,6 +322,15 @@ describe("POST /api/cases", () => {
 
     const detail = getCaseWithHistory(db, body.caseId);
     expect(detail!.needsReview).toBe(true);
+
+    // The persisted tool-submitDecision output part carries status
+    // "needs_human_review", which DecisionBlock.tsx renders with its own
+    // (unconditional) escalation notice — no duplicate text part needed.
+    const parts = detail!.messages[0].parts as Array<{ type: string; output?: { status: string } }>;
+    expect(parts[1]).toMatchObject({
+      type: "tool-submitDecision",
+      output: { status: "needs_human_review" },
+    });
   });
 
   it("returns 502 { retryable: true } when the vision call fails, with case + image already persisted", async () => {
