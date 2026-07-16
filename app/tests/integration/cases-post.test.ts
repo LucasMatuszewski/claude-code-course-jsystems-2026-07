@@ -19,6 +19,7 @@ import { MockLanguageModelV4 } from "ai/test";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createCasesPostHandler } from "@/app/api/cases/route";
+import { MAX_DIMENSION } from "@/lib/images/compress";
 import { createDb } from "@/lib/db/client";
 import { getCaseWithHistory } from "@/lib/db/cases";
 import { pl } from "@/lib/copy/pl";
@@ -239,6 +240,46 @@ describe("POST /api/cases", () => {
     // Image was actually written to disk under the injected uploads dir.
     const absImage = path.join(uploadsBaseDir, body.caseId, "1.jpg");
     expect(fs.existsSync(absImage)).toBe(true);
+  });
+
+  it("sends the vision model a buffer compressed to the ADR-002 ceiling, not the raw oversized upload (TAC-08)", async () => {
+    const vision = jsonModel(conclusiveAnalysis);
+    const text = jsonModel(approvedDecision);
+    const handler = createCasesPostHandler(makeDeps(models(vision, text)));
+
+    // Well over MAX_DIMENSION (1600px) on both edges, well under the 10MB
+    // upload limit, so it passes validation but must be compressed before
+    // being sent to the vision model.
+    const oversizedBuffer = await sharp({
+      create: { width: 3000, height: 2000, channels: 3, background: { r: 50, g: 60, b: 70 } },
+    })
+      .png()
+      .toBuffer();
+    const oversizedImage = new File([new Uint8Array(oversizedBuffer)], "duze.png", {
+      type: "image/png",
+    });
+
+    const res = await handler(buildRequest({}, oversizedImage));
+    expect(res.status).toBe(200);
+
+    expect(vision.doGenerateCalls).toHaveLength(1);
+    const call = vision.doGenerateCalls[0];
+    const userMessage = call.prompt.find((m) => m.role === "user");
+    expect(userMessage).toBeDefined();
+    const content = userMessage!.content as Array<Record<string, unknown>>;
+    const fileParts = content.filter((p) => p.type === "file");
+    expect(fileParts).toHaveLength(1);
+    expect(fileParts[0].mediaType).toBe("image/jpeg");
+
+    const rawData = fileParts[0].data as
+      | Uint8Array
+      | { type: "data"; data: Uint8Array };
+    const sentBytes = rawData instanceof Uint8Array ? rawData : rawData.data;
+    const sentBuffer = Buffer.from(sentBytes);
+
+    const meta = await sharp(sentBuffer).metadata();
+    expect(meta.width).toBeLessThanOrEqual(MAX_DIMENSION);
+    expect(meta.height).toBeLessThanOrEqual(MAX_DIMENSION);
   });
 
   it("rejects a reklamacja without a description (400) with the exact Polish message and zero AI calls", async () => {
