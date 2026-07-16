@@ -38,12 +38,12 @@ import {
   ConversationContent,
   ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
-import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
+import { Message, MessageContent } from "@/components/ai-elements/message";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { pl } from "@/lib/copy/pl";
 import type { RequestType } from "@/lib/validation/case-form.schema";
-import { DecisionBlock, type DecisionOutput } from "./DecisionBlock";
+import { ChatMessageView, toUIMessages } from "./MessageParts";
 import { ReuploadPromptInput } from "./ReuploadPromptInput";
 import { createDefaultRunner, useCaseChat, type CreateRunner } from "./useCaseChat";
 
@@ -119,15 +119,6 @@ export function ChatShell({ caseId, createRunner }: ChatShellProps) {
   }
 
   return <ChatView caseId={caseId} createRunner={createRunner} hydration={state.data} />;
-}
-
-function toUIMessages(
-  messages: CaseHydration["messages"],
-): UIMessage[] {
-  return messages.map(
-    (message) =>
-      ({ id: message.id, role: message.role, parts: message.parts } as unknown as UIMessage),
-  );
 }
 
 /** True once a `submitDecision` decision has been issued anywhere in the chat. */
@@ -264,38 +255,3 @@ function messageHasVisibleContent(message: UIMessage): boolean {
   });
 }
 
-function ChatMessageView({ message }: { message: UIMessage }) {
-  return (
-    <Message from={message.role}>
-      <MessageContent>
-        {message.parts.map((part, index) => renderPart(part, `${message.id}-${index}`))}
-      </MessageContent>
-    </Message>
-  );
-}
-
-function renderPart(part: UIMessage["parts"][number], key: string) {
-  if (part.type === "text") {
-    return <MessageResponse key={key}>{part.text}</MessageResponse>;
-  }
-
-  if (part.type === "file" && part.mediaType?.startsWith("image/") && part.url) {
-    return (
-      // The re-uploaded image is served from our own image route or a data URL;
-      // next/image adds no value for a one-off in-chat thumbnail.
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        alt={part.filename ?? ""}
-        className="max-h-48 w-auto rounded-lg border"
-        key={key}
-        src={part.url}
-      />
-    );
-  }
-
-  if (isToolUIPart(part) && part.type === "tool-submitDecision" && part.state === "output-available") {
-    return <DecisionBlock key={key} output={part.output as DecisionOutput} />;
-  }
-
-  return null;
-}
