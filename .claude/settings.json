@@ -107,6 +107,9 @@
     ]
   },
   "plansDirectory": "./docs/plans",
+  "worktree": {
+    "baseRef": "head"
+  },
   "hooks": {
     "PreToolUse": [
       {
