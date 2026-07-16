@@ -1,6 +1,6 @@
 # Implementation Plan — Hardware Service Decision Copilot PoC
 
-**Date:** 2026-07-15 · **Status:** Approved plan, execution not started
+**Date:** 2026-07-15 · **Status:** In execution — Waves 0-2 merged (T0.1, T1.1-1.7, T2.1, T3.1, T4.1, T4.2); Wave 3 next. Baseline green: 212/212 tests, 0 lint errors, build OK.
 **Sources:** [PRD](PRD.md) · [ADR-000](ADR/000-main-architecture.md) · [ADR-001](ADR/001-ai-integration.md) · [ADR-002](ADR/002-frontend.md) · [ADR-003](ADR/003-persistence.md) · [Design guidelines](design-guidelines.md)
 
 The orchestrator (main session) delegates every task to a specialized subagent (`be-developer`, `fe-developer`, `qa-engineer`) with a task-scoped context packet. The orchestrator never implements code itself.
@@ -333,9 +333,9 @@ Each card lists the **context packet** — the only project information given to
 ## 7. Progress Checklist
 
 - [x] T0.1 scaffold · - [x] T1.1 validation · - [x] T1.2 policies · - [x] T1.3 db · - [x] T1.4 images · - [x] T1.5 design · - [x] T1.6 i18n · - [x] T1.7 e2e-infra
-- [ ] T2.1 prompts+guard · - [ ] T2.2 vision+decision · - [ ] T2.3 chat-stream
-- [ ] T3.1 sessions-api · - [ ] T3.2 analyze-api · - [ ] T3.3 chat-api
-- [ ] T4.1 form-fields · - [ ] T4.2 image-upload · - [ ] T4.3 submit-flow · - [ ] T4.4 chat-shell · - [ ] T4.5 decision-restore
+- [x] T2.1 prompts+guard · - [ ] T2.2 vision+decision · - [ ] T2.3 chat-stream
+- [x] T3.1 sessions-api · - [ ] T3.2 analyze-api · - [ ] T3.3 chat-api
+- [x] T4.1 form-fields · - [x] T4.2 image-upload · - [ ] T4.3 submit-flow · - [ ] T4.4 chat-shell · - [ ] T4.5 decision-restore
 - [ ] T5.1 e2e-happy · - [ ] T5.2 e2e-edge · - [ ] T5.3 final-gate
 
 ## 8. Risks & Mitigations
@@ -348,3 +348,10 @@ Each card lists the **context packet** — the only project information given to
 | better-sqlite3 native module vs Next build on Windows | T0.1 verifies external-package config and a passing build before anything else is built |
 | Two fe agents in one wave editing neighbors | File-ownership matrix is exclusive per task; integration deferred to the dependent task (e.g. T4.3 wires T4.1+T4.2) |
 | `.env` missing at execution start | Prerequisite gate §2 — orchestrator verifies file exists before Wave 0 |
+
+---
+
+## 9. Open Findings (consume in downstream tasks; non-blocking)
+
+- **F-1 (from T4.1):** `requestFormSchema`'s AC-03 "reason required for complaint" rule is an object-level `.superRefine`, which Zod v4 skips while sibling fields have parse errors. Effect: on a complaint submit with multiple invalid fields, the reason error is deferred until other errors clear. The required *marker* (the literal AC-03 requirement) works; client and server behave identically (TAC-002-01 holds). Proper fix lives in `@/lib/validation` (re-express the cross-field check so it fires independently of sibling validity). Defer to a be-developer micro-task before or during T5.3.
+- **F-2 (from T3.1):** the stored image filename uses a handler-generated nanoid, NOT `session.id` (forced by the frozen `createSession` signature). `session.imagePath` is the authoritative file location — T3.2 must read the image via `readImage(session.imagePath)`, never `getImagePath(session.id)`. Also: `session.imageMediaType` stores the **original uploaded MIME** per ADR-003 §3, but the stored file is always recompressed JPEG — so the vision call (T2.2/T3.2) must pass `image/jpeg` (the actual stored bytes' format), NOT `session.imageMediaType`.
