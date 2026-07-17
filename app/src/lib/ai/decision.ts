@@ -77,6 +77,11 @@ export interface MakeDecisionOptions {
   today?: string;
 }
 
+export interface GuardedDecisionResult extends DecisionResult {
+  /** True when the deterministic guard changed the model's category. */
+  guardOverride: boolean;
+}
+
 // --- Constants ---------------------------------------------------------------
 
 const DECISION_DEADLINE_MS = 90_000;
@@ -158,7 +163,7 @@ export async function makeDecision(
     analysis: ImageAnalysis;
   },
   options?: MakeDecisionOptions,
-): Promise<DecisionResult> {
+): Promise<GuardedDecisionResult> {
   const model = options?.model ?? getTextModel();
   const policy = loadPolicy(args.requestType);
   const promptText =
@@ -176,16 +181,18 @@ export async function makeDecision(
     imageUsable: args.analysis.imageUsable,
   });
   const guarded = applyGuard(rawResult, ctx);
+  const guardOverride = guarded.decision !== rawResult.decision;
 
   // Handoff: substitute the visible message + justification when the guard
   // changed the category, so the message can never contradict the category.
-  if (guarded.decision !== rawResult.decision) {
+  if (guardOverride) {
     if (!args.analysis.imageUsable) {
       // Usability-forced ESCALATE (AC-10, PRD section 4.4). citedRuleIds are
       // kept exactly as the guard returned them (window rule may also be
       // present when both rules fired).
       return {
         ...guarded,
+        guardOverride,
         justification:
           `Zdjęcie nie mogło zostać ocenione przez system wizyjny (imageUsable=false); ` +
           `sprawa przekazana do pracownika do ręcznej weryfikacji.`,
@@ -196,6 +203,7 @@ export async function makeDecision(
     // `windowRuleId` to `citedRuleIds`; cite it in the message + justification.
     return {
       ...guarded,
+      guardOverride,
       justification:
         `Zgłoszenie wykracza poza okno polityki (reguła ${ctx.windowRuleId}); ` +
         `wymaga ręcznej decyzji pracownika.`,
@@ -206,7 +214,11 @@ export async function makeDecision(
   }
 
   // Category unchanged: keep the model's text, only ensure the disclaimer.
-  return { ...guarded, messageMarkdown: ensureDisclaimer(guarded.messageMarkdown) };
+  return {
+    ...guarded,
+    guardOverride,
+    messageMarkdown: ensureDisclaimer(guarded.messageMarkdown),
+  };
 }
 
 /**

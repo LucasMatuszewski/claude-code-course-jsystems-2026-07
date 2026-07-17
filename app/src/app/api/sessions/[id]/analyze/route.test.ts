@@ -350,7 +350,28 @@ describe("POST /api/sessions/:id/analyze", () => {
     expect(body.decision.decision).toBe("ESCALATE");
 
     const history = getSessionWithHistory(getDb(), session.id);
+    expect(history?.decisions[0]?.guardOverride).toBe(true);
     const parts = parseTextParts(history?.messages[0]?.parts ?? "[]");
     expect(parts[0]?.text).toContain("nie udało się ocenić przesłanego zdjęcia");
+  });
+
+  it("persists guardOverride=false when the initial decision is not guard-rewritten", async () => {
+    const session = await createStoredSession(tmpRoot);
+    const vision = makeVisionModel();
+    const text = makeTextModel();
+    testModels.vision = vision.model;
+    testModels.text = text.model;
+
+    const res = await callAnalyze(session.id);
+    const body = (await res.json()) as {
+      decision: { decision: string; guardOverride: boolean };
+    };
+
+    expect(res.status).toBe(200);
+    expect(body.decision.decision).toBe("APPROVE");
+    expect(body.decision.guardOverride).toBe(false);
+
+    const history = getSessionWithHistory(getDb(), session.id);
+    expect(history?.decisions[0]?.guardOverride).toBe(false);
   });
 });

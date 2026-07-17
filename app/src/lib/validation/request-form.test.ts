@@ -107,6 +107,15 @@ describe("requestFormSchema (AC-01..AC-07)", () => {
       expect(fieldError(result, "reason")).toBe(VALIDATION_MESSAGES_PL.reasonRequiredForComplaint);
     });
 
+    it("reports missing complaint reason even when a sibling field is invalid", () => {
+      const result = requestFormSchema.safeParse(
+        baseComplaintForm({ productName: 1, reason: undefined }),
+      );
+      expect(result.success).toBe(false);
+      expect(fieldError(result, "productName")).toBe(VALIDATION_MESSAGES_PL.productNameRequired);
+      expect(fieldError(result, "reason")).toBe(VALIDATION_MESSAGES_PL.reasonRequiredForComplaint);
+    });
+
     it("accepts a return with no reason", () => {
       const result = requestFormSchema.safeParse(baseReturnForm({ reason: undefined }));
       expect(result.success).toBe(true);

@@ -75,9 +75,9 @@ export const purchaseDateSchema = z
 
 /**
  * The reason/description field is optional at the schema level — whether it
- * is *required* depends on request type and is enforced by
- * `requestFormSchema`'s cross-field `superRefine` (AC-03). Here we only
- * enforce the max length (PRD §8) when a value is present.
+ * is *required* depends on request type and is enforced by `requestFormSchema`
+ * with a cross-field refinement (AC-03). Here we only enforce the max length
+ * (PRD §8) when a value is present.
  */
 export const reasonSchema = z
   .string()
@@ -135,27 +135,34 @@ export type ChatMessageInput = z.infer<typeof chatMessageSchema>;
 
 // --- Full request form (AC-01..AC-07) -------------------------------------
 
-export const requestFormSchema = z
-  .object({
-    requestType: requestTypeSchema,
-    category: categorySchema,
-    productName: productNameSchema,
-    purchaseDate: purchaseDateSchema,
-    reason: reasonSchema,
-    image: imageFileMetaSchema,
-  })
-  .superRefine((data, ctx) => {
-    if (data.requestType === "complaint") {
-      const reason = data.reason?.trim() ?? "";
-      if (reason.length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["reason"],
-          message: M.reasonRequiredForComplaint,
-        });
-      }
-    }
-  });
+const requestFormBaseSchema = z.object({
+  requestType: requestTypeSchema,
+  category: categorySchema,
+  productName: productNameSchema,
+  purchaseDate: purchaseDateSchema,
+  reason: reasonSchema,
+  image: imageFileMetaSchema,
+});
+
+const reasonRequiredDependencySchema = requestFormBaseSchema.pick({
+  requestType: true,
+  reason: true,
+});
+
+export const requestFormSchema = requestFormBaseSchema.refine(
+  (data) => {
+    if (data.requestType !== "complaint") return true;
+    const reason = data.reason?.trim() ?? "";
+    return reason.length > 0;
+  },
+  {
+    path: ["reason"],
+    message: M.reasonRequiredForComplaint,
+    when(payload) {
+      return reasonRequiredDependencySchema.safeParse(payload.value).success;
+    },
+  },
+);
 
 export type RequestFormInput = z.infer<typeof requestFormSchema>;
 
