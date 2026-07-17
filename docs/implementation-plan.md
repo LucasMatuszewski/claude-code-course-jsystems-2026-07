@@ -1,6 +1,6 @@
 # Implementation Plan — Hardware Service Decision Copilot PoC
 
-**Date:** 2026-07-15 · **Status:** In execution — Waves 0-3 merged + T2.3 and F-3/F-4 fixes merged; T4.5 in progress; Wave 5 (T3.2/T3.3) starting. Integrated green: 335/335 tests, 0 lint errors, build OK. First Manual QA gate passed.
+**Date:** 2026-07-15 · **Status:** In execution — Waves 0-5 merged (all of T0-T4 + T3.2/T3.3). Full happy path code-complete: form -> create -> analyze -> decision -> chat -> restore. Integrated green: 381/381 tests, 0 lint errors, build OK (routes: /, /api/chat, /api/sessions, /api/sessions/[id], /api/sessions/[id]/analyze, /chat/[sessionId]). Next: Wave 6 (T5.1 E2E happy/validation/mobile). Deferred fixes F-1 (validation superRefine) and F-5 (guardOverride audit) before/at T5.3.
 **Sources:** [PRD](PRD.md) · [ADR-000](ADR/000-main-architecture.md) · [ADR-001](ADR/001-ai-integration.md) · [ADR-002](ADR/002-frontend.md) · [ADR-003](ADR/003-persistence.md) · [Design guidelines](design-guidelines.md)
 
 The orchestrator (main session) delegates every task to a specialized subagent (`be-developer`, `fe-developer`, `qa-engineer`) with a task-scoped context packet. The orchestrator never implements code itself.
@@ -334,8 +334,8 @@ Each card lists the **context packet** — the only project information given to
 
 - [x] T0.1 scaffold · - [x] T1.1 validation · - [x] T1.2 policies · - [x] T1.3 db · - [x] T1.4 images · - [x] T1.5 design · - [x] T1.6 i18n · - [x] T1.7 e2e-infra
 - [x] T2.1 prompts+guard · - [x] T2.2 vision+decision · - [x] T2.3 chat-stream
-- [x] T3.1 sessions-api · - [x] T3.2 analyze-api · - [ ] T3.3 chat-api (in progress)
-- [x] T4.1 form-fields · - [x] T4.2 image-upload · - [x] T4.3 submit-flow · - [x] T4.4 chat-shell · - [ ] T4.5 decision-restore (in progress)
+- [x] T3.1 sessions-api · - [x] T3.2 analyze-api · - [x] T3.3 chat-api
+- [x] T4.1 form-fields · - [x] T4.2 image-upload · - [x] T4.3 submit-flow · - [x] T4.4 chat-shell · - [x] T4.5 decision-restore
 - [ ] T5.1 e2e-happy · - [ ] T5.2 e2e-edge · - [ ] T5.3 final-gate
 
 ## 8. Risks & Mitigations
