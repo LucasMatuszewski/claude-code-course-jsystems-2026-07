@@ -1,39 +1,49 @@
 # E2E fixture images
 
-Three fixture photos used by vision-model E2E specs (ADR-000 §10 — "Vision/decision
+Three fixture photos used by vision-model E2E specs (ADR-000 §10 - "Vision/decision
 prompt quality is validated by E2E with fixture images: a clean product photo, a
 damaged product photo, an unusable/blurry photo").
 
 | File | Purpose | Expected vision-model read |
 |---|---|---|
-| `clean-product.jpg` | Intact product (stylised over-ear headphones) | Product is undamaged |
-| `damaged-product.jpg` | Same product with visible cracks/scratches | Product is damaged |
-| `unusable-blurry.jpg` | The clean photo destroyed by heavy blur | Image cannot be assessed (AC-10) |
+| `clean-product.jpg` | Intact product (real MacBook Air on a desk) | Product is undamaged |
+| `damaged-product.jpg` | Real smartphone with a shattered screen | Product is damaged |
+| `unusable-blurry.jpg` | A real device photo destroyed by heavy camera blur | Image cannot be assessed (AC-10) |
 
 ## Provenance
 
-These are **synthetically generated composites**, not photographs or downloaded
-stock images. They are built from SVG shapes (a shaded headband + ear-cup
-silhouette, plus overlaid crack/scratch paths for the damaged variant)
-rasterized and post-processed with `sharp` — the project's own image-processing
-dependency (ADR-000 §2/§74).
+These are **real photographs** of real hardware, not synthetic drawings. We use a
+real vision LLM in E2E and Manual QA, so the fixtures must be genuine photos it can
+actually assess. Each was sourced from a license-free photograph (via the Openverse
+CC search), then processed through the project's own `sharp` dependency: EXIF
+orientation applied, metadata stripped, resized to <=1280px, and recompressed to
+JPEG (mozjpeg q82) so the files stay small and git-friendly.
 
-Generation script: [`generate-fixtures.mjs`](./generate-fixtures.mjs). Regenerate with:
+| File | Source photo | Author | License | Landing page |
+|---|---|---|---|---|
+| `clean-product.jpg` | "Apple Laptop Computer with Headphones, Camera, and Open Notebook" | Image Catalog | CC0 1.0 (public domain) | https://www.flickr.com/photos/132795455@N08/17652700524 |
+| `damaged-product.jpg` | "Broken iPhone" | Jay Tamboli | CC BY 2.0 | https://www.flickr.com/photos/47084925@N00/3788327603 |
+| `unusable-blurry.jpg` | "Man Holding Laptop Computer Typing While Dog Watches" (heavily blurred here) | Image Catalog | CC0 1.0 (public domain) | https://www.flickr.com/photos/132795455@N08/17783465600 |
 
-```bash
-cd app
-node e2e/fixtures/generate-fixtures.mjs
-```
+### Attribution
 
-**Why synthetic instead of a downloaded license-free photo:** the sandboxed dev
-environment this task ran in has outbound network access disabled for tooling
-(`curl`/`WebFetch` to external hosts is blocked by the sandbox policy), so
-downloading a real photo was not possible. The task card allows either approach
-and asks to favor a real photo only if generation "looks too synthetic" for the
-vision model to tell the three cases apart.
+`damaged-product.jpg` is licensed **CC BY 2.0** and requires attribution: photo by
+**Jay Tamboli**, "Broken iPhone", via Flickr, CC BY 2.0. The other two are **CC0**
+(public domain) and need no attribution. Keep this table in sync if any fixture is
+swapped.
 
-**Review trigger:** if E2E runs against the real vision model show it cannot
-reliably distinguish clean vs. damaged vs. unusable from these composites,
-replace them with real license-free photos (e.g. Unsplash/Pexels product
-photography — pick images with an unambiguous crack/scratch for the damaged
-case) and update this table with the source URL and license for each.
+## Why real photos (not synthetic composites)
+
+An earlier version of these fixtures was synthetic (SVG headphones rasterized with
+`sharp`) because the generating sandbox had outbound network disabled. A real vision
+model cannot reliably reason about damage/usability from vector drawings, and Manual
+QA per `AGENTS.md` requires genuine device photography compared against the real
+brand look. These were replaced with real license-free photos on 2026-07-17.
+
+### Regenerating / swapping
+
+The blurred fixture is produced from its source photo with `sharp(...).blur(22)`.
+If you need to re-source or swap any fixture, download a new license-free photo,
+run it through the same `sharp` pipeline (rotate -> resize inside 1280 -> jpeg q82),
+overwrite the file **keeping the same name** (E2E specs reference these paths), and
+update the provenance + attribution tables above with the new source URL and license.
