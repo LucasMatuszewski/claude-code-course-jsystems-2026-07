@@ -1,3 +1,50 @@
+> # 🔔 AKTUALIZACJA PO KURSIE — przykładowa implementacja aplikacji
+>
+> Oryginalny README zaczyna się poniżej, w sekcji [„Claude Code – od zera do zespołu agentów AI”](#claude-code--od-zera-do-zespołu-agentów-ai).
+>
+> Przykładowa, w pełni działająca implementacja projektu kursowego (**Hardware Service Decision Copilot** — asystent zwrotów i reklamacji sprzętu elektronicznego) została zbudowana na osobnym branchu:
+>
+> ### 👉 Branch z aplikacją: [`course-application-implementation`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/tree/course-application-implementation)
+>
+> Cała aplikacja powstała przez **orkiestrację agentów AI** według procesu z kursu (research → PRD → ADR → plan implementacji z macierzą zależności → realizacja falami/„wave” w izolowanych zakresach plików → serializowane merge → weryfikacja + TDD + E2E na prawdziwym LLM). Pełny plan i przebieg (historia realizacji w planie): [`docs/implementation-plan.md`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/course-application-implementation/docs/implementation-plan.md).
+>
+> ## Jak to zostało zrobione — dwa podejścia w jednym projekcie
+>
+> Scafold aplikacji (baza) została zrobiona przez Fable delegującego do sub-agentów Opus/Fable, jednak zużywali oni szybko limit 5h.
+> **Fale 2 i 3 (Wave 2 + Wave 3)** — większość tych zadań wykonał model **GLM-5.2** (kontunuował sesję w ClaudeCode - sprawdź [przykładowy plik `.bashrc`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/main/course-materials/.bashrc) nadpisujący ustawienia ClaudeCode dowolnym providerem compatybilnym z Anthropic Messages API).
+> Uwaga praktyczna: GLM-5.2 **znacznie szybciej wpada w limit 5h** niż jeszcze kilka miesięcy temu — na dokończenie zadań z tych dwóch fal potrzebowałem **dwóch okien limitu 5h** na planie Lite, ale zużyłem w tym czasie aż 122,545,047 tokenów, znacznie więcej niż pozwoli Claude Code (a w promocji subskrypcję Z.ai Coding Plan Lite kupiłem za $35 za ROK).
+>
+> **Reszta prac (pozostałe fale + gate końcowy)** — przełączyłem się na **Opus (orkiestracja) + delegacja do agentów CLI** (patrz [przykładowy prompt delegacji do agentów CLI](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/main/course-materials/Prompt%20examples/Deletage-to-Codex-Agy-OpenCode-Grok.md)) i cała pozostała część aplikacji została ukończona w **jednym oknie limitu 5h**:
+> - **Opus** — orkiestracja: architektura, plan, decyzje o merge, przegląd i osąd końcowy;
+> - **Codex** (`codex exec`) — implementacja kodu i uruchamianie weryfikacji;
+> - **agy** (Antigravity/Gemini) — analiza wizualna (screenshoty, zgodność z brandem Play).
+>
+> ⚠️ **Ważna lekcja o delegacji:** orkiestrator **nie powinien tworzyć własnych sub-agentów Claude** tylko po to, żeby te przekazywały zadanie do agenta CLI — to marnuje kontekst/tokeny (każdy taki „kurier” to osobny, drogi kontekst Claude). Do agentów CLI (Codex/agy/grok) **deleguj bezpośrednio** (przez Bash), a sam orkiestrator pisze brief, przegląda wynik, weryfikuje i commituje. Sub-agenta Claude twórz tylko wtedy, gdy to model Claude ma wykonać właściwą pracę.
+>
+> ## Podejrzyj zmiany w PR
+>
+> Zmiany można przejrzeć w otwartym **Pull Requeście** (opis + diff + historia commitów): **[lista PR-ów tego repozytorium](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/pulls)**.
+>
+> ## Efekt: działająca aplikacja (zrzuty ekranu)
+>
+> **Aplikacja jest w 100% działająca — bez żadnej mojej ręcznej pracy ani testowania na końcu.** Agenci w pętli **manualnych testów E2E** (Playwright + prawdziwy LLM) sami znaleźli wszystkie usterki i sami je naprawili (np. podwójny disklajmer, zbyt „surowe” prompty odrzucające każde zgłoszenie, walidacja formularza, kolory bannera błędu). W efekcie dostałem gotową, działającą aplikację.
+>
+> Zrzuty ekranu z działającej aplikacji (pliki na branchu [`course-application-implementation`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/tree/course-application-implementation/assets/screenshots)):
+>
+> **1. Formularz zgłoszenia** — [`assets/screenshots/app-form.png`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/course-application-implementation/assets/screenshots/app-form.png)
+>
+> <img src="https://raw.githubusercontent.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/course-application-implementation/assets/screenshots/app-form.png" alt="Formularz zgłoszenia — Play, zwroty i reklamacje" width="820">
+>
+> **2. Decyzja + czat z klientem i zmianą decyzji na eskalację** — [`assets/screenshots/app-decision-chat.png`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/course-application-implementation/assets/screenshots/app-decision-chat.png)
+>
+> Wstępna decyzja **Odrzucono** (pęknięty ekran, C-6). Klient dopisuje w czacie, że sprzęt *„już taki przyszedł do mnie”* — na tej podstawie asystent (narzędzie `revise_decision`) zmienia decyzję na **Eskalacja** (C-13: sprawa wymaga oględzin fizycznych przez pracownika).
+>
+> <img src="https://raw.githubusercontent.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/course-application-implementation/assets/screenshots/app-decision-chat.png" alt="Decyzja i czat — zmiana decyzji z Odrzucono na Eskalacja na podstawie informacji od klienta" width="820">
+>
+> ---
+>
+> <!-- ⬇⬇⬇ ORYGINALNY README KURSU ZACZYNA SIĘ TUTAJ ⬇⬇⬇ -->
+
 # Claude Code – od zera do zespołu agentów AI
 ### Szkolenie otwarte JSystems, 13–15.07.2026 (3 dni, zdalnie)
 
