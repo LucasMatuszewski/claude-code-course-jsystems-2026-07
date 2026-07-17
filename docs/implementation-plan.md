@@ -1,6 +1,6 @@
 # Implementation Plan — Hardware Service Decision Copilot PoC
 
-**Date:** 2026-07-15 · **Status:** In execution — Waves 0-7 merged (all features + T5.1 happy E2E + T5.2 edge/TAC E2E) plus all fix findings F-1..F-7 resolved. Integrated green: 394/394 unit/integration tests, 0 lint errors, build OK; real-LLM E2E green (happy + edge, both viewports). Only T5.3 final gate remains. Routes: /, /api/chat, /api/sessions, /api/sessions/[id], /api/sessions/[id]/analyze, /chat/[sessionId].
+**Date:** 2026-07-15 · **Status:** COMPLETE — all 8 waves + T5.1/T5.2/T5.3 merged; findings F-1..F-8 resolved or documented. Final gate green in the real environment: `npm run lint` clean, `npm test` 394/394, `npm run build` OK (6 routes), real-LLM E2E happy + edge passing (AC-10 ESCALATE, AC-15 out-of-window never-APPROVE, AC-27 restore, TAC-03/003-02/003-05 audits), clean working tree. The full customer flow works end to end against the live model: form -> create session -> compress+store image -> vision analysis -> guarded decision -> chat with revise_decision tool -> reload/restore. See §10 for the gate verdict.
 **Sources:** [PRD](PRD.md) · [ADR-000](ADR/000-main-architecture.md) · [ADR-001](ADR/001-ai-integration.md) · [ADR-002](ADR/002-frontend.md) · [ADR-003](ADR/003-persistence.md) · [Design guidelines](design-guidelines.md)
 
 The orchestrator (main session) delegates every task to a specialized subagent (`be-developer`, `fe-developer`, `qa-engineer`) with a task-scoped context packet. The orchestrator never implements code itself.
@@ -336,7 +336,7 @@ Each card lists the **context packet** — the only project information given to
 - [x] T2.1 prompts+guard · - [x] T2.2 vision+decision · - [x] T2.3 chat-stream
 - [x] T3.1 sessions-api · - [x] T3.2 analyze-api · - [x] T3.3 chat-api
 - [x] T4.1 form-fields · - [x] T4.2 image-upload · - [x] T4.3 submit-flow · - [x] T4.4 chat-shell · - [x] T4.5 decision-restore
-- [x] T5.1 e2e-happy · - [x] T5.2 e2e-edge · - [ ] T5.3 final-gate
+- [x] T5.1 e2e-happy · - [x] T5.2 e2e-edge · - [x] T5.3 final-gate
 
 ## 8. Risks & Mitigations
 
@@ -359,5 +359,31 @@ Each card lists the **context packet** — the only project information given to
 - **F-4 (Manual QA gate, Wave 3):** the submission `ErrorBanner` uses the generic `--destructive` (red) token; design-guidelines §status-colors specifies errors reuse Play magenta `#E6144B` for this project. Low severity (guidelines mark it a proposal). Align `ErrorBanner.tsx` to the magenta accent. Fixed via Wave-3 micro-task (fe).
 - **Note (dev-only, no fix):** the floating "N" circle at bottom-left in dev screenshots is the Next.js dev-tools indicator; it is absent from `npm run build` output, so it is not a product defect.
 - **F-5 (from T3.2) — FIXED (merged 8766315):** `makeDecision` now returns `GuardedDecisionResult` with a `guardOverride: boolean` (true only when the guard changed the model's category); the analyze route persists the real value on the initial decision row. Tests cover overridden and non-overridden cases.
+- **F-8 (from T5.3 gate) — robustness, non-gating:** `src/app/layout.tsx` loads Manrope + Geist_Mono via `next/font/google`, which fetches from Google Fonts at build time. Builds succeed on this machine and on networked course VMs (fonts cache after first fetch), but a first `npm run build` on a fully network-restricted machine would fail. Optional hardening: self-host the two fonts (next/font/local with the woff2 files in the repo) so build never needs egress. Low priority — the documented course environment has network. Owner: fe, if pursued.
+- **T5.3 gate note:** codex's sandbox reported build/E2E/clean-clone "failures" that were sandbox restrictions (no network for fonts, `listen EPERM` on sockets, `esbuild EPERM` under /tmp), NOT product defects — the orchestrator re-ran `npm run build` (green, all 6 routes) and the full E2E suite directly in the real environment to confirm.
 - **F-6 (from T5.1) — FIXED (merged 9fd47e8):** disclaimer rendered twice (guillemet-mangled + correct). Fixed both root causes: `prompts.ts` decision prompts no longer feed the model a quotable `DISCLAIMER_PL` (instruct it not to write one; chat instruction de-guillemeted since chat has no server-side ensureDisclaimer); `guard.ts` `ensureDisclaimer` now strips any disclaimer copy anywhere in the body (guillemet/quote/whitespace-tolerant) and appends exactly one. Unit tests added.
-- **F-7 (from T5.1) — ADDRESSED (merged 9fd47e8):** REJECT-for-everything bias. Added neutrality directives to vision + decision prompts (describe only clearly-visible facts; absence of evidence is not evidence of damage; an in-window undamaged item can reach APPROVE/MORE_INFO; guard still owns hard rules), faithful to PRD §11 (no hardcoded outcomes). T5.2 real-LLM edge cases will confirm the effect on decision distribution.
+- **F-7 (from T5.1) — ADDRESSED (merged 9fd47e8):** REJECT-for-everything bias. Added neutrality directives to vision + decision prompts (describe only clearly-visible facts; absence of evidence is not evidence of damage; an in-window undamaged item can reach APPROVE/MORE_INFO; guard still owns hard rules), faithful to PRD §11 (no hardcoded outcomes). Post-fix real-LLM runs show variance across APPROVE/REJECT/ESCALATE by photo (e.g. AC-27 restore path returned APPROVE), confirming APPROVE is reachable; the model still leans conservative on some clean photos, which is an acceptable model call, not a code defect.
+
+---
+
+## 10. Final Gate Verdict (T5.3) — PASS
+
+Run in the real environment (WSL2, real OpenRouter LLM via repo-root `.env`). Note: the CLI worker's sandbox could not bind sockets / reach Google Fonts / exec from `/tmp`, so the orchestrator re-ran build + E2E directly to get a true verdict.
+
+| Check | Result |
+|---|---|
+| `npm run lint` | PASS — 0 errors |
+| `npm test` (unit + integration) | PASS — 394/394, 0 silently skipped |
+| `npm run build` | PASS — 6 routes: `/`, `/_not-found`(implicit), `/api/chat`, `/api/sessions`, `/api/sessions/[id]`, `/api/sessions/[id]/analyze`, `/chat/[sessionId]` |
+| E2E happy (T5.1, real LLM, desktop+mobile-chromium) | PASS — 9 specs |
+| E2E edge/TAC (T5.2 + de-flaked T5.3 reruns) | PASS — AC-10 ESCALATE + unusable-photo message; AC-15 out-of-window REJECT×3 never APPROVE; AC-27 restore identical transcript + Polish not-found; TAC-03 zero browser→openrouter + no key in bundle; TAC-003-02 one analyzed session + initial decision + assistant-first message; TAC-003-05 clean tree |
+| Working tree | PASS — no stray runtime artifacts (data/uploads, .next, *.sqlite, node_modules all gitignored) |
+
+**AC/TAC coverage:** AC-01..AC-30 and the TAC-01..07 / TAC-00x lists are each covered by the unit/integration suite and/or the real-LLM E2E suite (see the mapping produced during the gate run). 
+
+**Not fully re-verifiable in this environment (documented, not product defects):**
+- Clean-clone bootstrap (TAC-003-01): the CLI sandbox could not `npm ci` under `/tmp` (`esbuild EPERM`). Build + install succeed in the working tree; a fresh clone on a normal course VM (with network + normal exec) bootstraps the same way. Recommend a human runs the clean-clone check once on a real VM before the course.
+- Mobile **WebKit** E2E: the WebKit browser binary is not installed here (`npx playwright install webkit` blocked); mobile coverage was exercised via the chromium mobile viewport. Install WebKit on the course machine for full cross-engine mobile runs.
+- F-8: build-time Google Fonts fetch — optional self-hosting hardening for fully offline builds.
+
+**Conclusion:** the app is code-complete, unit/integration green, and validated end-to-end against the real LLM on both the happy and edge paths, with the Play-brand UI confirmed by manual QA. The implementation plan is complete.
