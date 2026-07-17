@@ -4,6 +4,9 @@ import { describe, expect, it } from "vitest";
 import type { UIMessage } from "ai";
 
 import { MessageRow, type ChatMessageMetadata } from "./MessageRow";
+import type { DecisionDataPart } from "./DecisionBlock";
+import { REVISE_DECISION_TOOL_NAME } from "@/lib/ai/chat";
+import { pl } from "@/lib/i18n/pl";
 
 function textMsg(
   id: string,
@@ -87,5 +90,94 @@ describe("MessageRow (PRD §9.2 alignment + timestamps)", () => {
   it("renders an empty bubble (no crash) when a message has no parts", () => {
     const message = { id: "a1", role: "assistant" as const, parts: [] };
     expect(() => render(<MessageRow message={message} />)).not.toThrow();
+  });
+
+  it("renders a decision block from a data-decision part", () => {
+    const decisionPart: DecisionDataPart = {
+      type: "data-decision",
+      data: {
+        category: "APPROVE",
+        messageMarkdown: "Dzień dobry,\n\nZgłoszenie zaakceptowane.",
+      },
+    };
+    const message = {
+      id: "a1",
+      role: "assistant" as const,
+      parts: [decisionPart],
+    };
+
+    render(<MessageRow message={message} />);
+
+    expect(screen.getByTestId("decision-block")).toBeInTheDocument();
+    expect(screen.getByText(pl.chat.decisionBadge.APPROVE)).toBeInTheDocument();
+    expect(screen.getByText(/Zgłoszenie zaakceptowane/)).toBeInTheDocument();
+  });
+
+  it("renders a revision marker from an output-available revise_decision tool part", () => {
+    const message = {
+      id: "a1",
+      role: "assistant" as const,
+      parts: [
+        {
+          type: `tool-${REVISE_DECISION_TOOL_NAME}`,
+          toolCallId: "call-1",
+          state: "output-available",
+          output: {
+            accepted: true,
+            recordedDecision: "REJECT",
+            previousDecision: "APPROVE",
+            overrideReason: null,
+            citedRuleIds: [],
+          },
+        },
+      ],
+    };
+
+    render(<MessageRow message={message} />);
+
+    expect(screen.getByTestId("revision-marker")).toBeInTheDocument();
+    expect(screen.getByText(pl.chat.decisionBadge.APPROVE)).toBeInTheDocument();
+    expect(screen.getByText(pl.chat.decisionBadge.REJECT)).toBeInTheDocument();
+  });
+
+  it("ignores a revise_decision tool part while input is still streaming", () => {
+    const message = {
+      id: "a1",
+      role: "assistant" as const,
+      parts: [
+        {
+          type: `tool-${REVISE_DECISION_TOOL_NAME}`,
+          toolCallId: "call-1",
+          state: "input-streaming",
+        },
+      ],
+    };
+
+    expect(() => render(<MessageRow message={message} />)).not.toThrow();
+    expect(screen.queryByTestId("revision-marker")).toBeNull();
+  });
+
+  it("ignores an output-available revise_decision tool part without a previous decision", () => {
+    const message = {
+      id: "a1",
+      role: "assistant" as const,
+      parts: [
+        {
+          type: `tool-${REVISE_DECISION_TOOL_NAME}`,
+          toolCallId: "call-1",
+          state: "output-available",
+          output: {
+            accepted: true,
+            recordedDecision: "ESCALATE",
+            previousDecision: null,
+            overrideReason: null,
+            citedRuleIds: [],
+          },
+        },
+      ],
+    };
+
+    expect(() => render(<MessageRow message={message} />)).not.toThrow();
+    expect(screen.queryByTestId("revision-marker")).toBeNull();
   });
 });

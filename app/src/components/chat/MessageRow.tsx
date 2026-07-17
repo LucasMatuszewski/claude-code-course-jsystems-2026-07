@@ -8,6 +8,9 @@ import {
 import type { UIMessage } from "ai";
 import type { ReactNode } from "react";
 
+import { DecisionBlock, isDecisionDataPart } from "./DecisionBlock";
+import { RevisionMarker, isReviseDecisionOutputPart } from "./RevisionMarker";
+
 /**
  * Per-message metadata carried in `UIMessage.metadata` (ADR-002 §4, ADR-003).
  *
@@ -49,16 +52,35 @@ function getCreatedAt(message: UIMessage): string | undefined {
 }
 
 /**
- * Renders the text parts of a message as markdown. Unknown part types
- * (decision data, tool invocations, dynamic parts added by future tasks) are
- * silently skipped — T4.5 will render decision/tool parts from the message
- * parts stream; until then, the chat must not crash on them (ADR-002 §3).
+ * Renders the supported message parts. Unknown part types (dynamic parts added
+ * by future tasks) are silently skipped so the chat does not crash on message
+ * shapes this UI does not understand yet (ADR-002 §3).
  *
  * Each text run is rendered as its own `MessageResponse` so non-text parts
- * can be interleaved later without re-flowing the whole bubble.
+ * can be interleaved without re-flowing the whole bubble.
  */
 function renderParts(message: UIMessage): ReactNode {
   return message.parts.map((part, index) => {
+    if (isDecisionDataPart(part)) {
+      return (
+        <DecisionBlock
+          key={`part-${index}`}
+          category={part.data.category}
+          messageMarkdown={part.data.messageMarkdown}
+        />
+      );
+    }
+
+    if (isReviseDecisionOutputPart(part)) {
+      return (
+        <RevisionMarker
+          key={`part-${index}`}
+          previousDecision={part.output.previousDecision}
+          newDecision={part.output.recordedDecision}
+        />
+      );
+    }
+
     if (part.type !== "text") {
       return null;
     }
