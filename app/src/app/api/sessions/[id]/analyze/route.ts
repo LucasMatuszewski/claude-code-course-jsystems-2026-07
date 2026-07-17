@@ -60,8 +60,7 @@ export async function POST(
         decision: decisionResult.decision,
         justification: decisionResult.justification,
         citedRuleIds: decisionResult.citedRuleIds,
-        // Known limitation: makeDecision does not expose raw pre-guard output,
-        // so the initial decision cannot detect guard overrides here yet.
+        guardOverride: decisionResult.guardOverride,
       },
       {
         id: nanoid(),

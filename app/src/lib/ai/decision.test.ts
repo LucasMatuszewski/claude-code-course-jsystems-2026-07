@@ -93,6 +93,7 @@ describe("makeDecision — happy path", () => {
     // Model's justification/message are preserved when the guard didn't rewrite.
     expect(result.justification).toContain("spełnia warunki");
     expect(result.messageMarkdown).toContain("Decyzja: pozytywna.");
+    expect(result.guardOverride).toBe(false);
   });
 
   it("always appends the Polish disclaimer to messageMarkdown (TAC-001-03)", async () => {
@@ -162,6 +163,7 @@ describe("makeDecision — window guard override (AC-15)", () => {
     );
     expect(result.decision).toBe("ESCALATE");
     expect(result.citedRuleIds).toContain("R-1");
+    expect(result.guardOverride).toBe(true);
   });
 
   it("substitutes a Polish message that cites the window rule when the guard rewrites (AC-15, PRD section 4.6)", async () => {
