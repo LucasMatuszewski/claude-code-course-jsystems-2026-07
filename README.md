@@ -1,18 +1,20 @@
 > # 🔔 AKTUALIZACJA PO KURSIE — przykładowa implementacja aplikacji
 >
-> **To jest dopisek dodany przez prowadzącego PO kursie.** Oryginalny README zaczyna się poniżej, w sekcji [„Claude Code – od zera do zespołu agentów AI”](#claude-code--od-zera-do-zespołu-agentów-ai).
+> Oryginalny README zaczyna się poniżej, w sekcji [„Claude Code – od zera do zespołu agentów AI”](#claude-code--od-zera-do-zespołu-agentów-ai).
 >
 > Przykładowa, w pełni działająca implementacja projektu kursowego (**Hardware Service Decision Copilot** — asystent zwrotów i reklamacji sprzętu elektronicznego) została zbudowana na osobnym branchu:
 >
 > ### 👉 Branch z aplikacją: [`course-application-implementation`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/tree/course-application-implementation)
 >
-> Cała aplikacja powstała przez **orkiestrację agentów AI** według procesu z kursu (research → PRD → ADR → plan implementacji z macierzą zależności → realizacja falami/„wave” w izolowanych zakresach plików → serializowane merge → weryfikacja + TDD + E2E na prawdziwym LLM). Pełny plan i przebieg: [`docs/implementation-plan.md`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/course-application-implementation/docs/implementation-plan.md).
+> Cała aplikacja powstała przez **orkiestrację agentów AI** według procesu z kursu (research → PRD → ADR → plan implementacji z macierzą zależności → realizacja falami/„wave” w izolowanych zakresach plików → serializowane merge → weryfikacja + TDD + E2E na prawdziwym LLM). Pełny plan i przebieg (historia realizacji w planie): [`docs/implementation-plan.md`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/course-application-implementation/docs/implementation-plan.md).
 >
 > ## Jak to zostało zrobione — dwa podejścia w jednym projekcie
 >
-> **Fale 2 i 3 (Wave 2 + Wave 3)** — większość tych zadań wykonał model **GLM-5.2** (przez OpenCode). Uwaga praktyczna: GLM-5.2 **znacznie szybciej wpada w limit 5h** niż jeszcze kilka miesięcy temu — na dokończenie zadań z tych dwóch fal potrzebowałem **dwóch okien limitu 5h**. Konfiguracja modeli i przykład delegacji: patrz [przykładowy prompt delegacji do agentów CLI](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/main/course-materials/Prompt%20examples/Deletage-to-Codex-Agy-OpenCode-Grok.md) oraz [przykładowy plik `.bashrc`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/main/course-materials/.bashrc).
+> Scafold aplikacji (baza) została zrobiona przez Fable delegującego do sub-agentów Opus/Fable, jednak zużywali oni szybko limit 5h.
+> **Fale 2 i 3 (Wave 2 + Wave 3)** — większość tych zadań wykonał model **GLM-5.2** (kontunuował sesję w ClaudeCode - sprawdź [przykładowy plik `.bashrc`](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/main/course-materials/.bashrc) nadpisujący ustawienia ClaudeCode dowolnym providerem compatybilnym z Anthropic Messages API).
+> Uwaga praktyczna: GLM-5.2 **znacznie szybciej wpada w limit 5h** niż jeszcze kilka miesięcy temu — na dokończenie zadań z tych dwóch fal potrzebowałem **dwóch okien limitu 5h** na planie Lite, ale zużyłem w tym czasie aż 122,545,047 tokenów, znacznie więcej niż pozwoli Claude Code (a w promocji subskrypcję Z.ai Coding Plan Lite kupiłem za $35 za ROK).
 >
-> **Reszta prac (pozostałe fale + gate końcowy)** — przełączyłem się na **Opus (orkiestracja) + delegacja do agentów CLI** i cała pozostała część aplikacji została ukończona w **jednym oknie limitu**:
+> **Reszta prac (pozostałe fale + gate końcowy)** — przełączyłem się na **Opus (orkiestracja) + delegacja do agentów CLI** (patrz [przykładowy prompt delegacji do agentów CLI](https://github.com/LucasMatuszewski/claude-code-course-jsystems-2026-07/blob/main/course-materials/Prompt%20examples/Deletage-to-Codex-Agy-OpenCode-Grok.md)) i cała pozostała część aplikacji została ukończona w **jednym oknie limitu 5h**:
 > - **Opus** — orkiestracja: architektura, plan, decyzje o merge, przegląd i osąd końcowy;
 > - **Codex** (`codex exec`) — implementacja kodu i uruchamianie weryfikacji;
 > - **agy** (Antigravity/Gemini) — analiza wizualna (screenshoty, zgodność z brandem Play).
