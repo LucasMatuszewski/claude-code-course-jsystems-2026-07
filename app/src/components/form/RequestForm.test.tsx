@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
 import { RequestForm } from "./RequestForm";
+import { ImageUpload } from "./ImageUpload";
 import {
   CATEGORY_LABELS,
   REASON_MAX_LENGTH,
@@ -133,6 +134,35 @@ describe("RequestForm", () => {
         />,
       );
       expect(screen.getByTestId("injected-upload")).toBeInTheDocument();
+    });
+
+    it("renders exactly one image label when the real ImageUpload is injected via imageSlot, correctly linked to its file input (F-3)", () => {
+      render(
+        <RequestForm
+          onSubmit={() => {}}
+          imageSlot={<ImageUpload variant="complaint" />}
+        />,
+      );
+
+      // ImageUpload owns the single field label; RequestForm must not render
+      // its own duplicate when imageSlot is provided.
+      expect(
+        screen.getAllByText(pl.form.fields.image.label),
+      ).toHaveLength(1);
+
+      // The one label must be correctly associated with the file input.
+      expect(
+        screen.getByLabelText(pl.form.fields.image.label, {
+          selector: "input[type='file']",
+        }),
+      ).toBeInTheDocument();
+    });
+
+    it("still renders its own single image label for the built-in placeholder when no imageSlot is provided", () => {
+      render(<RequestForm onSubmit={() => {}} />);
+      expect(
+        screen.getAllByText(pl.form.fields.image.label),
+      ).toHaveLength(1);
     });
   });
 

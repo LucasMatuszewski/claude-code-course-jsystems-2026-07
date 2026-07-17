@@ -410,18 +410,27 @@ export function RequestForm({
         </div>
       </div>
 
-      {/* Image — placeholder slot until T4.2/T4.3 (AC-01 image area) */}
+      {/* Image — placeholder slot until T4.2/T4.3 (AC-01 image area).
+          When `imageSlot` is provided (T4.3's real `ImageUpload`), that
+          component renders its own `<label>` tied to its file input, so
+          RequestForm must NOT render a second label here (F-3: duplicate
+          "Zdjęcie sprzętu" label). The built-in placeholder below is the only
+          case that still needs RequestForm to own the label. */}
       <div className="flex flex-col gap-2">
-        <Label htmlFor={imageId}>{pl.form.fields.image.label}</Label>
-        {imageSlot ?? (
-          <div
-            id={imageId}
-            tabIndex={-1}
-            aria-label={pl.form.fields.image.label}
-            className="flex min-h-32 items-center justify-center rounded-lg border border-dashed border-border bg-background-subtle px-4 py-6 text-center text-sm text-muted-foreground"
-          >
-            <span>{pl.form.fields.image.dropzoneHint}</span>
-          </div>
+        {imageSlot ? (
+          imageSlot
+        ) : (
+          <>
+            <Label htmlFor={imageId}>{pl.form.fields.image.label}</Label>
+            <div
+              id={imageId}
+              tabIndex={-1}
+              aria-label={pl.form.fields.image.label}
+              className="flex min-h-32 items-center justify-center rounded-lg border border-dashed border-border bg-background-subtle px-4 py-6 text-center text-sm text-muted-foreground"
+            >
+              <span>{pl.form.fields.image.dropzoneHint}</span>
+            </div>
+          </>
         )}
         <FieldError id={`${imageId}-error`} aria-live="polite">
           {errors.image}

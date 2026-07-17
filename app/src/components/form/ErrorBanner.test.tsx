@@ -102,4 +102,25 @@ describe("ErrorBanner", () => {
       expect(container.firstChild).toBeNull();
     });
   });
+
+  describe("styling uses the Play brand magenta accent, not the generic destructive token (F-4)", () => {
+    it("styles the banner border/background and the alert icon with the brand-accent token", () => {
+      const { container } = render(
+        <ErrorBanner
+          state={{ status: "failed", errorKind: "analyzing", sessionId: "abc123" }}
+          onRetry={() => {}}
+        />,
+      );
+
+      const banner = screen.getByTestId("submission-error-banner");
+      expect(banner.className).toMatch(/border-brand-accent\/40/);
+      expect(banner.className).toMatch(/bg-brand-accent\/5/);
+      expect(banner.className).not.toMatch(/destructive/);
+
+      const icon = container.querySelector("svg");
+      expect(icon).not.toBeNull();
+      expect(icon?.getAttribute("class") ?? "").toMatch(/text-brand-accent/);
+      expect(icon?.getAttribute("class") ?? "").not.toMatch(/destructive/);
+    });
+  });
 });
