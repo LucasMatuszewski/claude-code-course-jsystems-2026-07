@@ -1,4 +1,4 @@
-import { expect, type Page } from "@playwright/test";
+import { expect, type Locator, type Page } from "@playwright/test";
 
 export const DISCLAIMER_PL =
   "To jest wstępna ocena — ostateczną decyzję potwierdzi nasz pracownik.";
@@ -11,6 +11,12 @@ const VALID_DECISION_BADGES = [
 ] as const;
 
 type RequestType = "Reklamacja" | "Zwrot";
+export type DecisionBadge = (typeof VALID_DECISION_BADGES)[number];
+export type DecisionCategoryKey =
+  | "APPROVE"
+  | "REJECT"
+  | "MORE_INFO"
+  | "ESCALATE";
 
 type FillRequestFormOptions = {
   requestType: RequestType;
@@ -33,6 +39,12 @@ export function recentPurchaseDate(daysAgo: number): Date {
   return candidate;
 }
 
+export function purchaseDateDaysAgo(daysAgo: number): Date {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  return date;
+}
+
 export function plDataDay(date: Date): string {
   const day = date.getDate();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -53,7 +65,19 @@ export async function pickPurchaseDate(
   date: Date,
 ): Promise<void> {
   await page.getByRole("button", { name: "Data zakupu" }).click();
-  await page.locator(`[data-day="${plDataDay(date)}"]`).click();
+  const day = page.locator(`[data-day="${plDataDay(date)}"]`).first();
+
+  for (let i = 0; i < 24; i += 1) {
+    if ((await day.count()) > 0 && (await day.isVisible())) {
+      await day.click();
+      return;
+    }
+
+    const direction = await calendarNavigationDirection(page, date);
+    await calendarNavButton(page, direction).click();
+  }
+
+  throw new Error(`Could not find purchase date ${plDataDay(date)} in calendar`);
 }
 
 export async function fillRequestForm(
@@ -105,6 +129,67 @@ export async function assertDecisionStructure(page: Page): Promise<string> {
   return badgeText ?? "";
 }
 
+export function decisionBadgeToKey(label: string): DecisionCategoryKey {
+  switch (label) {
+    case "Zaakceptowano":
+      return "APPROVE";
+    case "Odrzucono":
+      return "REJECT";
+    case "Wymagane informacje":
+      return "MORE_INFO";
+    case "Eskalacja":
+      return "ESCALATE";
+    default:
+      throw new Error(`Unknown decision badge: ${label}`);
+  }
+}
+
+export async function submitRequestAndWaitForDecision(
+  page: Page,
+  options: FillRequestFormOptions,
+): Promise<DecisionCategoryKey> {
+  await page.goto("/");
+  await fillRequestForm(page, options);
+  await page.getByRole("button", { name: "Wyślij zgłoszenie" }).click();
+  await page.waitForURL(/\/chat\/.+/, { timeout: 90_000 });
+  await assertChatSessionMatchesUrl(page);
+  return decisionBadgeToKey(await assertDecisionStructure(page));
+}
+
+export async function sendChatTurn(page: Page, text: string): Promise<void> {
+  const assistantMessages = page.locator('[data-role="assistant"]');
+  const initialAssistantCount = await assistantMessages.count();
+  const chatInput = page.getByLabel("Napisz wiadomość…");
+  const sendButton = page.getByRole("button", { name: "Wyślij" });
+  const typingIndicator = page.getByLabel("Asystent pisze…");
+
+  await chatInput.fill(text);
+  await sendButton.click();
+  await expect(typingIndicator).toBeVisible({ timeout: 10_000 });
+  await expect(sendButton).toBeDisabled();
+  await expect(typingIndicator).toBeHidden({ timeout: 90_000 });
+  await expect.poll(
+    async () => assistantMessages.count(),
+    { timeout: 90_000 },
+  ).toBeGreaterThan(initialAssistantCount);
+  await expect(chatInput).toBeEnabled();
+}
+
+export async function canonicalTranscript(page: Page): Promise<
+  Array<{ role: string; text: string }>
+> {
+  return page.locator("[data-role]").evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const clone = node.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll("time").forEach((time) => time.remove());
+      return {
+        role: node.getAttribute("data-role") ?? "",
+        text: (clone.textContent ?? "").replace(/\s+/g, " ").trim(),
+      };
+    }),
+  );
+}
+
 export async function assertNoHorizontalScroll(page: Page): Promise<void> {
   const hasHorizontalScroll = await page.evaluate(
     () =>
@@ -112,4 +197,41 @@ export async function assertNoHorizontalScroll(page: Page): Promise<void> {
       document.documentElement.clientWidth,
   );
   expect(hasHorizontalScroll).toBe(false);
+}
+
+async function calendarNavigationDirection(
+  page: Page,
+  targetDate: Date,
+): Promise<"previous" | "next"> {
+  const visibleDays = await page.locator("[data-day]").evaluateAll((nodes) =>
+    nodes
+      .map((node) => node.getAttribute("data-day"))
+      .filter((value): value is string => value !== null),
+  );
+  const visibleDates = visibleDays.map(parsePlDataDay).filter(isValidDate);
+  if (visibleDates.length === 0) {
+    return "previous";
+  }
+
+  const minVisibleTime = Math.min(...visibleDates.map((day) => day.getTime()));
+  return targetDate.getTime() < minVisibleTime ? "previous" : "next";
+}
+
+function calendarNavButton(
+  page: Page,
+  direction: "previous" | "next",
+): Locator {
+  const calendar = page.locator('[data-slot="calendar"]');
+  return direction === "previous"
+    ? calendar.locator("button").first()
+    : calendar.locator("button").nth(1);
+}
+
+function parsePlDataDay(value: string): Date {
+  const [day, month, year] = value.split(".").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function isValidDate(value: Date): boolean {
+  return !Number.isNaN(value.getTime());
 }
