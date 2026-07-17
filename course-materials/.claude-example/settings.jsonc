@@ -99,8 +99,6 @@
       "Bash(chmod:*)",
       "Bash(chown:*)",
       "Bash(sudo:*)",
-      "Bash(curl:*)",
-      "Bash(wget:*)",
       "Bash(ssh:*)",
       "Bash(scp:*)",
       "Bash(docker run:*)",
