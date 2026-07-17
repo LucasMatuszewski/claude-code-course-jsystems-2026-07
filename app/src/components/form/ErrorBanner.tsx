@@ -54,13 +54,13 @@ export function ErrorBanner({ state, onRetry, className }: ErrorBannerProps) {
       data-testid="submission-error-banner"
       data-error-kind={errorKind}
       className={cn(
-        "flex flex-col gap-3 rounded-[var(--radius-play-md)] border border-destructive/40 bg-destructive/5 px-4 py-3",
+        "flex flex-col gap-3 rounded-[var(--radius-play-md)] border border-brand-accent/40 bg-brand-accent/5 px-4 py-3",
         className,
       )}
     >
       <div className="flex items-start gap-2">
         <AlertCircle
-          className="mt-0.5 size-4 shrink-0 text-destructive"
+          className="mt-0.5 size-4 shrink-0 text-brand-accent"
           aria-hidden="true"
         />
         <p className="text-sm text-foreground">{message}</p>
