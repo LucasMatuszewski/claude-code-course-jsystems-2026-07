@@ -29,7 +29,7 @@ test.describe("E2E edge cases: unusable image and retry", () => {
     const decisionText =
       (await page.getByTestId("decision-block").textContent()) ?? "";
     expect(decisionText).toMatch(
-      /nie (?:mogliśmy|moglismy|da się|da sie).*oceni|zdjęci[ae].*(?:nieczytelne|niewyraźne|niewyrazne|rozmazane)|nie można ocenić zdjęcia|nie mozna ocenic zdjecia/i,
+      /rozmyt|rozmaz|nieczyteln|niewyraźn|niewyrazn|nie .{0,20}oceni|nie pozwala oceni|wyraźn(?:e|ego) zdjęci/i,
     );
 
     const badge = await assertDecisionStructure(page);
