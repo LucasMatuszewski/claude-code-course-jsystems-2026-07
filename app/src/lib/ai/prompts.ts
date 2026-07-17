@@ -36,6 +36,33 @@ const POLISH_OUTPUT_DIRECTIVE =
   "Odpowiedź przygotuj ZAWSZE w języku polskim, również gdy klient pisze w innym języku. " +
   'Zwracaj się do klienta per «Państwo» / «Pan/Pani». Ton: uprzejmy, ciepły, prosty — bez żargonu prawnego bez wyjaśnienia, bez języka marketingowego.';
 
+// --- Neutrality directives (F-7: avoid reject-bias) -------------------------
+//
+// The vision model must not infer usage/damage that is not clearly visible on
+// a normal product photo, and the decision agent must not treat REJECT as the
+// default outcome. Both stay faithful to PRD section 11 (the model describes /
+// decides neutrally; the deterministic guard still owns the hard rules).
+
+const VISION_NEUTRALITY_DIRECTIVE =
+  "Opisuj wyłącznie to, co jest faktycznie i wyraźnie widoczne na zdjęciu. " +
+  "Nie zakładaj uszkodzeń, śladów użytkowania ani zużycia, których nie widać — produkt bez widocznych wad i śladów użytkowania opisz jako wolny od wad i wyglądający na nieużywany. " +
+  "Jeśli czegoś nie da się jednoznacznie ocenić, wyraźnie to zaznacz i obniż poziom pewności (confidence), zamiast zakładać najgorszy wariant.";
+
+const DECISION_NEUTRALITY_DIRECTIVE =
+  "Oceniaj neutralnie i rzetelnie: brak dowodów na ślady użytkowania lub uszkodzenie NIE jest dowodem ich istnienia. " +
+  "Nie wnioskuj o zużyciu, uszkodzeniu ani winie użytkownika ponad to, co wynika z analizy zdjęcia i danych formularza. " +
+  "Zgłoszenie w oknie zwrotu/reklamacji, bez wyraźnego naruszenia konkretnej reguły polityki, może w pełni zasadnie otrzymać APPROVE lub MORE_INFO — nie traktuj REJECT jako opcji domyślnej.";
+
+// --- Disclaimer ownership (F-6: single source of the disclaimer) ------------
+//
+// The decision message ALWAYS passes through `ensureDisclaimer` in the guard,
+// which appends the one canonical `DISCLAIMER_PL` as trailing small-print. So
+// the decision prompts must NOT hand the model the literal disclaimer as
+// quotable copy (that made the model echo a second, guillemet-mangled copy the
+// old guard failed to dedupe). Instead the model is told the system appends it.
+const NO_SELF_DISCLAIMER_DIRECTIVE =
+  "NIE dopisuj samodzielnie żadnej klauzuli ani zastrzeżenia o wstępnym charakterze decyzji (np. o tym, że to ocena wstępna) — system automatycznie dołącza oficjalną klauzulę na końcu każdej wiadomości.";
+
 // --- Shared form-embedding helper -------------------------------------------
 
 /**
@@ -99,6 +126,8 @@ export function buildComplaintVisionPrompt(form: RequestFormInput): string {
     "4. Prawdopodobne przyczyny uszkodzenia (plausibleCauses): oceń, czy to wada fabryczna, czy uszkodzenie mechaniczne spowodowane przez użytkownika.",
     "5. Poziom pewności swojej oceny (confidence: high | medium | low).",
     "",
+    VISION_NEUTRALITY_DIRECTIVE,
+    "",
     "Dane zgłoszenia od klienta:",
     renderFormBlock(form),
     "",
@@ -125,6 +154,8 @@ export function buildReturnVisionPrompt(form: RequestFormInput): string {
     "4. Widoczne ślady użytkowania (usageSigns): rysy, otarcia, ślady po montażu, brak folii ochronnej itp.",
     "5. Czy produkt wydaje się kompletny i nadający się do odsprzedaży jako nowy (resellableAssessment).",
     "6. Poziom pewności swojej oceny (confidence: high | medium | low).",
+    "",
+    VISION_NEUTRALITY_DIRECTIVE,
     "",
     "Dane zgłoszenia od klienta:",
     renderFormBlock(form),
@@ -164,7 +195,8 @@ export function buildComplaintDecisionPrompt(
     "- Nie aprovuj (APPROVE) ani nie odrzucaj (REJECT), gdy imageUsable=false — wtedy ESCALATE.",
     "- Uzasadnienie musi odwoływać się do konkretnego wejścia (znalezisko zdjęcia, wartość formularza, identyfikator reguły).",
     "- REJECT musi cytować identyfikator reguły polityki (np. C-1, C-6).",
-    "- Każda wiadomość kończy się klauzulą: «" + DISCLAIMER_PL + "»",
+    "- " + DECISION_NEUTRALITY_DIRECTIVE,
+    "- " + NO_SELF_DISCLAIMER_DIRECTIVE,
     "",
     "Dokument polityki reklamacji (źródło prawdecyzji — nie wymyślaj reguł nieobecnych w dokumencie):",
     "---",
@@ -206,7 +238,8 @@ export function buildReturnDecisionPrompt(
     "- Nie approvuj (APPROVE) ani nie odrzucaj (REJECT), gdy imageUsable=false — wtedy ESCALATE.",
     "- Uzasadnienie musi odwoływać się do konkretnego wejścia (znalezisko zdjęcia, wartość formularza, identyfikator reguły).",
     "- REJECT musi cytować identyfikator reguły polityki (np. R-1, R-4).",
-    "- Każda wiadomość kończy się klauzulą: «" + DISCLAIMER_PL + "»",
+    "- " + DECISION_NEUTRALITY_DIRECTIVE,
+    "- " + NO_SELF_DISCLAIMER_DIRECTIVE,
     "",
     "Dokument polityki zwrotów (źródło decyzji — nie wymyślaj reguł nieobecnych w dokumencie):",
     "---",
@@ -279,7 +312,7 @@ export function buildChatSystemPrompt(session: ChatSessionSummary): string {
     "- Nie wymyślaj reguł polityki, nie obiecuj zwrotów kosztów, napraw ani odszkodowań, których nie ma w dokumencie.",
     "- Nie proś o dane osobowe poza tymi z formularza.",
     "- Nie twierdź, że jesteś człowiekiem.",
-    "- Każda decyzja (pierwsza i zrewidowana) musi kończyć się klauzulą: «" + DISCLAIMER_PL + "»",
+    "- Każdą decyzję (pierwszą i zrewidowaną) zakończ dokładnie tą klauzulą, w osobnym, ostatnim akapicie, bez cudzysłowów ani jakichkolwiek zmian: " + DISCLAIMER_PL,
     "- Jeśli w czacie zmieniasz ocenę, wyraźnie wskaż: poprzednia decyzja, nowa decyzja i powód zmiany (AC-21). Użyj narzędzia revise_decision.",
     "- BEZWZGLĘDNIE: nigdy nie zmieniaj decyzji na APPROVE, gdy naruszałoby to twardą regułę polityki (np. przekroczone okno zwrotu). W takim przypadku decyzja to ESCALATE (AC-22).",
     "",
