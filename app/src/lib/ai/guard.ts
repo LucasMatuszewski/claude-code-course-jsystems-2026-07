@@ -116,23 +116,51 @@ export function enforceWindow(
 // --- Disclaimer enforcement (idempotent) ------------------------------------
 
 /**
- * Appends the Polish preliminary-decision disclaimer (AC-16, TAC-001-03)
- * to a decision message if it is not already the trailing text. Idempotent
- * by design: calling it twice yields exactly one disclaimer; a message
- * already ending in the disclaimer is returned unchanged.
+ * Escapes a literal string for safe use inside a `RegExp`.
+ */
+function escapeRegExp(literal: string): string {
+  return literal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * Matches the disclaimer ANYWHERE in a message, tolerating the punctuation
+ * the model tends to wrap it in: French guillemets («»), Polish quotes („"),
+ * curly/straight double and single quotes, and any surrounding whitespace.
+ * The disclaimer's own metacharacters ("—", ".") are escaped so it matches
+ * literally. Global + case-sensitive: the wording is fixed by PRD section 11.
+ */
+const DISCLAIMER_ANYWHERE = new RegExp(
+  "(?:[«„\"“”'‚‘]\\s*)?" + escapeRegExp(DISCLAIMER_PL) + "(?:\\s*[»„\"“”'‛’])?",
+  "g",
+);
+
+/**
+ * Guarantees a decision message ends with EXACTLY ONE copy of the Polish
+ * preliminary-decision disclaimer (AC-16, TAC-001-03), as trailing
+ * small-print (AC-17 "in order: ... disclaimer").
  *
- * The check is "ends with" rather than "contains" so a disclaimer that
- * appears mid-message (e.g. the model pasted it then added more text) is
- * still appended at the end — which is where the disclaimer contract
- * (AC-16, AC-17 "in order: ... disclaimer") requires it.
+ * Idempotent against near-duplicates (F-6): the model sometimes echoes the
+ * disclaimer verbatim — often wrapped in guillemets or buried mid-paragraph —
+ * because it appears in the (older) prompt copy. An "ends with" check missed
+ * those mangled copies and appended a second clean one, so the customer saw
+ * the disclaimer twice. This implementation instead removes every
+ * (possibly quote-wrapped) copy found anywhere in the body, tidies the
+ * whitespace the removal leaves behind, then appends the one canonical
+ * `DISCLAIMER_PL`. Calling it twice yields the same single-disclaimer result.
  */
 export function ensureDisclaimer(messageMarkdown: string): string {
-  const trimmed = messageMarkdown.trimEnd();
-  if (trimmed.endsWith(DISCLAIMER_PL)) {
-    return messageMarkdown;
-  }
+  // Reset lastIndex: DISCLAIMER_ANYWHERE is a shared global regex.
+  DISCLAIMER_ANYWHERE.lastIndex = 0;
+  const withoutDisclaimer = messageMarkdown
+    .replace(DISCLAIMER_ANYWHERE, "")
+    // Tidy the gaps a mid-paragraph removal leaves behind.
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/ +([.,;:!?])/g, "$1")
+    .replace(/\n{3,}/g, "\n\n");
+
+  const trimmed = withoutDisclaimer.trimEnd();
   // Preserve a single blank line between body and disclaimer (AC-17 structure).
-  const joiner = trimmed.length === 0 ? "" : "\n\n";
+  const joiner = trimmed.trim().length === 0 ? "" : "\n\n";
   return `${trimmed}${joiner}${DISCLAIMER_PL}`;
 }
 

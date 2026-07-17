@@ -123,6 +123,11 @@ describe("buildComplaintVisionPrompt", () => {
     const form = baseComplaintForm({ reason: "Pęknięty ekran po kilku dniach użytkowania." });
     expect(buildComplaintVisionPrompt(form)).toContain(form.reason as string);
   });
+
+  it("carries a neutrality directive: describe only what is visible, do not assume damage (F-7)", () => {
+    const prompt = buildComplaintVisionPrompt(baseComplaintForm());
+    expect(prompt.toLowerCase()).toMatch(/nie zakładaj|wyłącznie to, co|faktycznie/);
+  });
 });
 
 describe("buildReturnVisionPrompt", () => {
@@ -144,6 +149,11 @@ describe("buildReturnVisionPrompt", () => {
     expect(() => buildReturnVisionPrompt(form)).not.toThrow();
     expect(buildReturnVisionPrompt(form).length).toBeGreaterThan(0);
   });
+
+  it("carries a neutrality directive: do not assume usage signs from a normal photo (F-7)", () => {
+    const prompt = buildReturnVisionPrompt(baseReturnForm());
+    expect(prompt.toLowerCase()).toMatch(/nie zakładaj|wyłącznie to, co|faktycznie/);
+  });
 });
 
 // --- Decision prompt builders -----------------------------------------------
@@ -162,6 +172,22 @@ describe("buildComplaintDecisionPrompt", () => {
     // Complaint-specific criterion.
     expect(prompt.toLowerCase()).toContain("uszkod");
   });
+
+  it("does NOT embed the disclaimer literal and tells the model the system appends it (F-6)", () => {
+    const prompt = buildComplaintDecisionPrompt(baseComplaintForm(), baseAnalysis(), COMPLAINT_PROSE);
+    // The literal disclaimer must not be quotable copy in the decision prompt:
+    // the guard appends it deterministically, so leaving it here made the
+    // model echo a second (mangled) copy into messageMarkdown.
+    expect(prompt).not.toContain(DISCLAIMER_PL);
+    // The prompt must instead instruct the model NOT to write it itself.
+    expect(prompt.toLowerCase()).toMatch(/nie dopisuj|nie dodawaj|nie pisz/);
+    expect(prompt.toLowerCase()).toMatch(/system|automatycznie|dołącz/);
+  });
+
+  it("carries a neutrality directive so REJECT is not the default (F-7)", () => {
+    const prompt = buildComplaintDecisionPrompt(baseComplaintForm(), baseAnalysis(), COMPLAINT_PROSE);
+    expect(prompt.toLowerCase()).toMatch(/neutralnie|brak dowod|domyśln/);
+  });
 });
 
 describe("buildReturnDecisionPrompt", () => {
@@ -178,6 +204,18 @@ describe("buildReturnDecisionPrompt", () => {
     expect(prompt).toContain(analysis.resellableAssessment as string);
     // Return-specific criterion.
     expect(prompt).toMatch(/odsprzeda|[rs]esell|kompletn/i);
+  });
+
+  it("does NOT embed the disclaimer literal and tells the model the system appends it (F-6)", () => {
+    const prompt = buildReturnDecisionPrompt(baseReturnForm(), baseAnalysis(), POLICY_PROSE);
+    expect(prompt).not.toContain(DISCLAIMER_PL);
+    expect(prompt.toLowerCase()).toMatch(/nie dopisuj|nie dodawaj|nie pisz/);
+    expect(prompt.toLowerCase()).toMatch(/system|automatycznie|dołącz/);
+  });
+
+  it("carries a neutrality directive so REJECT is not the default (F-7)", () => {
+    const prompt = buildReturnDecisionPrompt(baseReturnForm(), baseAnalysis(), POLICY_PROSE);
+    expect(prompt.toLowerCase()).toMatch(/neutralnie|brak dowod|domyśln/);
   });
 });
 

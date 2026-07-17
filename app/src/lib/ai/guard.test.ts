@@ -160,6 +160,48 @@ describe("ensureDisclaimer", () => {
     const occurrences = (twice.match(/ostateczną decyzję potwierdzi/g) ?? []).length;
     expect(occurrences).toBe(1);
   });
+
+  // F-6: the model sometimes echoes the disclaimer wrapped in guillemets or
+  // buried mid-paragraph. The guard must recognize these near-duplicates,
+  // strip them, and re-append exactly one canonical copy as trailing text.
+  const DISC = "To jest wstępna ocena — ostateczną decyzję potwierdzi nasz pracownik.";
+  function occurrencesOf(text: string): number {
+    return (text.match(/ostateczną decyzję potwierdzi/g) ?? []).length;
+  }
+
+  it("strips a guillemet-wrapped copy and appends exactly one clean copy at the end (F-6)", () => {
+    const input = `Decyzja: pozytywna. «${DISC}»`;
+    const out = ensureDisclaimer(input);
+    expect(occurrencesOf(out)).toBe(1);
+    expect(out.trimEnd().endsWith(DISC)).toBe(true);
+    expect(out).toContain("Decyzja: pozytywna.");
+    // The mangled guillemet-wrapped form must not survive.
+    expect(out).not.toContain(`«${DISC}»`);
+  });
+
+  it("removes a disclaimer buried mid-paragraph and re-appends one at the end (F-6)", () => {
+    const input = `Dziękujemy za zgłoszenie. ${DISC} Prosimy o cierpliwość.`;
+    const out = ensureDisclaimer(input);
+    expect(occurrencesOf(out)).toBe(1);
+    expect(out.trimEnd().endsWith(DISC)).toBe(true);
+    expect(out).toContain("Dziękujemy za zgłoszenie.");
+    expect(out).toContain("Prosimy o cierpliwość.");
+  });
+
+  it("collapses a guillemet-wrapped mid copy AND a trailing exact copy into one (F-6)", () => {
+    const input = `Treść «${DISC}» dalsza treść.\n\n${DISC}`;
+    const out = ensureDisclaimer(input);
+    expect(occurrencesOf(out)).toBe(1);
+    expect(out.trimEnd().endsWith(DISC)).toBe(true);
+  });
+
+  it("also strips a Polish „...” quoted copy (F-6)", () => {
+    const input = `Decyzja. „${DISC}”`;
+    const out = ensureDisclaimer(input);
+    expect(occurrencesOf(out)).toBe(1);
+    expect(out.trimEnd().endsWith(DISC)).toBe(true);
+    expect(out).not.toContain(`„${DISC}”`);
+  });
 });
 
 // --- applyGuard: full pipeline on the initial-decision call site -----------
@@ -204,6 +246,19 @@ describe("applyGuard — initial decision", () => {
     const result = applyGuard(alreadyHas, ctx());
     const occurrences = (result.messageMarkdown.match(/ostateczną decyzję potwierdzi/g) ?? []).length;
     expect(occurrences).toBe(1);
+  });
+
+  it("dedupes when the model echoed a guillemet-wrapped disclaimer mid-message (F-6)", () => {
+    const modelOutput = decision({
+      messageMarkdown:
+        "Dzień dobry. «To jest wstępna ocena — ostateczną decyzję potwierdzi nasz pracownik.» Dalsze kroki: ...",
+    });
+    const result = applyGuard(modelOutput, ctx());
+    const occurrences = (result.messageMarkdown.match(/ostateczną decyzję potwierdzi/g) ?? []).length;
+    expect(occurrences).toBe(1);
+    expect(result.messageMarkdown.trimEnd().endsWith(
+      "To jest wstępna ocena — ostateczną decyzję potwierdzi nasz pracownik.",
+    )).toBe(true);
   });
 
   it("does not mutate the input result object (purity)", () => {
