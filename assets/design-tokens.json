@@ -1,0 +1,130 @@
+{
+  "$meta": {
+    "source": "https://www.play.pl",
+    "extractedAt": "2026-07-14",
+    "method": "Playwright computed-style extraction from the live homepage (desktop viewport, cookie consent dismissed)"
+  },
+  "colors": {
+    "brand": {
+      "primary": "#6C43BF",
+      "dark": "#2D0066",
+      "accent": "#E6144B",
+      "link": "#266DD9",
+      "error": "#E6144B",
+      "success": "#6C43BF"
+    },
+    "background": {
+      "default": "#FFFFFF",
+      "light": "#F5F5F5",
+      "subtle": "#FAFAFA",
+      "overlay": "rgba(255, 255, 255, 0.9)"
+    },
+    "text": {
+      "primary": "#1F1F1F",
+      "secondary": "#707070",
+      "muted": "#404040",
+      "onDark": "#FFFFFF",
+      "onBrand": "#FFFFFF"
+    },
+    "border": {
+      "default": "#EBEBEB",
+      "strong": "#BBBBBB"
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "primary": "Manrope, Arial, sans-serif"
+    },
+    "fontFaces": [
+      { "family": "Manrope", "weight": 500, "src": "https://media-play.pl/binaries/web/fonts/Manrope-Regular.woff2" },
+      { "family": "Manrope", "weight": 600, "src": "https://media-play.pl/binaries/web/fonts/Manrope-SemiBold.woff2" },
+      { "family": "Manrope", "weight": 700, "src": "https://media-play.pl/binaries/web/fonts/Manrope-Bold.woff2" }
+    ],
+    "fontWeights": { "regular": 500, "semibold": 600, "bold": 700 },
+    "fontSize": {
+      "xs": "9px",
+      "sm": "10.8px",
+      "base": "12px",
+      "md": "18px",
+      "xl": "40px"
+    },
+    "lineHeight": { "tight": "1.3", "base": "1.5", "heading": "1.5" }
+  },
+  "spacing": {
+    "1": "3px",
+    "2": "6px",
+    "3": "12px",
+    "4": "18px",
+    "5": "24px",
+    "6": "36px"
+  },
+  "borderRadius": {
+    "none": "0px",
+    "sm": "3px",
+    "md": "6px",
+    "lg": "12px"
+  },
+  "components": {
+    "button": {
+      "primary": {
+        "backgroundColor": "#6C43BF",
+        "color": "#FFFFFF",
+        "padding": "0px 18px",
+        "borderRadius": "6px",
+        "fontSize": "12px",
+        "fontWeight": 500,
+        "border": "none"
+      },
+      "secondary": {
+        "backgroundColor": "#FFFFFF",
+        "color": "#6C43BF",
+        "padding": "0px 18px",
+        "borderRadius": "6px",
+        "fontSize": "12px",
+        "fontWeight": 500,
+        "border": "none"
+      },
+      "tertiary": {
+        "backgroundColor": "#FFFFFF",
+        "color": "#1F1F1F",
+        "padding": "12px 3px",
+        "borderRadius": "6px",
+        "fontSize": "12px",
+        "fontWeight": 500,
+        "border": "1px solid #EBEBEB"
+      }
+    },
+    "promoTag": {
+      "backgroundColor": "#E6144B",
+      "color": "#FFFFFF",
+      "borderRadius": "3px",
+      "padding": "0px 3px",
+      "fontSize": "9px",
+      "fontWeight": 700
+    },
+    "header": {
+      "backgroundColor": "#FFFFFF",
+      "color": "#1F1F1F",
+      "fontSize": "12px"
+    },
+    "nav": {
+      "color": "#1F1F1F",
+      "activeColor": "#6C43BF",
+      "fontSize": "9px",
+      "fontWeight": 500,
+      "activeFontWeight": 700,
+      "textTransform": "none"
+    },
+    "heading": {
+      "h2": { "fontSize": "40px", "fontWeight": 500, "lineHeight": "60px", "color": "#1F1F1F" },
+      "h3": { "fontSize": "18px", "fontWeight": 500, "lineHeight": "23.4px", "color": "#1F1F1F" }
+    },
+    "body": {
+      "backgroundColor": "#FFFFFF",
+      "color": "#1F1F1F",
+      "fontSize": "12px",
+      "fontWeight": 500,
+      "lineHeight": "18px"
+    }
+  }
+}

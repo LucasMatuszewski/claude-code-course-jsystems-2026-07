@@ -97,12 +97,17 @@
       "Read(.env.prod)",
       "Read(.env.test)",
       "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.prod)",
       "Read(**/logs/**)",
       "Read(**/secrets/**)",
       "Read(course-materials/agent-configs/**)"
     ]
   },
   "plansDirectory": "./docs/plans",
+  "worktree": {
+    "baseRef": "head"
+  },
   "hooks": {
     "PreToolUse": [
       {

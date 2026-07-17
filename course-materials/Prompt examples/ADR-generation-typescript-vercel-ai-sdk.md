@@ -8,7 +8,7 @@ Make research how to implement functionalities from PRD using the below librarie
 https://github.com/vercel/ai
 https://ai-sdk.dev/docs
 
-Use Context7 MCP (`/vercel/ai`) to get the CURRENT documentation - do not rely on your training data.
+Use Context7 CLI or MCP (`/vercel/ai`) to get the CURRENT documentation - do not rely on your training data.
 
 Research streaming (streamText + useChat) and multimodal input (image upload analyzed by a multimodal LLM). Recommend one approach based on research data.
 You should use endpoints from OpenRouter that are specified with example ENV keys in @.env.example

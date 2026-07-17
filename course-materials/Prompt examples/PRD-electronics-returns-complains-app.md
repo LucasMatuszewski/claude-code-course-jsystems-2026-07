@@ -1,6 +1,7 @@
 > UWAGA: to opcjonalny przyklad-zalazek do cwiczenia PRD na zywo. NIE nadpisuje
 > decyzji grupy - PRD tworzony na kursie (docs/PRD.md) jest jedynym wiazacym.
 
+/write-a-prd
 You are a product manager and system analyst. Your task is to prepare a comprehensive PRD (Product Requirements Document) for MVP of a product called **"Hardware Service Decision Copilot"** – a system that supports customer support and hardware service employees in making complain and return decisions.
 
 The application operates first as a form and then as a chat-based interface. The user journey follows this flow:
