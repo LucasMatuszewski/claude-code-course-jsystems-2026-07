@@ -334,7 +334,7 @@ Each card lists the **context packet** — the only project information given to
 
 - [x] T0.1 scaffold · - [x] T1.1 validation · - [x] T1.2 policies · - [x] T1.3 db · - [x] T1.4 images · - [x] T1.5 design · - [x] T1.6 i18n · - [x] T1.7 e2e-infra
 - [x] T2.1 prompts+guard · - [x] T2.2 vision+decision · - [x] T2.3 chat-stream
-- [x] T3.1 sessions-api · - [ ] T3.2 analyze-api · - [ ] T3.3 chat-api
+- [x] T3.1 sessions-api · - [x] T3.2 analyze-api · - [ ] T3.3 chat-api (in progress)
 - [x] T4.1 form-fields · - [x] T4.2 image-upload · - [x] T4.3 submit-flow · - [x] T4.4 chat-shell · - [ ] T4.5 decision-restore (in progress)
 - [ ] T5.1 e2e-happy · - [ ] T5.2 e2e-edge · - [ ] T5.3 final-gate
 
@@ -358,3 +358,4 @@ Each card lists the **context packet** — the only project information given to
 - **F-3 (Manual QA gate, Wave 3):** the image field label "Zdjęcie sprzętu" renders twice — RequestForm draws `<Label htmlFor={imageId}>` (line ~415) AND the injected `ImageUpload` draws its own `<label>` (lines ~190-195). When `imageSlot` is provided, RequestForm's label is also orphaned (`imageId` is on no element). Fix: RequestForm omits its own image label when `imageSlot` is present; ImageUpload keeps the single properly-associated label. Files: `components/form/RequestForm.tsx`, `components/form/ImageUpload.tsx`. Fixed via Wave-3 micro-task (fe).
 - **F-4 (Manual QA gate, Wave 3):** the submission `ErrorBanner` uses the generic `--destructive` (red) token; design-guidelines §status-colors specifies errors reuse Play magenta `#E6144B` for this project. Low severity (guidelines mark it a proposal). Align `ErrorBanner.tsx` to the magenta accent. Fixed via Wave-3 micro-task (fe).
 - **Note (dev-only, no fix):** the floating "N" circle at bottom-left in dev screenshots is the Next.js dev-tools indicator; it is absent from `npm run build` output, so it is not a product defect.
+- **F-5 (from T3.2):** the initial decision row always persists `guardOverride=false`. `makeDecision` (`lib/ai/decision.ts`) applies the guard internally and returns only the final guarded `DecisionResult`, never exposing the model's raw pre-guard category — so the analyze route cannot detect whether the guard actually overrode the model. (Chat's `revise_decision` tool CAN, because it holds both the raw tool input and the guarded result.) Proper fix: extend `decision.ts`'s return contract to also surface the pre-guard category (and/or an `overridden` flag), then have the analyze route persist the real `guardOverride`. Deferred to a be micro-task before/at T5.3; low impact (guardOverride is audit metadata, does not change the customer-visible decision).
