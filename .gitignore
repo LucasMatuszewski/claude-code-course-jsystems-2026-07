@@ -44,6 +44,13 @@ Thumbs.db
 # Local agent memory (user-specific)
 .claude/agent-memory-local/
 
+# Transient agent orchestration scratch — per-run briefs and cross-session
+# agent memory. Never belongs in the repo (may contain run-specific context/
+# authorization language that must not be read back out of context later).
+.agent-briefs/
+.claude/agent-memory/
+.claude/worktrees/
+
 # Claude Code local settings & instructions (committed as example, uncomment to ignore)
 # .claude/settings.local.json
 # CLAUDE.local.md
